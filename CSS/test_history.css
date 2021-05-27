@@ -69,7 +69,6 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     font-family: 'Roboto', sans-serif;
 }
 
-
 .aside-items{
    display: flex;
    flex-direction: column;
@@ -129,49 +128,4 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #stats{
     height: 50vh;
-}
-input[type="text"],input[type="email"]
-{ display: block;
-    box-sizing: border-box;
-    background-color: none;
-    color: #3498db;
-    margin-bottom: 30px;
-   
-    width: 220px;
-    height: 32px;
-    border: none;
-    border-bottom: 1px solid #006be6;
-     font-family: 'Roboto',sans-serif;
-     font-size: 15px;
-     font-weight: 400;
-     transition: 0.2 ease;
-}
-input[type="text"]:focus,input[type="email"]:focus{
-    border: 2px solid #3498db;
-    
-    color:black;
-     transition: 0.2 ease;
-}
-.btn{
-    color: white;
-    cursor: pointer;
-    outline: none; 
-    margin: 12px 20px;
-    padding: 10px 21px;
-    border: 2px solid rgb(0, 128, 122);
-    border-radius: 6px;
-    font-size: 12px;
-    background: none;
-    font-weight: bold;
-    
-}
-.box i{ 
-    width: 25px; 
-    text-align: center;
-}
-.btn:hover{
-    opacity: 0.8;
-    color: rgb(0, 55, 128); 
-    background: white; 
-    
 }
