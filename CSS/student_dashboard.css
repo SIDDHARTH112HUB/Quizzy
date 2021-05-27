@@ -42,6 +42,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     height: 110vh;
     width: 191px;
     background: rgb(197, 241, 172);
+    z-index: 5;
     
 }
 .userimg_box{
@@ -111,9 +112,10 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 
 #section{
     grid-area: section;
-    margin-left: -181px;
+    margin-left: -165px;
     background: skyblue;
     opacity: 0.5;
+    z-index: -10;
    
 }
 .nested-section{
