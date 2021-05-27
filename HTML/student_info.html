@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/48c1234ce3.js" crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/CSS/student_info.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <title>Student Info </title>
+
+</head>
+
+<body style="
+background: linear-gradient(#c2f791, #9198e5);">
+
+    <div class="container ">
+        <nav class="items h1heading borderround" id="navbar">
+            <h1> Info Section </h1>
+        </nav>
+
+        <aside class="items borderround" id="aside">
+            <div class="aside-items font_primary borderround">
+                <div class="userimg_box borderround">
+                    <img src="/images/user_img.png" id="profileimg">
+                    <h3 id="user_name">user_name</h3>
+                </div>
+                <div class="aside_setting">
+                    <a href="student_dashboard.html"> Home</a>
+                    <a href="#">User Info</a>
+                    <a href="test_history.html">Test History</a>
+                    <a href="login.html">Logout</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- edit information code goes ..here -->
+
+        <div class="box" id="userdetail_centerbox">
+
+            <img src="/images/user_img.png" id="profileimg">
+
+            <input type="file" name="" id="new_img" accept="image/*">
+            <br />
+             <label for="User_Name"> Name</label>
+            <input type="text" name="" id="full_name" placeholder="User Name">
+                
+
+
+            <input type="email" name="" id="email" placeholder="Email ID">
+            <input type="text" name="" id="phone" placeholder="Phone Number">
+            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="dob"
+                placeholder="Date of birth">
+            <input type="text" name="" id="cname" placeholder="College Name">
+            <input type="password" name="" id="password" placeholder="Password"> <br/>
+
+            <!-- <input type="text" name="" id="fname" placeholder="Gender"><br/> -->
+
+            <button class="btn">Edit</button>
+            <button class="btn">Update</button>
+
+
+        </div>
+        <!-- edit information code here -->
+
+
+
+
+
+</body>
+
+</html>
