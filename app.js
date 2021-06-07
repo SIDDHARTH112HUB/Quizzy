@@ -42,6 +42,22 @@ app.get('/teacher/dashboard',(req,res)=>{
     res.sendFile('./HTML/teacher_dashboard.html',{root : __dirname});
     console.log('just send');
 });
+app.get('/teacher/info',(req,res)=>{
+    res.sendFile('./HTML/teacher_info.html',{root : __dirname});
+    console.log('just send');
+});
+app.get('/student/info',(req,res)=>{
+    res.sendFile('./HTML/student_info.html',{root : __dirname});
+    console.log('just send');
+});
+app.get('/student/test_history',(req,res)=>{
+    res.sendFile('./HTML/test_history.html',{root : __dirname});
+    console.log('just send');
+});
+app.get('/teacher/test_results',(req,res)=>{
+    res.sendFile('./HTML/test_results.html',{root : __dirname});
+    console.log('just send');
+});
 
 // app.use('/signup',pageRouter);
 
