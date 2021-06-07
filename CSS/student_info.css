@@ -143,6 +143,19 @@ input[type="text"],input[type="email"]
      font-weight: 400;
      transition: 0.2 ease;
 }
+.btn{
+    display: flex;
+    border: 2px solid;
+    border-color: transparent;
+    padding: 10px 1px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 189px;
+    text-decoration: none;
+    align-items: center;
+    justify-content: space-around;
+    color: blue;
+}
 input[type="text"]:focus,input[type="email"]:focus{
     border: 2px solid #3498db;
     

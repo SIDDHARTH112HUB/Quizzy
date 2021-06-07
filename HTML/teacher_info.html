@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="/CSS/student_info.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
+
+            $('#logout').click(function(){
+                localStorage.clear();
+                window.location.replace('/');
+            })
+        });
+    </script>
     <title>Teacher Info </title>
 
 </head>
@@ -28,10 +39,10 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <h3 id="user_name">user_name</h3>
                 </div>
                 <div class="aside_setting">
-                    <a href="teacher_dashboard.html"> Home</a>
+                    <a href="/teacher/dashboard"> Home</a>
                     <a href="teacher_info.html">User Info</a>
-                    <a href="test_history.html">Test History</a>
-                    <a href="login.html">Logout</a>
+                    <a href="test_results.html">Test Results</a>
+                    <span id="logout" class="btn btn-danger">Logout</span>
                 </div>
             </div>
         </aside>
