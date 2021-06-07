@@ -11,35 +11,68 @@
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"> -->
   <link rel="stylesheet" href="../CSS/login.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-<!-- <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100&display=swap" rel="stylesheet"> -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;600&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;600&family=Roboto:ital@0;1&display=swap" rel="stylesheet">
-<title>Sign In</title>
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100&display=swap" rel="stylesheet"> -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;600&family=Roboto:ital@0;1&display=swap"
+    rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      if (localStorage.getItem('user')) {
+        let user = JSON.parse(localStorage.getItem('user'));
+        redirect(user);
+      }
+      $("form").submit(function (e) {
+        e.preventDefault();
+        $.post("/user/login", $("form").serialize(), function (data, status) {
+          if (data) {
+            data.user_password = "";
+            localStorage.setItem('user', JSON.stringify(data));
+            redirect(data);
+          }
+        })
+      });
+      function redirect(user) {
+        if (user.user_profile == 'Student') {
+          window.location = '/student/dashboard';
+        }
+        if(user.user_profile == 'Teacher') {
+          window.location = '/teacher/dashboard';
+        }
+      }
+    });
+  </script>
+  <title>Sign In</title>
 </head>
 
 <body>
 
-   <div class="container"> 
-    <div id="login"><h1>Log In</h1></div>
-    <div class="box">
-      <i class="fa fa-envelope"></i>
-      <input type="email" name="email" id="email" placeholder="Enter Your Email">
+  <div class="container">
+    <div id="login">
+      <h1>Log In</h1>
     </div>
-    <div class="box">
-      <i class="fa fa-key"></i>
-      <input type="password" name="password" id="password" placeholder="Enter Your Password">
-    </div>
+    <form action="/user/login" method="POST">
+      <div class="box">
+        <i class="fa fa-envelope"></i>
+        <input type="email" name="email" id="email" placeholder="Enter Your Email">
+      </div>
+      <div class="box">
+        <i class="fa fa-key"></i>
+        <input type="password" name="password" id="password" placeholder="Enter Your Password">
+      </div>
 
-    <div class="text-set">Don't have an account <a href="signup.html">Sign Up</a></div>
-  <a href="student_dashboard.html"><button class="btn" >Sign In</button></a> 
-    
-  </div> 
+      <div class="text-set">Don't have an account <a href="/signup">Sign Up</a></div>
+      <!-- <a href="student_dashboard.html"><button class="btn">Sign In</button></a> -->
+      <input type="submit" value="login" class="btn">
+    </form>
+
+  </div>
 
 
- 
+
 
   <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 
@@ -51,5 +84,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     -->
 </body>
+
 
 </html>
