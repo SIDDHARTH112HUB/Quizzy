@@ -27,33 +27,36 @@
         <div id="Signup">
             <h1>Sign Up</h1>
         </div>
-        <div class="box">
-            <i class="fas fa-user"></i>
-            <input type="text" name="full_name" id="full_name" placeholder="Enter Your Full Name">
-        </div>
-        <div class="box">
-            <i class="fa fa-envelope"></i>
-            <input type="email" name="email" id="email" placeholder="Enter Your Email">
-        </div>
-        <div class="box">
-            <i class="fa fa-key"></i>
-            <input type="password" name="password" id="password" placeholder="Enter Your Password">
-        </div>
-        <div class="box">
-            <i class="fa fa-key"></i>
-            <input type="password" name="confirm-password" id="password_confirm" placeholder="Confirm Your Password">
-        </div>
-        <div id="usertype">
-            <i class="fas fa-user type4"></i>
-            <input type="radio" id="radio1" name="userType" checked />
-            <label for="radio1" class="utype">Student</label>
+        <form action="/register" method="POST">  
+            <div class="box">
+                <i class="fas fa-user"></i>
+                <input type="text" name="full_name" id="full_name" placeholder="Enter Your Full Name">
+            </div>
+            <div class="box">
+                <i class="fa fa-envelope"></i>
+                <input type="text" name="email" id="email" placeholder="Enter Your Email">
+            </div>
+            <div class="box">
+                <i class="fa fa-key"></i>
+                <input type="password" name="password" id="password" placeholder="Enter Your Password">
+            </div>
+            <div class="box">
+                <i class="fa fa-key"></i>
+                <input type="password" name="confirm-password" id="password_confirm" placeholder="Confirm Your Password">
+            </div>
+            <div id="usertype">
+                <i class="fas fa-user type4"></i>
+                <input type="radio" id="radio1" name="userType"  value="Student" checked />
+                <label for="radio1" class="utype">Student</label>
+                
+                <input type="radio" id="radio2" name="userType" value="Teacher">
+                <label for="radio2" class="utype">Teacher</label>
+            </div>
             
-            <input type="radio" id="radio2" name="userType" />
-            <label for="radio2" class="utype">Teacher</label>
-        </div>
-
-        <div class="text-set">Already have an account <a href="login.html">Sign In</a></div>
-        <button class="btn">Sign Up</button>
+            <div class="text-set">Already have an account <a href="login.html">Sign In</a></div>
+            <input type="submit" value="Sign Up" class="btn">
+        </form>
+        <!-- <button class="btn">Sign Up</button> -->
     </div>
 
  <!--
