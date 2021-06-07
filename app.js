@@ -21,34 +21,39 @@ app.use(express.json());
 
 app.use('/',express.static(__dirname));
 
-
-
 app.get('/',(req,res)=>{
+    res.sendFile('./HTML/Home.html',{root : __dirname});
+    console.log('just send');
+});
+
+app.get('/signup',(req,res)=>{
+    res.sendFile('./HTML/signup.html',{root : __dirname});
+    console.log('just send');
+});
+app.get('/login',(req,res)=>{
     res.sendFile('./HTML/login.html',{root : __dirname});
+    console.log('just send');
+});
+app.get('/student/dashboard',(req,res)=>{
+    res.sendFile('./HTML/student_dashboard.html',{root : __dirname});
+    console.log('just send');
+});
+app.get('/teacher/dashboard',(req,res)=>{
+    res.sendFile('./HTML/teacher_dashboard.html',{root : __dirname});
     console.log('just send');
 });
 
 // app.use('/signup',pageRouter);
 
-app.get('/signup',(req,res)=>{
-    res.sendFile('./HTML/signup.html',{root : __dirname});
-    console.log('signup_page _opened');
+
+app.post('/user/signup', (req, res, next) => {
+    //do singup work here
 });
-
-
-app.post('/login',(req,res,next)=>{
+app.post('/user/login',(req,res,next)=>{
     let obj=req.body;
-    // res.send(obj);
     user.login(obj.email,obj.password,(result)=>{
-        console.log('hi again',result);
         if(result){
-            res.send(result)
-            // console.log(result.user_profile);
-            // if(result.user_profile=="Student")
-            // return res.redirect('./HTML/student_dashboard.html');
-            // else if(result.user_profile=="Teacher")
-            // return res.redirect('./HTML/teacher_dashboard.html');
-            
+            res.send(result) 
         }
         else{
             res.send('email/password incorrect '+ obj.password);
@@ -58,7 +63,7 @@ app.post('/login',(req,res,next)=>{
 
 app.post('/register',(req,res)=>{
     res.send(req.body);
-    console.log('send signup data');
+    console.log('send signup data',req.body);
 });
 
 

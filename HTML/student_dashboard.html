@@ -11,7 +11,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            document.getElementById('user_name').innerText = "Hello, " + JSON.parse(localStorage.getItem('user')).user_name;
+            $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
+
+            $('#logout').click(function(){
+                localStorage.clear();
+                window.location.replace('/');
+            })
         });
     </script>
     <title>Student Dashboard </title>
@@ -38,7 +43,7 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <!-- added link to student_info page-->
                     <a href="student_info.html">User Info</a>
                     <a href="test_history.html">Test History</a>
-                    <a href="login.html">Logout</a>
+                    <span id="logout" class="btn btn-danger">Logout</span>
                 </div>
             </div>
         </aside>

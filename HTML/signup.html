@@ -18,6 +18,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;600&family=Roboto:ital@0;1&display=swap"
         rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // if (localStorage.getItem('user')) {
+            //   let user = JSON.parse(localStorage.getItem('user'));
+            //   redirect(user);
+            // }
+            $("form").submit(function (e) {
+                e.preventDefault();
+                $.post("/register", $("form").serialize(), function (data, status) {
+                    if (data) {
+                        data.user_password = "";
+                        localStorage.setItem('user', JSON.stringify(data));
+                        redirect(data);
+                    }
+                })
+            });
+            function redirect(user) {
+                if (user.user_profile == 'Student') {
+                    window.location = './HTML/student_dashboard.html';
+                }
+                if (user.user_profile == 'Teacher') {
+                    window.location = './HTML/teacher_dashboard.html';
+                }
+            }
+        });
+    </script>
     <title>Sign Up for Quizzy</title>
 </head>
 
@@ -27,7 +54,7 @@
         <div id="Signup">
             <h1>Sign Up</h1>
         </div>
-        <form action="/register" method="POST">  
+        <form action="/register" method="POST">
             <div class="box">
                 <i class="fas fa-user"></i>
                 <input type="text" name="full_name" id="full_name" placeholder="Enter Your Full Name">
@@ -42,27 +69,28 @@
             </div>
             <div class="box">
                 <i class="fa fa-key"></i>
-                <input type="password" name="confirm-password" id="password_confirm" placeholder="Confirm Your Password">
+                <input type="password" name="confirm_password" id="password_confirm"
+                    placeholder="Confirm Your Password">
             </div>
             <div id="usertype">
                 <i class="fas fa-user type4"></i>
-                <input type="radio" id="radio1" name="userType"  value="Student" checked />
+                <input type="radio" id="radio1" name="userType" value="Student" checked />
                 <label for="radio1" class="utype">Student</label>
-                
+
                 <input type="radio" id="radio2" name="userType" value="Teacher">
                 <label for="radio2" class="utype">Teacher</label>
             </div>
-            
-            <div class="text-set">Already have an account <a href="login.html">Sign In</a></div>
+
+            <div class="text-set">Already have an account <a href="/login">Sign In</a></div>
             <input type="submit" value="Sign Up" class="btn">
         </form>
         <!-- <button class="btn">Sign Up</button> -->
     </div>
 
- <!--
+    <!--
       commited
  -->
- 
+
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

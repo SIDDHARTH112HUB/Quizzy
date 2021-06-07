@@ -21,31 +21,26 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
     $(document).ready(function () {
-      // if (localStorage.getItem('user')) {
-      //   let user = JSON.parse(localStorage.getItem('user'));
-      //   redirect(user);
-      // }
+      if (localStorage.getItem('user')) {
+        let user = JSON.parse(localStorage.getItem('user'));
+        redirect(user);
+      }
       $("form").submit(function (e) {
         e.preventDefault();
-        $.post("/login", $("form").serialize(), function (data, status) {
+        $.post("/user/login", $("form").serialize(), function (data, status) {
           if (data) {
             data.user_password = "";
             localStorage.setItem('user', JSON.stringify(data));
             redirect(data);
-            // console.log(result.user_profile);
-            // if(result.user_profile=="Student")
-            // return res.redirect('./HTML/student_dashboard.html');
-            // else if(result.user_profile=="Teacher")
-            // return res.redirect('./HTML/teacher_dashboard.html');
           }
         })
       });
       function redirect(user) {
         if (user.user_profile == 'Student') {
-          window.location = './HTML/student_dashboard.html';
+          window.location = '/student/dashboard';
         }
         if(user.user_profile == 'Teacher') {
-          window.location = './HTML/teacher_dashboard.html';
+          window.location = '/teacher/dashboard';
         }
       }
     });
@@ -59,10 +54,10 @@
     <div id="login">
       <h1>Log In</h1>
     </div>
-    <form action="/login" method="POST">
+    <form action="/user/login" method="POST">
       <div class="box">
         <i class="fa fa-envelope"></i>
-        <input type="text" name="email" id="email" placeholder="Enter Your Email">
+        <input type="email" name="email" id="email" placeholder="Enter Your Email">
       </div>
       <div class="box">
         <i class="fa fa-key"></i>
