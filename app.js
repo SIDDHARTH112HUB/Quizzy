@@ -63,7 +63,18 @@ app.get('/teacher/test_results',(req,res)=>{
 
 
 app.post('/user/signup', (req, res, next) => {
-    //do singup work here
+    let userInput = req.body;
+    console.log(userInput);
+    
+    user.create(userInput,function(lastId){
+        if(lastId){
+            res.send('true');
+        }
+        else{
+            res.send(null);
+        }
+    })
+
 });
 app.post('/user/login',(req,res,next)=>{
     let obj=req.body;
