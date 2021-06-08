@@ -10,8 +10,8 @@ User.prototype ={
             var field= Number.isInteger(user)?'id':'email';
         }
         let sql= `SELECT * FROM users WHERE ${field}=?`;
-        console.log(field);
-        console.log(user);
+        // console.log(field);
+        // console.log(user);
         pool.query(sql,user,(err,result)=>{
             if(err)throw err
             else{
@@ -49,14 +49,17 @@ User.prototype ={
                     return;
         
                 }
-                // else{
-                //     console.log('password not macthed +'+s);
-                // }
+                else{
+                    callback(null);
+                    return;
+                }
             }
             else{
                 console.log('email not macthed');
+                callback(null);
+                return;
             }
-            callback(null);
+            
         });
     }
 
