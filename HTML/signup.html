@@ -27,22 +27,17 @@
             // }
             $("form").submit(function (e) {
                 e.preventDefault();
-                $.post("/register", $("form").serialize(), function (data, status) {
+                $.post("/user/signup", $("form").serialize(), function (data, status) {
                     if (data) {
-                        data.user_password = "";
-                        localStorage.setItem('user', JSON.stringify(data));
-                        redirect(data);
+                        alert('SignUp successful');
+                        window.location = '/login';
+                    }
+                    else{
+                        alert('SignUp Unsuccessful');
                     }
                 })
             });
-            function redirect(user) {
-                if (user.user_profile == 'Student') {
-                    window.location = './HTML/student_dashboard.html';
-                }
-                if (user.user_profile == 'Teacher') {
-                    window.location = './HTML/teacher_dashboard.html';
-                }
-            }
+            
         });
     </script>
     <title>Sign Up for Quizzy</title>
@@ -54,7 +49,7 @@
         <div id="Signup">
             <h1>Sign Up</h1>
         </div>
-        <form action="/register" method="POST">
+        <form action="/user/signup" method="POST">
             <div class="box">
                 <i class="fas fa-user"></i>
                 <input type="text" name="full_name" id="full_name" placeholder="Enter Your Full Name">

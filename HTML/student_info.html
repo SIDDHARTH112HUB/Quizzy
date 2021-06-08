@@ -12,12 +12,55 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
-
-            $('#logout').click(function(){
+            let userData = JSON.parse(localStorage.getItem('user'));
+            init();
+            $('#user_name').text('Hello, ' + userData.user_name);
+            
+            $('#logout').click(function () {
                 localStorage.clear();
                 window.location.replace('/');
             })
+            $('#edit').click(function () {
+                $('#edit').hide();
+                $('#save').show();
+                $('#cancel').show();
+                $('#passwordChnage').show();
+                $('#full_name').attr('disabled', false);
+                $('#phone').attr('disabled', false);
+                // $('#user_dob').attr('disabled', false);
+                $('#cname').attr('disabled', false);
+                $('#password').attr('disabled', false);
+            })
+            $("form").submit(function (e) {
+                e.preventDefault();
+                // console.log($("form").serialize())
+                // $.post("/save", $("form").serialize(), function (data, status) {
+                //     if (data) {
+                //         data.user_password = "";
+                //         localStorage.setItem('user', JSON.stringify(data));
+                //         redirect(data);
+                //     }
+                //     // else{
+                //     //   alert('username/password incorrect');
+                //     // }
+                // })
+            });
+            $('#cancel').click(function () {
+                init();
+                $('#edit').show();
+            })
+            function init() {
+                $('#save').hide();
+                $('#passwordChnage').hide();
+                $('#cancel').hide();
+                $('#email').val(userData.email);
+                $('#full_name').val(userData.user_name);
+                $('#phone').val(userData.user_contact);
+                // $('#user_dob').val(userData.birth_day);
+                $('#cname').val(userData.college);
+
+            }
+
         });
     </script>
     <title>Student Info </title>
@@ -51,23 +94,35 @@ background: linear-gradient(#c2f791, #9198e5);">
 
         <div class="box" id="section">
 
-            <div class="user_img_box"> 
-                <div id="img_id"style="width: fit-content;"><img src="/images/user_img.png" id="profileimg"></div>
-                <input type="file" name="" id="new_img" accept="image/*" style="width: 195px;"><br/>
+            <div class="user_img_box">
+                <div id="img_id" style="width: fit-content;"><img src="/images/user_img.png" id="profileimg"></div>
+                <input type="file" name="" id="new_img" accept="image/*" style="width: 195px;"><br />
             </div>
-            <div class="prof_items"> <strong>Name :</strong> <input type="text" name="" id="full_name" placeholder="User Name"> </div>
-            <div class="prof_items"><strong>Email :</strong><input type="email" name="" id="email" placeholder="Email ID"></div>
-            <div class="prof_items"><strong>Mobile Number :</strong><input type="text" name="" id="phone" placeholder="Phone Number"></div>
-            <div class="prof_items"><strong>DOB :</strong><input type="date" name="date" style="width: 155px;height: 29px; margin-bottom: 10px;"></div>
-            <div class="prof_items"><strong>College :</strong><input type="text" name="" id="cname" placeholder="College Name"></div>
-            <div class="prof_items"><strong>Password :</strong><input type="password" name="" id="password" placeholder="Password" style="height: 22px;width: 124px;" > 
-            <div><button class="btn">Edit</button><button   class="btn">Save</button></div>
-            
-            
+            <form action="/save" method="POST">
+                <div class="prof_items"> <strong>Name :</strong> <input type="text" name="" id="full_name"
+                        placeholder="User Name" disabled> </div>
+                <div class="prof_items"><strong>Email :</strong><input type="email" name="" id="email"
+                        placeholder="Email ID" disabled></div>
+                <div class="prof_items"><strong>Mobile Number :</strong><input type="text" name="" id="phone"
+                        placeholder="Phone Number" disabled></div>
+                <div class="prof_items"><strong>DOB :</strong><input type="date" name="user_dob"
+                        placeholder="dd-mm-yyyy" style="width: 155px;height: 29px; margin-bottom: 10px;" id="user_dob"
+                        disabled></div>
+                <div class="prof_items"><strong>College :</strong><input type="text" name="" id="cname"
+                        placeholder="College Name" disabled></div>
+                <div class="prof_items" id="passwordChnage"><strong>Password :</strong><input type="password" name="" id="password"
+                        placeholder="Password" style="height: 22px;width: 124px;" disabled></div>
+                <div style="display: inline;"><button class="button" id="edit" style="width: 186px;">Edit</button>
+                    <input class="button" type="submit" id="save" value="Save" style="width: 74px;"><button
+                        class="button" id="cancel">Cancel</button>
+                </div>
+            </form>
+
+
 
             <!-- <input type="text" name="" id="fname" placeholder="Gender"><br/> -->
 
-            
+
 
 
         </div>

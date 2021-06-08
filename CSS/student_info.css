@@ -162,7 +162,7 @@ input[type="text"]:focus,input[type="email"]:focus{
     color:black;
      transition: 0.2 ease;
 }
-.btn{
+.button{
     color: white;
     cursor: pointer;
     outline: none; 
@@ -176,7 +176,7 @@ input[type="text"]:focus,input[type="email"]:focus{
     
 }
 
-.btn:hover{
+.button:hover{
     opacity: 0.8;
     color: rgb(0, 55, 128); 
     background: white; 

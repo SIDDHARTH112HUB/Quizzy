@@ -10,8 +10,8 @@ User.prototype ={
             var field= Number.isInteger(user)?'id':'email';
         }
         let sql= `SELECT * FROM users WHERE ${field}=?`;
-        console.log(field);
-        console.log(user);
+        // console.log(field);
+        // console.log(user);
         pool.query(sql,user,(err,result)=>{
             if(err)throw err
             else{
@@ -22,19 +22,14 @@ User.prototype ={
             
         });
     },
-    create : function(body, callback)
+    create : function(obj, callback)
     {
-        let pwd= body.password;
-        body.password=bcrypt.hashSync(pwd,10);
+        // let pwd= body.password;
+        // body.password=bcrypt.hashSync(pwd,10);
 
-        var bind =[];
-        for(prop in body){
-            bind.push(prop);
-        }
+        let sql = "INSERT INTO users(user_name,email,user_password,user_profile) VALUES('"+obj.full_name+"','"+obj.email+"','"+obj.password+"','"+obj.userType+"')";
 
-        let sql = `INSERT INTO users(user_name,email,user_password) VALUES('?, ?,?)`;
-
-        pool.query(sql,bind, function(err,lastId){
+        pool.query(sql, function(err,lastId){
             if(err)throw err;
             callback(lastId);
         });
@@ -42,11 +37,11 @@ User.prototype ={
     login: function(email, password,callback)
     {
         this.find(email,function(result){
-            console.log('user data',result);
+            // console.log('user data',result);
             if(result && result.length>0){
 
                 var s=result[0].user_password;
-                console.log('inside result function',result[0].user_profile);
+                // console.log('inside result function',result[0].user_profile);
                 // console.log(s);
                 if(password===s){
                     // console.log('inside result function'+result);
@@ -55,13 +50,16 @@ User.prototype ={
         
                 }
                 else{
-                    console.log('password not macthed +'+s);
+                    callback(null);
+                    return;
                 }
             }
             else{
                 console.log('email not macthed');
+                callback(null);
+                return;
             }
-            callback(null);
+            
         });
     }
 

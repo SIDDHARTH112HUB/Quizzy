@@ -27,21 +27,27 @@
       }
       $("form").submit(function (e) {
         e.preventDefault();
+        // console.log($("form").serialize())
         $.post("/user/login", $("form").serialize(), function (data, status) {
           if (data) {
             data.user_password = "";
             localStorage.setItem('user', JSON.stringify(data));
             redirect(data);
           }
+          // else{
+          //   alert('username/password incorrect');
+          // }
         })
       });
       function redirect(user) {
         if (user.user_profile == 'Student') {
           window.location = '/student/dashboard';
         }
-        if(user.user_profile == 'Teacher') {
+        else if(user.user_profile == 'Teacher') {
           window.location = '/teacher/dashboard';
         }
+        else
+        alert('email/password incorrect')
       }
     });
   </script>
