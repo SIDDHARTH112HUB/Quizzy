@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/CSS/teacher_dashboard.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
+
+            $('#logout').click(function(){
+                localStorage.clear();
+                window.location.replace('/');
+            })
+        });
+    </script>
+    <title>Teacher Dashboard </title>
+
+</head>
+
+<body style="
+background: linear-gradient(#c2f791, #9198e5);">
+    <div class="container ">
+        <nav class="items h1heading borderround" id="navbar">
+            <h1>Welcome To Quizzy</h1>
+        </nav>
+        <aside class="items borderround" id="aside">
+            <div class="aside-items font_primary borderround">
+                <div class="userimg_box borderround">
+                    <img src="/images/user_img.png" id="profileimg">
+                    <h3 id="user_name">user_name</h3>
+                </div>
+                <div class="aside_setting">
+
+
+                    <!--  home page -->
+                    <a href="/teacher/dashboard">Home</a>
+                    <!-- added link to teacher_info page-->
+                    <a href="/teacher/info">User Info</a>
+                    <a href="test_results.html">Test Results</a>
+                    <span id="logout" class="btn btn-danger">Logout</span>
+                </div>
+            </div>
+        </aside>
+
+        <section class="items borderround" id="section">
+            <button id="create_test"><strong>Create Test</strong></button>
+            <h2>Saved test</h2>
+            
+            <ol>
+                <li>
+                    <div id="saved_test">
+                        <input type="text">
+                        <button>Edit</button>
+                        <button>Publish</button>
+                    </div>  
+                </li>
+                <li>
+                    <div id="saved_test">
+                        <input type="text">
+                        <button>Edit</button>
+                        <button>Publish</button>
+                    </div>  
+                </li>
+                <li>
+                    <div id="saved_test">
+                        <input type="text">
+                        <button>Edit</button>
+                        <button>Publish</button>
+                    </div>  
+                </li>
+            </ol>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

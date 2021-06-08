@@ -1,0 +1,216 @@
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+   display: grid;
+  grid-template-areas: 
+  'navbar navbar navbar navbar navbar navbar navbar'
+  'aside section section section section section section'
+  ;
+   grid-gap: 2px;
+  
+}
+.btn{
+    display: flex;
+    border: 2px solid;
+    border-color: transparent;
+    padding: 10px 1px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 189px;
+    text-decoration: none;
+    align-items: center;
+    justify-content: space-around;
+    color: blue;
+}
+.h1heading{
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: white;
+}
+.font_primeary{
+    font-family: 'Roboto', sans-serif;
+}
+
+.items{
+    
+    border: 2px solid transparent;
+}
+#navbar{
+grid-area: navbar;
+padding: 13px;
+text-align: center; 
+background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%, rgba(63,222,180,1) 100%);
+;
+}
+#navbar h1{
+    align-items: center;
+    justify-content: center;
+}
+#aside{
+    grid-area: aside;
+    height: 110vh;
+    width: 191px;
+    background: rgb(197, 241, 172);
+    
+}
+.userimg_box{
+    background: rgb(26, 236, 131);
+    display: flex;
+    margin: -13px;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+    height: 159px;
+    width: 194px;
+}
+.aside_setting{
+    width: 194px;
+    margin-left: 0px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+#user_name{
+    margin-block-start: 5px;
+    margin-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.aside-items{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   margin-top: 10px;
+}
+.borderround{
+    border-radius: 11px;
+}
+.aside-items a{
+    display: flex;
+    border: 2px solid;
+    border-color: transparent;
+    padding: 10px 1px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 189px;
+    text-decoration: none;
+    align-items: center;
+    justify-content: space-around;
+    font-family: 'Roboto', sans-serif;
+} 
+#userdetail_centerbox{
+    width: 80%;
+}
+.aside-items a:hover{
+    background-color: rgb(235, 99, 117);
+    color: white;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-radius: 8px;
+}
+#profileimg{
+    margin-top: 10px;
+    border: 2px solid blueviolet;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    background: rgb(26, 236, 131);;
+}
+
+
+.nested-section{
+    display: grid;
+    grid-template-rows: 5fr 5fr ;
+    grid-gap: 13px;
+    
+}
+.nested-section div{
+    border: 2px solid transparent;
+    padding: 10px;
+    margin: 0px;
+}
+#stats{
+    height: 50vh;
+}
+input[type="text"],input[type="email"]
+{ display: block;
+    box-sizing: border-box;
+    background-color: none;
+    color: #3498db;
+    margin-bottom: 30px;
+   
+    width: 220px;
+    height: 32px;
+    border: none;
+    border-bottom: 1px solid #006be6;
+     font-family: 'Roboto',sans-serif;
+     font-size: 15px;
+     font-weight: 400;
+     transition: 0.2 ease;
+}
+input[type="text"]:focus,input[type="email"]:focus{
+    border: 2px solid #3498db;
+    
+    color:black;
+     transition: 0.2 ease;
+}
+.btn{
+    color: white;
+    cursor: pointer;
+    outline: none; 
+    margin: 12px 20px;
+    padding: 10px 21px;
+    border: 2px solid rgb(0, 128, 122);
+    border-radius: 12px;
+    font-size: 12px;
+    background: tomato;
+    font-weight: bold;
+    
+}
+
+.btn:hover{
+    opacity: 0.8;
+    color: rgb(0, 55, 128); 
+    background: white; 
+   
+}
+.user_img_box{
+    align-items: center;
+}
+#section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-area: section;
+    margin-left: -132px;
+    background: skyblue;
+    opacity: 0.7;
+   
+}
+.prof_items{
+    width: 292px;
+}
+.prof_items input{  
+    color: white;
+    background: #b03838;
+    width: 75%;
+    padding: 5px 10px;
+    font-size: 17px;
+    border: 2px solid transparent;
+    outline:none;
+    border-radius: 15px;
+    color: white;
+    
+}
+.prof_items input::placeholder{
+    color: #fff;
+    opacity: 1;
+}
