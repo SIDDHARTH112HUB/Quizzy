@@ -111,6 +111,32 @@ app.post('/student/info/save', (req, res, next) => {
         }
     });
 });
+app.post('/teacher/info/save', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    // res.send('Done');
+
+    user.update(obj, (resu) => {
+        if (resu) {
+            user.find(obj.email, function (result) {
+                if (result && result.length > 0) {
+                    console.log(result[0])
+                    res.send(result[0]);
+                    return;
+                }
+                else {
+                    // console.log('email not macthed');
+                    res.send(null);
+                    return;
+                }
+            })
+        }
+        else {
+            res.send(null);
+        }
+    });
+});
+
 
 // app.post('/register', (req, res) => {
 //     res.send(req.body);
