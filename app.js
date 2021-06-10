@@ -6,16 +6,11 @@ const pageRouter = require('./routes/signup');
 // var fs =require('fs');
 // var sessions =require('express-session');
 // var bodyParser = require('body-parser');
-var sessions = require('express-session');
 // import bodyParser;
 const user = new User();
 var session;
 
-app.use(sessions({
-    secret: 'snkcknd7376ecccdaad',
-    resave: false,
-    saveUninitialized: true
-}));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -64,7 +59,7 @@ app.get('/teacher/test_results', (req, res) => {
 
 app.post('/user/signup', (req, res, next) => {
     let userInput = req.body;
-    console.log(userInput);
+    // console.log(userInput);
 
     user.create(userInput, function (lastId) {
         if (lastId) {
@@ -91,14 +86,39 @@ app.post('/user/login', (req, res, next) => {
         });
     }
 });
+app.post('/student/info/save', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    // res.send('Done');
 
-app.post('/register', (req, res) => {
-    res.send(req.body);
-    console.log('send signup data', req.body);
+    user.update(obj, (resu) => {
+        if (resu) {
+            user.find(obj.email, function (result) {
+                if (result && result.length > 0) {
+                    console.log(result[0])
+                    res.send(result[0]);
+                    return;
+                }
+                else {
+                    // console.log('email not macthed');
+                    res.send(null);
+                    return;
+                }
+            })
+        }
+        else {
+            res.send(null);
+        }
+    });
 });
+
+// app.post('/register', (req, res) => {
+//     res.send(req.body);
+//     console.log('send signup data', req.body);
+// });
 
 
 
 app.listen(80, function () {
-    console.log('listennig on 1337');
+    console.log('listennig on localhost');
 });
