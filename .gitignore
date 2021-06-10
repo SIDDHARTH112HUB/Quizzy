@@ -1,2 +1,4 @@
-node_modules/
-core/pool.js
+node_modules
+
+#ignore poolfile
+pool.js
