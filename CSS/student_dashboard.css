@@ -121,6 +121,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     align-items: center;
     justify-content: space-around;
     color: blue;
+    cursor: pointer;
 }
 #section{
     grid-area: section;
@@ -143,4 +144,11 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #stats{
     height: 50vh;
+}
+#logout:hover{
+    background-color: rgb(235, 99, 117);
+    color: white;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-radius: 8px;
 }
