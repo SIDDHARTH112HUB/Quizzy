@@ -128,7 +128,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     margin-left: -165px;
     background: skyblue;
     opacity: 0.5;
-    z-index: -10;
+    /* z-index: -10; */
    
 }
 .nested-section{

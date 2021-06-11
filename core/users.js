@@ -71,7 +71,30 @@ User.prototype = {
             callback(null);
             return;
         });
-    }
+    },
+    create_quiz : function(obj,callback){
+        let sql = "INSERT INTO quizzes(created,created_by,name,title) VALUES('" + obj.time + "','" + obj.created_by + "','" + obj.quiz_name + "','" + obj.title + "')";
+        pool.query(sql, function (err, lastId) {
+            if (err) throw err;
+            console.log(lastId);
+            callback(lastId);
+        });
+        
+    },
+    find_quiz : function (title = null, callback) {
+        
+        // console.log(field);
+        // console.log(user);
+        let sql2= `SELECT * FROM quizzes WHERE title=?`;
+        pool.query(sql2,title,(err,result)=>{
+            if (err) throw err
+            else {
+                console.log(result);
+                // console.log('12345');
+                callback(result);
+            }
+        });
+    },
 }
 
 module.exports = User;
