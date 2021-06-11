@@ -12,7 +12,7 @@ const pool = mysql.createPool({
 pool.getConnection((err,connection)=>{
     if(err)
     {
-        console.log("error");
+       throw err;
     }
     if(connection)
     {
@@ -22,3 +22,8 @@ pool.getConnection((err,connection)=>{
 });
 pool.query = util.promisify(pool.query);
 module.exports = pool;
+
+// siddhu don
+// don 1
+// askjdb
+// askdbhab

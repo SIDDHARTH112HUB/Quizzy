@@ -155,12 +155,12 @@ input[type="text"],input[type="email"]
     align-items: center;
     justify-content: space-around;
     color: blue;
+    cursor: pointer;
 }
 input[type="text"]:focus,input[type="email"]:focus{
     border: 2px solid #3498db;
-    
     color:black;
-     transition: 0.2 ease;
+    transition: 0.2 ease;
 }
 .button{
     color: white;

@@ -18,40 +18,44 @@ app.use('/', express.static(__dirname));
 
 app.get('/', (req, res) => {
     res.sendFile('./HTML/Home.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 
 app.get('/signup', (req, res) => {
     res.sendFile('./HTML/signup.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 app.get('/login', (req, res) => {
     res.sendFile('./HTML/login.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 app.get('/student/dashboard', (req, res) => {
     res.sendFile('./HTML/student_dashboard.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 app.get('/teacher/dashboard', (req, res) => {
     res.sendFile('./HTML/teacher_dashboard.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 app.get('/teacher/info', (req, res) => {
     res.sendFile('./HTML/teacher_info.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 app.get('/student/info', (req, res) => {
     res.sendFile('./HTML/student_info.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 app.get('/student/test_history', (req, res) => {
     res.sendFile('./HTML/test_history.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
 });
 app.get('/teacher/test_results', (req, res) => {
     res.sendFile('./HTML/test_results.html', { root: __dirname });
-    console.log('just send');
+    // console.log('just send');
+});
+app.get('/teacher/quiz/create', (req, res) => {
+    res.sendFile('./HTML/quiz_ques.html', { root: __dirname });
+    // console.log('just send');
 });
 
 // app.use('/signup',pageRouter);
@@ -111,6 +115,57 @@ app.post('/student/info/save', (req, res, next) => {
         }
     });
 });
+app.post('/teacher/info/save', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    // res.send('Done');
+
+    user.update(obj, (resu) => {
+        if (resu) {
+            user.find(obj.email, function (result) {
+                if (result && result.length > 0) {
+                    console.log(result[0])
+                    res.send(result[0]);
+                    return;
+                }
+                else {
+                    // console.log('email not macthed');
+                    res.send(null);
+                    return;
+                }
+            })
+        }
+        else {
+            res.send(null);
+        }
+    });
+});
+app.post('/teachers/create/quiz', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    // res.send(obj);
+    user.create_quiz(obj, (resu) => {
+        if (resu) {
+            user.find_quiz(obj.title,(result)=>{
+                if (result && result.length > 0) {
+                    console.log(result[0])
+                    res.send(result[0]);
+                    return;
+                }
+                else {
+                    // console.log('email not macthed');
+                    res.send(null);
+                    return;
+                }
+            });
+        }
+        else {
+            res.send(null);
+        }
+    });
+    
+});
+
 
 // app.post('/register', (req, res) => {
 //     res.send(req.body);
