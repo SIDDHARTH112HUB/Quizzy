@@ -12,6 +12,8 @@
     <script>
         $(document).ready(function () {
             init();
+            localStorage.removeItem('quiz_details');
+            localStorage.removeItem('ques');
             userData=JSON.parse(localStorage.getItem('user'));
             $('#user_name').text('Hello, ' + userData.user_name);
 

@@ -9,16 +9,23 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.js'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
         body {
-            background-color: rgb(241, 236, 236);
+            background: rgba(195, 230, 225, 0.438);
         }
 
         #add_ques {
-            position: fixed;
-            top: 20%;
-            left: 10%;
+            position: absolute;
+            top: 24%;
+            left: 50%;
             transform: translate(-50%, -50%);
         }
 
@@ -43,19 +50,40 @@
         .row {
             display: -webkit-box;
         }
+
+        .question_list {
+            border: 2px solid black;
+            width: 50%;
+            background: rgb(149, 177, 228);
+            display: flex;
+            margin: 12px 23px;
+            padding: 5px 7px;
+            border-radius: 10px;
+            flex-direction: column;
+        }
+
+        .question_list li {
+            border: 2px solid red;
+            border-radius: 10px;
+            margin: 12px 23px;
+            padding: 8px 10px;
+        }
     </style>
 
 </head>
 <script>
     $(document).ready(function () {
         init();
+        let quizdata = JSON.parse(localStorage.getItem('quiz_details'));
+        $('#quiz_name_on_page').text(quizdata.name);
+        $('#quiz_title_on_page').text(quizdata.title);
+        $('#quiz_created_on_page').text(quizdata.created_by);
         if (localStorage.getItem('ques')) {
         }
         else {
             let ques = [];
             localStorage.setItem('ques', JSON.stringify(ques));
         }
-        let quizdata = JSON.parse(localStorage.getItem('quiz_details'));
         $('form').submit(function (e) {
             e.preventDefault();
             let date = new Date();
@@ -74,7 +102,7 @@
             let ques_data = JSON.parse(localStorage.getItem('ques'));
             ques_data.push(obj);
             localStorage.setItem('ques', JSON.stringify(ques_data));
-            console.log(obj);
+            // console.log(obj);
             $.post("/teacher/quiz/create/add_ques", obj, function (data, status) {
                 if (data) {
                     window.location = '/teacher/quiz/create';
@@ -83,9 +111,27 @@
             })
         });
 
-        function init(){
+        function init() {
+            if (localStorage.getItem('ques')) {
 
-
+                let ques_list = JSON.parse(localStorage.getItem('ques'));
+                ques_list.forEach((element, index) => {
+                    if (!jQuery.isEmptyObject(element)) {
+                        var html = "";
+                        html += '<div class="question_list">';
+                        html += "<h2>" + (index + 1) + "-" + element.ques_name + "</h2>"
+                        html += "<ol>"
+                        html += "<li>" + element.option1 + "</li>"
+                        html += "<li>" + element.option2 + "</li>"
+                        html += "<li>" + element.option3 + "</li>"
+                        html += "<li>" + element.option4 + "</li>"
+                        html += "</ol>"
+                        html += "<p><strong>Correct Option : </strong>" + element.correctoption + "</p>"
+                        html += "</div>";
+                        $('#question_list').append(html);
+                    }
+                });
+            }
         }
     });
     function onOptionChange() {
@@ -120,10 +166,19 @@
 
 <body>
     <a href="/teacher/dashboard">Go To dashboard</a>
-    <button id="add_ques" type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">Add a new Question!</button>
+    <button id="add_ques" type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">Add a new
+        Question!</button>
 
+    <p style="font-size: 25px;margin: 12px 23px;">Quiz Name : <span id="quiz_name_on_page"></span></p>
+    <p style="font-size: 25px;margin: 12px 23px;">Quiz Title : <span id="quiz_title_on_page"></span></p>
+    <p style="font-size: 25px;margin: 12px 23px;">Created By : <span id="quiz_created_on_page"></span></p>
+
+    <br>
+    <br>
     <div id="question_list">
-        
+
+
+
     </div>
 
     <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel"
@@ -216,8 +271,7 @@
             </div>
         </div>
     </div>
-    <div id="bcl"><a style="font-size: 8pt; text-decoration: none" target="_blank"
-            href="http://www.frontendfreecode.com">Frontend Code</a></div>
+    <div id="bcl"><a style="font-size: 8pt; text-decoration: none" target="_blank" href="/teacher/dashboard"> </a></div>
 
 
 </body>
