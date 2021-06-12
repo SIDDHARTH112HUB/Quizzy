@@ -1,12 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Quiz</title>
+    <meta charset="UTF-8"><!-- this script got from www.frontendfreecode.com -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: rgb(241, 236, 236);
+        }
+
+        #add_ques {
+            position: fixed;
+            top: 20%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+        }
+
+        #message {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            color: #fff;
+            margin: auto;
+            text-align: center;
+            display: none;
+        }
+
+        .form-check-label {
+            margin-right: 20px;
+        }
+
+        .row {
+            display: -webkit-box;
+        }
+    </style>
+
 </head>
+<script>
+    $(document).ready(function () {
+        init();
+        if (localStorage.getItem('ques')) {
+        }
+        else {
+            let ques = [];
+            localStorage.setItem('ques', JSON.stringify(ques));
+        }
+        let quizdata = JSON.parse(localStorage.getItem('quiz_details'));
+        $('form').submit(function (e) {
+            e.preventDefault();
+            let date = new Date();
+            let obj = {
+                quiz_id: quizdata.id,
+                created_by: quizdata.created_by,
+                ques_name: $('#question').val(),
+                option1: $('#option1').val(),
+                option2: $('#option2').val(),
+                option3: $('#option3').val(),
+                option4: $('#option4').val(),
+                correctoption: $('#correctOption').val(),
+                marks: $('#total_marks').val(),
+                time: date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
+            };
+            let ques_data = JSON.parse(localStorage.getItem('ques'));
+            ques_data.push(obj);
+            localStorage.setItem('ques', JSON.stringify(ques_data));
+            console.log(obj);
+            $.post("/teacher/quiz/create/add_ques", obj, function (data, status) {
+                if (data) {
+                    window.location = '/teacher/quiz/create';
+                }
+                window.location = '/teacher/quiz/create';
+            })
+        });
+
+        function init(){
+
+
+        }
+    });
+    function onOptionChange() {
+        let option1 = $('#option1').val();
+        let option2 = $('#option2').val();
+        let option3 = $('#option3').val();
+        let option4 = $('#option4').val();
+        // console.log(option1, option2, option3, option4);
+        if (option1 || option2 || option3 || option4) {
+            let selectObj = "<select name='correctOption' class='form-control' id='correctOption' style='width: 307px;'>\n";
+            if (option1) {
+                selectObj += "<option value='" + option1 + "'>" + option1 + "</option>\n";
+            }
+            if (option2) {
+                selectObj += "<option value='" + option2 + "'>" + option2 + "</option>\n";
+            }
+            if (option3) {
+                selectObj += "<option value='" + option3 + "'>" + option3 + "</option>\n";
+            }
+            if (option4) {
+                selectObj += "<option value='" + option4 + "'>" + option4 + "</option>\n";
+            }
+            selectObj += '</select>';
+            $('#correctionOptionDiv').html(selectObj);
+        } else {
+            $('#correctionOptionDiv').html('');
+        }
+    }
+
+</script>
+
+
 <body>
     <a href="/teacher/dashboard">Go To dashboard</a>
+    <button id="add_ques" type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">Add a new Question!</button>
+
+    <div id="question_list">
+        
+    </div>
+
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="formModalLabel">Add Question</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formAwesome" action="/teacher/quiz/create/add_ques" method="POST">
+                    <div class="modal-body">
+
+                        <label for="firstName" class="col-sm-6 col-form-label">
+                            Question-
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" name="question_name" class="form-control" id="question"
+                                placeholder="Question Description" style="width: 426px;" required>
+                        </div>
+                        <label for="option" class="col-sm-6 col-form-label">
+                            Options-
+                            <!-- Option 1- -->
+                        </label>
+                        <div class="form-group row">
+                            <label for="firstName" class="col-sm-6 col-form-label">
+                                1.
+                                <!-- Option 1- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option1" class="form-control"
+                                    id="option1" placeholder="Option 1" style="width: 400px;" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lastName" class="col-sm-6 col-form-label">
+                                2.
+                                <!-- Option 2- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option2" class="form-control"
+                                    id="option2" placeholder="Option 2" style="width: 400px;" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-6 col-form-label">
+                                3.
+                                <!-- Option 3- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option3" class="form-control"
+                                    id="option3" style="width: 400px;" placeholder="Option 3" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-6 col-form-label">
+                                4.
+                                <!-- Option 4- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option4" class="form-control"
+                                    id="option4" style="width: 400px;" placeholder="Option 4" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Correct_option" class="col-sm-6 col-form-label">
+                                Correct Option
+                            </label>
+                            <div id="correctionOptionDiv" class="col-sm-6"></div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="marks" class="col-sm-6 col-form-label">
+                                Total Marks :
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" name="marks" class="form-control" id="total_marks"
+                                    style="width: 324px;" placeholder="Marks" value="4" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="bcl"><a style="font-size: 8pt; text-decoration: none" target="_blank"
+            href="http://www.frontendfreecode.com">Frontend Code</a></div>
+
+
 </body>
+
 </html>

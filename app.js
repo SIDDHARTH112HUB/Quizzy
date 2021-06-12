@@ -165,6 +165,31 @@ app.post('/teachers/create/quiz', (req, res, next) => {
     });
     
 });
+app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    res.send(obj);
+    // user.create_quiz(obj, (resu) => {
+    //     if (resu) {
+    //         user.find_quiz(obj.title,(result)=>{
+    //             if (result && result.length > 0) {
+    //                 console.log(result[0])
+    //                 res.send(result[0]);
+    //                 return;
+    //             }
+    //             else {
+    //                 // console.log('email not macthed');
+    //                 res.send(null);
+    //                 return;
+    //             }
+    //         });
+    //     }
+    //     else {
+    //         res.send(null);
+    //     }
+    // });
+    
+});
 
 
 // app.post('/register', (req, res) => {
