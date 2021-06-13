@@ -106,8 +106,8 @@ User.prototype = {
         });
     },
     create_quiz_question :function(obj,callback){
-        let sql = "INSERT INTO questions (created, created_by, correct_points, name,  quiz_id) VALUES ('"+obj.time+"','"+obj.created_by+"','"+obj.marks+"','"+obj.name+"','"+obj.quiz_id+"')";
-        pool.query(sql, function (err, lastId) {
+        let sql = "INSERT INTO questions (`created`, `created_by`, `correct_points`, `name`,  `quiz_id`) VALUES (?,?,?,?,?)";
+        pool.query(sql,[obj.time,obj.created_by,obj.marks,obj.name,obj.id], function (err, lastId) {
             if (err) throw err;
             // console.log(lastId);
             callback(lastId);
