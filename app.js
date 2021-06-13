@@ -219,7 +219,7 @@ app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
             let obj4 = {
                 ques_id: quesid,
                 time: obj.time,
-                name: obj.option2,
+                name: obj.option4,
                 created_by: obj.created_by
             }
             let obj5 = {
