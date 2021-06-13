@@ -5,7 +5,7 @@ const pool = mysql.createPool({
     connectionLimit : 10,
     host : 'localhost',
     user : 'root',
-    password : '123456789',
+    password : 'sidd@sql',
     database: 'trialquizzy'
 });
 
@@ -22,3 +22,8 @@ pool.getConnection((err,connection)=>{
 });
 pool.query = util.promisify(pool.query);
 module.exports = pool;
+
+// siddhu don
+// don 1
+// askjdb
+// askdbhab

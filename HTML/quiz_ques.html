@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+    <meta charset="UTF-8"><!-- this script got from www.frontendfreecode.com -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.js'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: rgba(195, 230, 225, 0.438);
+        }
+
+        #add_ques {
+            position: absolute;
+            top: 26%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #message {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            color: #fff;
+            margin: auto;
+            text-align: center;
+            display: none;
+        }
+
+        .form-check-label {
+            margin-right: 20px;
+        }
+
+        .row {
+            display: -webkit-box;
+        }
+
+        .question_list {
+            border: 2px solid black;
+            width: 50%;
+            background: rgb(149, 177, 228);
+            display: flex;
+            margin: 12px 23px;
+            padding: 5px 7px;
+            border-radius: 10px;
+            flex-direction: column;
+        }
+
+        .question_list li {
+            border: 2px solid red;
+            border-radius: 10px;
+            margin: 12px 23px;
+            padding: 8px 10px;
+        }
+
+        footer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn2 {
+            width: 90px;
+            margin: 8px 23px;
+            margin-bottom: 30px;
+        }
+    </style>
+
+</head>
+<script>
+    $(document).ready(function () {
+        init();
+        let quizdata = JSON.parse(localStorage.getItem('quiz_details'));
+        $('#quiz_name_on_page').text(quizdata.name);
+        $('#quiz_title_on_page').text(quizdata.title);
+        $('#quiz_created_on_page').text(quizdata.created_by);
+        if (localStorage.getItem('ques')) {
+        }
+        else {
+            let ques = [];
+            localStorage.setItem('ques', JSON.stringify(ques));
+        }
+        $('form').submit(function (e) {
+            e.preventDefault();
+            let date = new Date();
+            let obj = {
+                quiz_id: quizdata.id,
+                created_by: quizdata.created_by,
+                ques_name: $('#question').val(),
+                option1: $('#option1').val(),
+                option2: $('#option2').val(),
+                option3: $('#option3').val(),
+                option4: $('#option4').val(),
+                correctoption: $('#correctOption').val(),
+                marks: $('#total_marks').val(),
+                time: date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
+            };
+            let ques_data = JSON.parse(localStorage.getItem('ques'));
+            ques_data.push(obj);
+            localStorage.setItem('ques', JSON.stringify(ques_data));
+            // console.log(obj);
+            $.post("/teacher/quiz/create/add_ques", obj, function (data, status) {
+                if (data) {
+                    localStorage.setItem('data',data);
+                    window.location = '/teacher/quiz/create';
+                }
+                // window.location = '/teacher/quiz/create';
+            })
+        });
+
+        function init() {
+            if (localStorage.getItem('ques')) {
+
+                let ques_list = JSON.parse(localStorage.getItem('ques'));
+                ques_list.forEach((element, index) => {
+                    if (!jQuery.isEmptyObject(element)) {
+                        var html = "";
+                        html += '<div class="question_list">';
+                        html += "<h2>" + (index + 1) + "-" + element.ques_name + "</h2>"
+                        html += "<ol>"
+                        html += "<li>" + element.option1 + "</li>"
+                        html += "<li>" + element.option2 + "</li>"
+                        html += "<li>" + element.option3 + "</li>"
+                        html += "<li>" + element.option4 + "</li>"
+                        html += "</ol>"
+                        html += "<p><strong>Correct Option : </strong>" + element.correctoption + "</p>"
+                        html += "</div>";
+                        $('#question_list').append(html);
+                    }
+                });
+            }
+        }
+        $('#publish').click(function () {
+            let ob={
+                quiz_id : quizdata.id,
+                quiz_status :'publish'
+            }
+            $.post("/teacher/quiz/create/publish", ob, function (data, status) {
+                if (data) {
+                    localStorage.removeItem('ques');
+                    localStorage.removeItem('quiz_details');
+                    window.location = '/teacher/dashboard';
+                }
+            })
+        });
+        $('#save').click(function () {
+
+            localStorage.removeItem('ques');
+            localStorage.removeItem('quiz_details');
+            window.location = '/teacher/dashboard';
+
+        });
+    });
+    function onOptionChange() {
+        let option1 = $('#option1').val();
+        let option2 = $('#option2').val();
+        let option3 = $('#option3').val();
+        let option4 = $('#option4').val();
+        // console.log(option1, option2, option3, option4);
+        if (option1 || option2 || option3 || option4) {
+            let selectObj = "<select name='correctOption' class='form-control' id='correctOption' style='width: 307px;'>\n";
+            if (option1) {
+                selectObj += "<option value='" + option1 + "'>" + option1 + "</option>\n";
+            }
+            if (option2) {
+                selectObj += "<option value='" + option2 + "'>" + option2 + "</option>\n";
+            }
+            if (option3) {
+                selectObj += "<option value='" + option3 + "'>" + option3 + "</option>\n";
+            }
+            if (option4) {
+                selectObj += "<option value='" + option4 + "'>" + option4 + "</option>\n";
+            }
+            selectObj += '</select>';
+            $('#correctionOptionDiv').html(selectObj);
+        } else {
+            $('#correctionOptionDiv').html('');
+        }
+    }
+
+
+</script>
+
+
+<body>
+
+    <button id="add_ques" type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">Add a new
+        Question!</button>
+    <div style="background: rgb(169, 232, 243); padding: 1px;">
+
+        <p style="font-size: 25px;margin: 12px 23px; font-weight: bolder;">Quiz Name : <span
+                id="quiz_name_on_page"></span></p>
+        <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Quiz Title : <span
+                id="quiz_title_on_page"></span></p>
+        <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Created By : <span
+                id="quiz_created_on_page"></span></p>
+    </div>
+    <br>
+    <br>
+    <div id="question_list">
+    </div>
+
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="formModalLabel">Add Question</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formAwesome" action="/teacher/quiz/create/add_ques" method="POST">
+                    <div class="modal-body">
+
+                        <label for="firstName" class="col-sm-6 col-form-label">
+                            Question-
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" name="question_name" class="form-control" id="question"
+                                placeholder="Question Description" style="width: 426px;" required>
+                        </div>
+                        <label for="option" class="col-sm-6 col-form-label">
+                            Options-
+                            <!-- Option 1- -->
+                        </label>
+                        <div class="form-group row">
+                            <label for="firstName" class="col-sm-6 col-form-label">
+                                1.
+                                <!-- Option 1- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option1" class="form-control"
+                                    id="option1" placeholder="Option 1" style="width: 400px;" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lastName" class="col-sm-6 col-form-label">
+                                2.
+                                <!-- Option 2- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option2" class="form-control"
+                                    id="option2" placeholder="Option 2" style="width: 400px;" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-6 col-form-label">
+                                3.
+                                <!-- Option 3- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option3" class="form-control"
+                                    id="option3" style="width: 400px;" placeholder="Option 3" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-6 col-form-label">
+                                4.
+                                <!-- Option 4- -->
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" onchange="onOptionChange()" name="option4" class="form-control"
+                                    id="option4" style="width: 400px;" placeholder="Option 4" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Correct_option" class="col-sm-6 col-form-label">
+                                Correct Option
+                            </label>
+                            <div id="correctionOptionDiv" class="col-sm-6"></div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="marks" class="col-sm-6 col-form-label">
+                                Total Marks :
+                            </label>
+                            <div class="col-sm-6">
+                                <input type="text" name="marks" class="form-control" id="total_marks"
+                                    style="width: 324px;" placeholder="Marks" value="4" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <button type="button" class="btn btn2 btn-primary" id="save">Save</button>
+        <button type="button" class="btn btn2 btn-success" id="publish">Publish</button>
+    </footer>
+
+
+</body>
+
+</html>
