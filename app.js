@@ -233,6 +233,16 @@ app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
             final.push(obj3);
             final.push(obj4);
            
+            function create_option(obj9){
+                new Promise((resolve,reject)=>{
+                    user.create_quiz_options(obj9,(res7)=>{
+                        if(res7){
+                            resolve(res.insertId);
+                        }
+                    })
+                })
+            }
+
             user.create_quiz_options(final, (res4) => {
                 user.find_correct_option(obj5, (res3) => {
                     if (res3) {

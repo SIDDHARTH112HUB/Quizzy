@@ -146,7 +146,9 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 #saved_test{
     margin: 20px;
     padding: 10px;
+    background: blueviolet;
     border: 2px solid black;
+    border-radius: 16px;
    
 }
 #saved_test input{
@@ -208,3 +210,37 @@ li{
     transition: 0.2 ease;
     outline: none;
 }
+.notations{
+    background: chartreuse;
+    border: 2px solid blue;
+    background-clip: padding-box
+}
+        
+.arrow-pointer {
+    width: 250px;
+    height: 50px;
+    background: #32557f;
+    position: relative;
+  
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0; width: 0; height: 0;
+      border-left: 25px solid #7eb4e2;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+    }
+  
+    &:before {
+      content: '';
+      position: absolute;
+      right: -25px;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-left: 25px solid #32557f;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+    }
+  }
+      
