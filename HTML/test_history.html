@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/CSS/student_dashboard.css">
+    <link rel="stylesheet" href="/CSS/test_history.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -13,7 +13,7 @@
         $(document).ready(function () {
             $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
 
-            $('#logout').click(function(){
+            $('#logout').click(function () {
                 localStorage.clear();
                 window.location.replace('/');
             })
@@ -36,23 +36,99 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <h3 id="user_name">user_name</h3>
                 </div>
                 <div class="aside_setting">
-                     
-                   
-                      <!--  home page -->
+
+
+                    <!--  home page -->
                     <a href="/student/dashboard">Home</a>
-                     <!-- added link to student_info page-->
+                    <!-- added link to student_info page-->
                     <a href="/student/info">User Info</a>
                     <a href="#">Test History</a>
                     <span id="logout" class="btn btn-danger">Logout</span>
                 </div>
             </div>
         </aside>
+
         <div class="items borderround" id="section">
-            <div class="nested-section borderround">
-                <div class="borderround" id="stats"></div>
-                <div class="borderround" id="upcomingquiz"></div>
+            <div class="heading">
+                Tests
             </div>
+            <div class="test-history">
+
+                <ul class="test-list">
+                  
+                        <li class="test">
+
+                             <span>test name</span>
+                             <span>created by:</span>
+                            <span class="details">123/243</span>
+                        </li>
+                   
+                    
+                        <li class="test">
+
+                           <span>test name</span>
+                           <span>created by:</span>
+                            <span class="details">123/243</span>
+                        </li>
+                        
+                        
+                   
+                   
+                        <li class="test">
+
+                             <span>test name</span>
+                             <span>created by:</span>
+                            <span class="details">123/243</span>
+
+
+                        </li>
+                   
+                  
+                        <li class="test">
+
+                            <span>test name</span>
+                            <span>created by:</span>
+                            <span class="details">123/243</span>
+
+
+                        </li>
+                   
+                    <a href="#">
+                        <li class="test">
+
+                             <span>test name</span>
+                             <span>created by:</span>
+                            <span class="details">123/243</span>
+
+
+                        </li>
+                  
+                   
+                        <li class="test">
+
+                             <span>test name</span>
+                             <span>created by:</span>
+                            <span class="details">123/243</span>
+
+
+                        </li>
+                  
+                    
+                        <li class="test">
+
+                            <span>test name</span>
+                            <span> created by:</span>
+                            <span class="details">123/243</span>
+
+
+                        </li>
+                   
+
+                </ul>
+            </div>
+
         </div>
+
     </div>
 
 </body>

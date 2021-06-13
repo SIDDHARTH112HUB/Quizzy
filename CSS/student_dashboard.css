@@ -3,6 +3,7 @@
 *{
     margin: 0px;
     padding: 0px;
+    box-sizing: border-box;
 }
 .container{
    display: grid;
@@ -125,10 +126,13 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #section{
     grid-area: section;
-    margin-left: -165px;
+    margin-left: -88px;
     background: skyblue;
     opacity: 0.5;
     /* z-index: -10; */
+    padding: 10px;
+    margin: auto 0px;
+    
    
 }
 .nested-section{
@@ -136,15 +140,29 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     grid-template-rows: 5fr 5fr ;
     grid-gap: 13px;
     
+    
 }
 .nested-section div{
-    border: 2px solid transparent;
+  
     padding: 10px;
     margin: 0px;
+    width: 350px;
+   
 }
 #stats{
     height: 50vh;
+    width: auto;
+    border: 2px solid red;
 }
+#upcomingquiz{
+    height:50vh;
+    width: auto;
+    border: 2px solid red;
+}
+/* #upcomingquiz .card{
+    display: flex;
+    flex-direction: row;
+} */
 #logout:hover{
     background-color: rgb(235, 99, 117);
     color: white;
@@ -152,3 +170,59 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     margin-right: 0px;
     border-radius: 8px;
 }
+.card{
+    display: inline-block;
+    border: 2px solid black;
+    width: 200px;
+    height: 140px;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+.card .card-header{
+    
+    border: 2px solid black;
+    width: 330px;
+    height: 28px;
+    padding: 4px;
+    /* text-align: center; */
+    align-items: center;
+    border-radius: 10px;
+}
+
+.card .card-body .card-text{
+    border: 2px solid black;
+    width: 320px;
+    border-radius: 5px;
+    
+}
+.btn-primary{
+    border: 2px solid black;
+    width: max-content;
+    height: max-content;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+.card-positioning div{
+    display: inline-block;
+    margin: 4px;
+   
+}
+.card-stats{
+    border: 2px solid black;
+    width: 200px;
+    height: 140px;
+    border-radius: 10px;
+    padding: 10px;
+}
+#stats .card-stats-header{
+    border: 2px solid black;
+    width: 330px;
+    height: 28px;
+    padding: 4px;
+    /* text-align: center; */
+    align-items: center;
+    border-radius: 10px;
+}
+
+
