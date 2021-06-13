@@ -24,7 +24,7 @@
 
         #add_ques {
             position: absolute;
-            top: 24%;
+            top: 26%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -68,6 +68,19 @@
             margin: 12px 23px;
             padding: 8px 10px;
         }
+
+        footer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn2 {
+            width: 90px;
+            margin: 8px 23px;
+            margin-bottom: 30px;
+        }
     </style>
 
 </head>
@@ -105,9 +118,10 @@
             // console.log(obj);
             $.post("/teacher/quiz/create/add_ques", obj, function (data, status) {
                 if (data) {
+                    localStorage.setItem('data',data);
                     window.location = '/teacher/quiz/create';
                 }
-                window.location = '/teacher/quiz/create';
+                // window.location = '/teacher/quiz/create';
             })
         });
 
@@ -133,6 +147,26 @@
                 });
             }
         }
+        $('#publish').click(function () {
+            let ob={
+                quiz_id : quizdata.id,
+                quiz_status :'publish'
+            }
+            $.post("/teacher/quiz/create/publish", ob, function (data, status) {
+                if (data) {
+                    localStorage.removeItem('ques');
+                    localStorage.removeItem('quiz_details');
+                    window.location = '/teacher/dashboard';
+                }
+            })
+        });
+        $('#save').click(function () {
+
+            localStorage.removeItem('ques');
+            localStorage.removeItem('quiz_details');
+            window.location = '/teacher/dashboard';
+
+        });
     });
     function onOptionChange() {
         let option1 = $('#option1').val();
@@ -161,24 +195,26 @@
         }
     }
 
+
 </script>
 
 
 <body>
-    <a href="/teacher/dashboard">Go To dashboard</a>
+
     <button id="add_ques" type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModal">Add a new
         Question!</button>
+    <div style="background: rgb(169, 232, 243); padding: 1px;">
 
-    <p style="font-size: 25px;margin: 12px 23px;">Quiz Name : <span id="quiz_name_on_page"></span></p>
-    <p style="font-size: 25px;margin: 12px 23px;">Quiz Title : <span id="quiz_title_on_page"></span></p>
-    <p style="font-size: 25px;margin: 12px 23px;">Created By : <span id="quiz_created_on_page"></span></p>
-
+        <p style="font-size: 25px;margin: 12px 23px; font-weight: bolder;">Quiz Name : <span
+                id="quiz_name_on_page"></span></p>
+        <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Quiz Title : <span
+                id="quiz_title_on_page"></span></p>
+        <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Created By : <span
+                id="quiz_created_on_page"></span></p>
+    </div>
     <br>
     <br>
     <div id="question_list">
-
-
-
     </div>
 
     <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel"
@@ -271,7 +307,10 @@
             </div>
         </div>
     </div>
-    <div id="bcl"><a style="font-size: 8pt; text-decoration: none" target="_blank" href="/teacher/dashboard"> </a></div>
+    <footer>
+        <button type="button" class="btn btn2 btn-primary" id="save">Save</button>
+        <button type="button" class="btn btn2 btn-success" id="publish">Publish</button>
+    </footer>
 
 
 </body>
