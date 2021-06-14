@@ -13,7 +13,7 @@
         $(document).ready(function () {
             $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
 
-            $('#logout').click(function(){
+            $('#logout').click(function () {
                 localStorage.clear();
                 window.location.replace('/');
             })
@@ -49,11 +49,52 @@ background: linear-gradient(#c2f791, #9198e5);">
         </aside>
         <div class="items borderround" id="section">
             <div class="nested-section borderround">
-                <div class="borderround" id="stats"></div>
-                <div class="borderround" id="upcomingquiz"></div>
+                <div class="borderround card-positioning" id="stats">
+                    <h2>STATS</h2>
+                    <div class="card-stats">
+                        <div class="card-stats-header">
+                           test given
+                        </div> 
+                    </div>
+                    <div class="card-stats">
+                        <div class="card-stats-header">
+                           scores
+                         </div> 
+
+                    </div>
+                </div>    
+                    <div class="borderround card-positioning" id="upcomingquiz">
+
+                        <h2>UPCOMING QUIZZES</h2>
+
+                        <div class="card">
+                            <div class="card-header">
+                                Quiz name
+                            </div>
+                            <div class="card-body">
+
+                                <p class="card-text"> this is quiz on OS
+                                </p>
+                                <a href="#" class="btn btn-primary">Go to quiz</a>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                Quiz name
+                            </div>
+                            <div class="card-body">
+
+                                <p class="card-text"> this is quiz on OS
+                                </p>
+                                <a href="#" class="btn btn-primary">Go to quiz</a>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                
             </div>
-        </div>
-    </div>
 
 </body>
 <script src="../JS/student_controller.js">

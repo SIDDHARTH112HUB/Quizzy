@@ -227,29 +227,55 @@ app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
                 ques_id: quesid
             }
             // // console.log(obj4);
-            let final = [];
-            final.push(obj1);
-            final.push(obj2);
-            final.push(obj3);
-            final.push(obj4);
+            // let final = [];
+            // final.push(obj1);
+            // final.push(obj2);
+            // final.push(obj3);
+            // final.push(obj4);
            
-            user.create_quiz_options(final, (res4) => {
-                user.find_correct_option(obj5, (res3) => {
-                    if (res3) {
-                        // console.log(res3);
-                        user.update_quiz_question(quesid, res3.id, function (res1) {
-                            if (res1) {
-                                console.log('done');
+            function create_option(obj9){
+                console.log('inside function');
+                new Promise((resolve,reject)=>{
+                    console.log('inside promise');
+                    user.create_quiz_options(obj9,(res7)=>{
+                        console.log('inside create');
+                        if(res7){
+                            console.log('inside if',res7);
+                            resolve(res7);
+                        }
+                        else{
+                            console.log('inside else');
+                            reject('Unsuccessful');
+                        }
+                    })
+                })
+            }
 
-                            }
-                            else {
-                                console.log('error');
-                            }
+            // user.create_quiz_options(final, (res4) => {
+            //     user.find_correct_option(obj5, (res3) => {
+            //         if (res3) {
+            //             // console.log(res3);
+            //             user.update_quiz_question(quesid, res3.id, function (res1) {
+            //                 if (res1) {
+            //                     console.log('done');
 
-                        });
-                    }
-                });
-            });
+            //                 }
+            //                 else {
+            //                     console.log('error');
+            //                 }
+
+            //             });
+            //         }
+            //     });
+            // });
+            async function que_data(){
+                const o1 = await create_option(obj1);
+                const o2 = await create_option(obj2);
+                const o3 = await create_option(obj3);
+                const o4 = await create_option(obj4);
+                console.log(o1,o2,o3,o4);
+            }
+            que_data();
            
 
 
@@ -271,6 +297,26 @@ app.post('/teacher/quiz/create/publish', (req, res, next) => {
         if (resu)
             res.send('done')
     });
+
+});
+app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
+    let obj = req.body;
+    // console.log(obj);
+    // res.send(obj);
+    // res.send('done mil gya mujhe');
+    user.get_quizzes_teachers(obj.useremail,obj.status,(result)=>{
+        // console.log(result);
+        if(result && result.length>0)
+        {
+            // console.log('iside if',result);
+            res.send(result);
+        }
+        else{
+            res.send('nahi mila data');
+        }
+        
+    })
+    
 
 });
 
