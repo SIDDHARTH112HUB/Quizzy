@@ -12,6 +12,7 @@
     <script>
         $(document).ready(function () {
             init();
+            init_data();
             localStorage.removeItem('quiz_details');
             localStorage.removeItem('ques');
             userData=JSON.parse(localStorage.getItem('user'));
@@ -56,6 +57,8 @@
                 $('#test_name').val("");
                 $('#test_title').val("");
                 $('#quizForm').hide();
+            }
+            function init_data(){
                 userData=JSON.parse(localStorage.getItem('user'));
                 let ob ={
                     useremail :userData.email,
