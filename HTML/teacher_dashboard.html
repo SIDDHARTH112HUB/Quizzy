@@ -12,6 +12,7 @@
     <script>
         $(document).ready(function () {
             init();
+            init_data();
             localStorage.removeItem('quiz_details');
             localStorage.removeItem('ques');
             userData=JSON.parse(localStorage.getItem('user'));
@@ -56,6 +57,28 @@
                 $('#test_name').val("");
                 $('#test_title').val("");
                 $('#quizForm').hide();
+            }
+            function init_data(){
+                userData=JSON.parse(localStorage.getItem('user'));
+                let ob ={
+                    useremail :userData.email,
+                    status :'Private'
+                };
+                $.post("/teachers/dashboard/getquizzes",ob,(quizData,status)=>{
+                    if(quizData){
+                        console.log(quizData);
+                        for (let index = 0; index < quizData.length; index++) {
+                            const element = quizData[index];
+                            var html ="";
+                            html+="<tr>"
+                            html+="<td>"+element.name+"</td>"
+                            html+="<td><button>Edit</button></td>"
+                            html+="<td><button>Publish</button></td>"  
+                            html+="</tr>"
+                            $('#created_tests').append(html);
+                        }
+                    }
+                })
             }
         });
     </script>
@@ -112,6 +135,27 @@ background: linear-gradient(#c2f791, #9198e5);">
                         </div>
                     </form>
                     <button id="cancel" class="button" style="color: red;" >Cancel</button>
+                </div>
+            </div>
+            <div id="arrow-pointer">
+                <Span class="notations">Saved Tests</Span>
+                <div >
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Quiz Name</th>
+                                <th>Edit</th>
+                                <th>Publish</th>
+                            </tr>
+                        </thead>
+                        <tbody id="created_tests">
+                            <tr>
+                                <td>abhi</td>
+                                <td><button>trial2</button></td>
+                                <td><button>trial</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>

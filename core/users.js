@@ -106,24 +106,46 @@ User.prototype = {
         });
     },
     create_quiz_question :function(obj,callback){
-        let sql = "INSERT INTO questions (created, created_by, correct_points, name,  quiz_id) VALUES ('"+obj.time+"','"+obj.created_by+"','"+obj.marks+"','"+obj.name+"','"+obj.quiz_id+"')";
-        pool.query(sql, function (err, lastId) {
+        let sql = "INSERT INTO questions (`created`, `created_by`, `correct_points`, `name`,  `quiz_id`) VALUES (?,?,?,?,?)";
+        pool.query(sql,[obj.time,obj.created_by,obj.marks,obj.name,obj.id], function (err, lastId) {
             if (err) throw err;
             // console.log(lastId);
             callback(lastId);
         });
     },
+    // create_quiz_options:function(objs, callback){
+    //     let sql = "INSERT INTO options (created, created_by,name,question_id) VALUES ";
+    //     for(let i = 0; i < objs.length; i++) {
+    //         let obj = objs[i];
+    //         if(i != 0) {
+    //             sql += ", ";
+    //         }
+    //         sql += "('" + obj.time + "','" + obj.created_by + "','" + obj.name + "','" + obj.ques_id + "')";
+    //     }
+    //     console.log(sql);
+    //     pool.query(sql, function (err, lastId) {
+    //         if (err) throw err;
+    //         callback(lastId);
+    //         return;
+    //     });
+    // },
     create_quiz_options:function(objs, callback){
-        let sql = "INSERT INTO options (created, created_by,name,question_id) VALUES ";
-        for(let i = 0; i < objs.length; i++) {
-            let obj = objs[i];
-            if(i != 0) {
-                sql += ", ";
-            }
-            sql += "('" + obj.time + "','" + obj.created_by + "','" + obj.name + "','" + obj.ques_id + "')";
-        }
-        console.log(sql);
-        pool.query(sql, function (err, lastId) {
+        let sql = `INSERT INTO options (created, created_by,name,question_id) VALUES (?,?,?,?)`;
+        let obj=[
+            objs.time,
+            objs.created_by,
+            objs.name,
+            objs.ques_id
+        ]
+        // for(let i = 0; i < objs.length; i++) {
+        //     let obj = objs[i];
+        //     if(i != 0) {
+        //         sql += ", ";
+        //     }
+        //     sql += "('" +  + "','" + obj.created_by + "','" +  + "','" +  + "')";
+        // }
+        // console.log(sql);
+        pool.query(sql,obj, function (err, lastId) {
             if (err) throw err;
             callback(lastId);
             return;
@@ -155,6 +177,18 @@ User.prototype = {
             }
 
         });
+    },
+    get_quizzes_teachers : function(useremail,status,callback){
+        let ob=[useremail,status]
+        let sql = "SELECT * FROM quizzes where created_by = ? and quiz_status=?";
+        pool.query(sql,ob,(err,result)=>{
+            if(err)throw err
+            else{
+                console.log(result);
+                callback(result);
+                return;
+            }
+        })
     }
 
 }

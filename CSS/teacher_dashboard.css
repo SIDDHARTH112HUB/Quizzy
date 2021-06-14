@@ -146,7 +146,9 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 #saved_test{
     margin: 20px;
     padding: 10px;
+    background: blueviolet;
     border: 2px solid black;
+    border-radius: 16px;
    
 }
 #saved_test input{
@@ -208,3 +210,9 @@ li{
     transition: 0.2 ease;
     outline: none;
 }
+.notations{
+    background: chartreuse;
+    border: 2px solid blue;
+    background-clip: padding-box
+}
+
