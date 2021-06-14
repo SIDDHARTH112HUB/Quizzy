@@ -181,6 +181,9 @@ User.prototype = {
         })
     },
     get_questions_options : function(questionIds, callback){
+        if(!questionIds || questionIds.length == 0){
+            callback([]);
+        }
         let sql = "SELECT * FROM options where question_id in (?)";
         pool.query(sql, [questionIds], (err, result) => {
             if(err)throw err

@@ -319,10 +319,7 @@ app.get('/quizzes/:quizid/questions', (req, res, next) => {
     })
 });
 
-// app.post('/register', (req, res) => {
-//     res.send(req.body);
-//     console.log('send signup data', req.body);
-// });
+
 
 
 

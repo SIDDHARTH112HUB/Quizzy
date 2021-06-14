@@ -81,20 +81,28 @@
                     }
                 });
             }
-            
+
         });
         function onPublish(quizid) {
-                let ob = {
-                    quiz_id: quizid,
-                    quiz_status: 'Publish'
-                }
-                // console.log(ob)
-                $.post("/teacher/quiz/create/publish", ob, function (data, status) {
-                    if (data) {
-                        window.location = '/teacher/dashboard';
-                    }
-                })
+            let ob = {
+                quiz_id: quizid,
+                quiz_status: 'Publish'
             }
+            // console.log(ob)
+            $.post("/teacher/quiz/create/publish", ob, function (data, status) {
+                if (data) {
+                    window.location = '/teacher/dashboard';
+                }
+            })
+        }
+        function onEdit(quizid){
+            // let ob={
+            //     quiz_id:quizid
+            // }
+            $.get("/quizzes/"+quizid+"/questions", function (data, status){
+                console.log(data);
+            })
+        }
     </script>
     <title>Teacher Dashboard </title>
 
