@@ -296,6 +296,7 @@ app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];
+    console.log(quizid);
     user.get_quiz_questions(quizid, (questions) => {
         let questionIds = [];
         let questionMap = {};

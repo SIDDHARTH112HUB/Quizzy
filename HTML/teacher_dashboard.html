@@ -66,14 +66,22 @@
                 };
                 $.post("/teachers/dashboard/getquizzes", ob, (quizData, status) => {
                     if (quizData) {
-                        console.log(quizData);
+                        // console.log(quizData);
                         for (let index = 0; index < quizData.length; index++) {
                             const element = quizData[index];
+                            // console.log(element);
+                            let dta=[
+                                element.id,
+                                element.created,
+                                element.created_by,
+                                element.name,
+                                element.title
+                            ];
                             var html = "";
                             html += "<tr>"
                             html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
                             html += "<td class = 'table_data_name'>" + element.name + "</td>"
-                            html += "<td class='tdrow'><button onclick=\"onEdit('" + element.id + "')\" class='table_btn' >Edit</button></td>"
+                            html += "<td class='tdrow'><button onclick=\"onEdit('" + dta + "')\" class='table_btn' >Edit</button></td>"
                             html += "<td class='tdrow'><button onclick=\"onPublish(" + element.id + ")\" name='" + element.id + "' class='table_btn'>Publish</button></td>"
                             html += "</tr>"
                             $('#created_tests').append(html);
@@ -95,12 +103,25 @@
                 }
             })
         }
-        function onEdit(quizid){
-            // let ob={
-            //     quiz_id:quizid
-            // }
-            $.get("/quizzes/"+quizid+"/questions", function (data, status){
+        function onEdit(quiz){
+            let quizdet=quiz.split(",");
+            let quiz_detail ={
+                id:quizdet[0],
+                created:quizdet[1],
+                created_by:quizdet[2],
+                name:quizdet[3],
+                title:quizdet[4]
+            }
+            localStorage.setItem('quiz_details', JSON.stringify(quiz_detail));
+            $.get("/quizzes/"+quizdet[0]+"/questions", function (data, status){
                 console.log(data);
+                if(data.length>0)
+                {
+                    window.location = '/teacher/quiz/create';
+                }
+                else{
+                    window.location = '/teacher/quiz/create';
+                }
             })
         }
     </script>
