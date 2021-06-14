@@ -15,7 +15,7 @@
             init_data();
             localStorage.removeItem('quiz_details');
             localStorage.removeItem('ques');
-            userData=JSON.parse(localStorage.getItem('user'));
+            userData = JSON.parse(localStorage.getItem('user'));
             $('#user_name').text('Hello, ' + userData.user_name);
 
             $('#logout').click(function () {
@@ -36,17 +36,17 @@
                 e.preventDefault();
                 let date = new Date();
                 var obj = {
-                   quiz_name: $('#test_name').val(),
-                   title: $('#test_title').val(),
-                   created_by: $('#created_by_name').val(),
-                   time : date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
+                    quiz_name: $('#test_name').val(),
+                    title: $('#test_title').val(),
+                    created_by: $('#created_by_name').val(),
+                    time: date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
                 };
                 console.log(obj);
                 $.post("/teachers/create/quiz", obj, function (data, status) {
                     if (data) {
-                       console.log(data);
+                        console.log(data);
                         localStorage.setItem('quiz_details', JSON.stringify(data));
-                        window.location='/teacher/quiz/create';
+                        window.location = '/teacher/quiz/create';
                     }
                     // else{
                     //   alert('username/password incorrect');
@@ -58,29 +58,43 @@
                 $('#test_title').val("");
                 $('#quizForm').hide();
             }
-            function init_data(){
-                userData=JSON.parse(localStorage.getItem('user'));
-                let ob ={
-                    useremail :userData.email,
-                    status :'Private'
+            function init_data() {
+                userData = JSON.parse(localStorage.getItem('user'));
+                let ob = {
+                    useremail: userData.email,
+                    status: 'Private'
                 };
-                $.post("/teachers/dashboard/getquizzes",ob,(quizData,status)=>{
-                    if(quizData){
+                $.post("/teachers/dashboard/getquizzes", ob, (quizData, status) => {
+                    if (quizData) {
                         console.log(quizData);
                         for (let index = 0; index < quizData.length; index++) {
                             const element = quizData[index];
-                            var html ="";
-                            html+="<tr>"
-                            html+="<td>"+element.name+"</td>"
-                            html+="<td><button>Edit</button></td>"
-                            html+="<td><button>Publish</button></td>"  
-                            html+="</tr>"
+                            var html = "";
+                            html += "<tr>"
+                            html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
+                            html += "<td class = 'table_data_name'>" + element.name + "</td>"
+                            html += "<td class='tdrow'><button onclick=\"onEdit('" + element.id + "')\" class='table_btn' >Edit</button></td>"
+                            html += "<td class='tdrow'><button onclick=\"onPublish(" + element.id + ")\" name='" + element.id + "' class='table_btn'>Publish</button></td>"
+                            html += "</tr>"
                             $('#created_tests').append(html);
                         }
                     }
+                });
+            }
+            
+        });
+        function onPublish(quizid) {
+                let ob = {
+                    quiz_id: quizid,
+                    quiz_status: 'Publish'
+                }
+                // console.log(ob)
+                $.post("/teacher/quiz/create/publish", ob, function (data, status) {
+                    if (data) {
+                        window.location = '/teacher/dashboard';
+                    }
                 })
             }
-        });
     </script>
     <title>Teacher Dashboard </title>
 
@@ -134,29 +148,26 @@ background: linear-gradient(#c2f791, #9198e5);">
                             <input type="submit" value="Create" id="" class="button" style="color: red;">
                         </div>
                     </form>
-                    <button id="cancel" class="button" style="color: red;" >Cancel</button>
+                    <button id="cancel" class="button" style="color: red;">Cancel</button>
                 </div>
             </div>
-            <div id="arrow-pointer">
-                <Span class="notations">Saved Tests</Span>
-                <div >
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Quiz Name</th>
-                                <th>Edit</th>
-                                <th>Publish</th>
-                            </tr>
-                        </thead>
-                        <tbody id="created_tests">
-                            <tr>
-                                <td>abhi</td>
-                                <td><button>trial2</button></td>
-                                <td><button>trial</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div id="saved_test">
+                <h3 style="font-size: 30px;font-weight:bolder; color: brown;" id="saved_heading">Saved Tests</h3>
+
+                <table class="data_table">
+                    <thead>
+                        <tr>
+                            <th style="width: 8%;">Sr. N.</th>
+                            <th>Quiz Name</th>
+                            <th style="width: 10%;">Edit</th>
+                            <th style="width: 10%;">Publish</th>
+                        </tr>
+                    </thead>
+                    <tbody id="created_tests">
+
+                    </tbody>
+                </table>
+
             </div>
         </section>
 

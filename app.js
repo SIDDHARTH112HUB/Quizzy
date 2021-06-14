@@ -301,14 +301,14 @@ app.post('/teacher/quiz/create/publish', (req, res, next) => {
 });
 app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
     let obj = req.body;
-    console.log(obj);
+    // console.log(obj);
     // res.send(obj);
     // res.send('done mil gya mujhe');
     user.get_quizzes_teachers(obj.useremail,obj.status,(result)=>{
         // console.log(result);
         if(result && result.length>0)
         {
-            console.log('iside if',result);
+            // console.log('iside if',result);
             res.send(result);
         }
         else{

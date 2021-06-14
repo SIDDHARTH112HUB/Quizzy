@@ -89,7 +89,7 @@ User.prototype = {
         pool.query(sql2,id,(err,result)=>{
             if (err) throw err
             else {
-                console.log(result);
+                // console.log(result);
                 // console.log('12345');
                 callback(result);
             }
@@ -100,7 +100,7 @@ User.prototype = {
         pool.query(sql,function(err,LastId){
             if(err) throw err;
             else{
-                console.log(LastId);
+                // console.log(LastId);
                 callback(LastId);
             }
         });
@@ -184,7 +184,7 @@ User.prototype = {
         pool.query(sql,ob,(err,result)=>{
             if(err)throw err
             else{
-                console.log(result);
+                // console.log(result);
                 callback(result);
                 return;
             }
