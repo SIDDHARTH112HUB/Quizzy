@@ -70,7 +70,7 @@
                         for (let index = 0; index < quizData.length; index++) {
                             const element = quizData[index];
                             // console.log(element);
-                            let dta=[
+                            let dta = [
                                 element.id,
                                 element.created,
                                 element.created_by,
@@ -103,23 +103,44 @@
                 }
             })
         }
-        function onEdit(quiz){
-            let quizdet=quiz.split(",");
-            let quiz_detail ={
-                id:quizdet[0],
-                created:quizdet[1],
-                created_by:quizdet[2],
-                name:quizdet[3],
-                title:quizdet[4]
+        function onEdit(quiz) {
+            let quizdet = quiz.split(",");
+            let quiz_detail = {
+                id: quizdet[0],
+                created: quizdet[1],
+                created_by: quizdet[2],
+                name: quizdet[3],
+                title: quizdet[4]
             }
             localStorage.setItem('quiz_details', JSON.stringify(quiz_detail));
-            $.get("/quizzes/"+quizdet[0]+"/questions", function (data, status){
+            $.get("/quizzes/" + quizdet[0] + "/questions", function (data, status) {
                 console.log(data);
-                if(data.length>0)
-                {
+                if (data.length > 0) {
+                    let que = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        let obj = {
+                            created_by: quiz_detail.created_by,
+                            option1: element.options[0].name,
+                            option2: element.options[1].name,
+                            option3: element.options[2].name,
+                            option4: element.options[3].name,
+                            ques_name: element.name
+                        };
+                        let idc=element.correct_option_id;
+                        for (let index = 0; index < element.options.length; index++) {
+                            const item = element.options[index];
+                            if(item.id==idc){
+                                obj.correctoption=item.name;
+                            }
+                        }
+                        
+                        que.push(obj);
+                    }
+                    localStorage.setItem('ques', JSON.stringify(que));
                     window.location = '/teacher/quiz/create';
                 }
-                else{
+                else {
                     window.location = '/teacher/quiz/create';
                 }
             })
