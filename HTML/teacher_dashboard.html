@@ -66,14 +66,22 @@
                 };
                 $.post("/teachers/dashboard/getquizzes", ob, (quizData, status) => {
                     if (quizData) {
-                        console.log(quizData);
+                        // console.log(quizData);
                         for (let index = 0; index < quizData.length; index++) {
                             const element = quizData[index];
+                            // console.log(element);
+                            let dta = [
+                                element.id,
+                                element.created,
+                                element.created_by,
+                                element.name,
+                                element.title
+                            ];
                             var html = "";
                             html += "<tr>"
                             html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
                             html += "<td class = 'table_data_name'>" + element.name + "</td>"
-                            html += "<td class='tdrow'><button onclick=\"onEdit('" + element.id + "')\" class='table_btn' >Edit</button></td>"
+                            html += "<td class='tdrow'><button onclick=\"onEdit('" + dta + "')\" class='table_btn' >Edit</button></td>"
                             html += "<td class='tdrow'><button onclick=\"onPublish(" + element.id + ")\" name='" + element.id + "' class='table_btn'>Publish</button></td>"
                             html += "</tr>"
                             $('#created_tests').append(html);
@@ -81,20 +89,62 @@
                     }
                 });
             }
-            
+
         });
         function onPublish(quizid) {
-                let ob = {
-                    quiz_id: quizid,
-                    quiz_status: 'Publish'
-                }
-                // console.log(ob)
-                $.post("/teacher/quiz/create/publish", ob, function (data, status) {
-                    if (data) {
-                        window.location = '/teacher/dashboard';
-                    }
-                })
+            let ob = {
+                quiz_id: quizid,
+                quiz_status: 'Publish'
             }
+            // console.log(ob)
+            $.post("/teacher/quiz/create/publish", ob, function (data, status) {
+                if (data) {
+                    window.location = '/teacher/dashboard';
+                }
+            })
+        }
+        function onEdit(quiz) {
+            let quizdet = quiz.split(",");
+            let quiz_detail = {
+                id: quizdet[0],
+                created: quizdet[1],
+                created_by: quizdet[2],
+                name: quizdet[3],
+                title: quizdet[4]
+            }
+            localStorage.setItem('quiz_details', JSON.stringify(quiz_detail));
+            $.get("/quizzes/" + quizdet[0] + "/questions", function (data, status) {
+                console.log(data);
+                if (data.length > 0) {
+                    let que = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        let obj = {
+                            created_by: quiz_detail.created_by,
+                            option1: element.options[0].name,
+                            option2: element.options[1].name,
+                            option3: element.options[2].name,
+                            option4: element.options[3].name,
+                            ques_name: element.name
+                        };
+                        let idc=element.correct_option_id;
+                        for (let index = 0; index < element.options.length; index++) {
+                            const item = element.options[index];
+                            if(item.id==idc){
+                                obj.correctoption=item.name;
+                            }
+                        }
+                        
+                        que.push(obj);
+                    }
+                    localStorage.setItem('ques', JSON.stringify(que));
+                    window.location = '/teacher/quiz/create';
+                }
+                else {
+                    window.location = '/teacher/quiz/create';
+                }
+            })
+        }
     </script>
     <title>Teacher Dashboard </title>
 
