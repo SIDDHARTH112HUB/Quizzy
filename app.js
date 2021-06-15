@@ -232,8 +232,8 @@ app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
             final.push(obj2);
             final.push(obj3);
             final.push(obj4);
-           
-        
+
+
 
             user.create_quiz_options(final, (res4) => {
                 user.find_correct_option(obj5, (res3) => {
@@ -252,7 +252,7 @@ app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
                     }
                 });
             });
-           
+
 
 
         }
@@ -280,19 +280,39 @@ app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
     // console.log(obj);
     // res.send(obj);
     // res.send('done mil gya mujhe');
-    user.get_quizzes_teachers(obj.useremail,obj.status,(result)=>{
+    user.get_quizzes_teachers(obj.useremail, obj.status, (result) => {
         // console.log(result);
-        if(result && result.length>0)
-        {
+        if (result && result.length > 0) {
             // console.log('iside if',result);
             res.send(result);
         }
-        else{
+        else {
             res.send('nahi mila data');
         }
-        
-    })
+
+
+    });
 });
+app.post('/student/dashboard/getquizzes', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    // res.send(obj);
+    // res.send('done mil gya mujhe');
+    user.get_quizzes_student(obj.useremail, obj.status, (result) => {
+        // console.log(result);
+        if (result && result.length > 0) {
+            console.log('iside if', result);
+            res.send(result);
+        }
+        else {
+            res.send('nahi mila data');
+        }
+
+    });
+});
+
+
+
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];
@@ -311,7 +331,7 @@ app.get('/quizzes/:quizid/questions', (req, res, next) => {
                 questionMap[qId].options.push(option);
             });
             questions = [];
-            for(let key in questionMap) {
+            for (let key in questionMap) {
                 questions.push(questionMap[key]);
             }
             console.log(questions);
@@ -319,6 +339,7 @@ app.get('/quizzes/:quizid/questions', (req, res, next) => {
         })
     })
 });
+
 
 
 

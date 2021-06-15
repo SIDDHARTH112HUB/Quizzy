@@ -202,7 +202,19 @@ User.prototype = {
                 callback(result);
                 return;
             }
-        })
+        });
+    },
+    get_quizzes_student : function(useremail,status,callback){
+        let ob=[useremail,status]
+        let sql = "select * from quizzes where quiz_status='private'";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                console.log(result);
+                callback(result);
+                return;
+            }
+        });
     }
 }
 
