@@ -11,12 +11,44 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            init();
+            init_data();
+            localStorage.removeItem('quiz_details');
+            localStorage.removeItem('ques');
             $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
 
             $('#logout').click(function () {
                 localStorage.clear();
                 window.location.replace('/');
             })
+            function init() {
+                $('#test_name').val("");
+                $('#test_title').val("");
+               
+            }
+            function init_data(){
+                userData=JSON.parse(localStorage.getItem('user'));
+                let ob ={
+                    useremail :userData.email,
+                    status :'Private'
+                };
+                $.post("/student/dashboard/getquizzes",ob,(quizData,status)=>{
+                    if(quizData){
+                        console.log(quizData);
+                        for (let index = 0; index < quizData.length; index++) {
+                            const element = quizData[index];
+                            var html ="";
+                            html+="<tr>"
+                            html+="<td>"+element.name+"</td>"
+                            html+="<td>"+element.title+"</td>"
+                            html+="<td><button>Go To Quiz</button></td>"  
+                            html+="</tr>"
+                            
+                            $('#upcoming_tests').append(html);
+                        }
+                    }
+                })
+            }
         });
     </script>
     <title>Student Dashboard </title>
@@ -67,31 +99,25 @@ background: linear-gradient(#c2f791, #9198e5);">
 
                         <h2>UPCOMING QUIZZES</h2>
 
-                        <div class="card">
-                            <div class="card-header">
-                                Quiz name
-                            </div>
-                            <div class="card-body">
-
-                                <p class="card-text"> this is quiz on OS
-                                </p>
-                                <a href="#" class="btn btn-primary">Go to quiz</a>
-                            </div>
+                        <div >
+                            <table class="upcoming_test_table">
+                                <thead>
+                                    <tr>
+                                        <th>Quiz Name</th>
+                                        <th>Quiz Title</th>
+                                        <th>Go To Quiz</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="upcoming_tests">
+                                    <!-- <tr>
+                                        <td>abhi</td>
+                                        <td><button>trial2</button></td>
+                                       
+                                    </tr> -->
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="card">
-                            <div class="card-header">
-                                Quiz name
-                            </div>
-                            <div class="card-body">
-
-                                <p class="card-text"> this is quiz on OS
-                                </p>
-                                <a href="#" class="btn btn-primary">Go to quiz</a>
-                            </div>
-
-
-
-                        </div>
+                       
                     </div>
                 
             </div>

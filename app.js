@@ -315,10 +315,28 @@ app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
             res.send('nahi mila data');
         }
         
-    })
+    });
+});
+    app.post('/student/dashboard/getquizzes', (req, res, next) => {
+        let obj = req.body;
+        console.log(obj);
+        // res.send(obj);
+        // res.send('done mil gya mujhe');
+        user.get_quizzes_student(obj.useremail,obj.status,(result)=>{
+            // console.log(result);
+            if(result && result.length>0)
+            {
+                console.log('iside if',result);
+                res.send(result);
+            }
+            else{
+                res.send('nahi mila data');
+            }
+            
+        });
+    });
     
 
-});
 
 
 // app.post('/register', (req, res) => {
