@@ -127,7 +127,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 #section{
     grid-area: section;
     margin-left: -88px;
-    background: skyblue;
+    background: rgb(205, 230, 240);
     opacity: 0.5;
     /* z-index: -10; */
     padding: 10px;
@@ -224,5 +224,42 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     align-items: center;
     border-radius: 10px;
 }
+ .upcoming_test_table{
+    
+     margin: 5px 0px;
+    border-radius: 5px 0px 0px 5px;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px rgb(0, 0, 0,0.50);
+    justify-content: space-around;
+     font-size: 0.9em;
+     min-width: 977px;
+     border-collapse: collapse;
+ }
+ .upcoming_test_table thead tr{
+     background-color: rgb(90, 79, 64);
+     color: white;
+     text-align: left;
+     font-weight: bold;
+ }
+ .upcoming_test_table th,.upcoming_test_table td{
+padding: 12px 15px;
+ }
+ .upcoming_test_table tbody tr{
+     border-bottom: 1px solid gray;
+     color: rgb(0, 10, 10);
+     font-size: 18px;
+ }
+ .upcoming_test_table tbody tr:last-of-type{
+     border-bottom: 2px solid rgb(90, 79, 64) ;
+ }
+ .upcoming_test_table tbody button{
+     background-color: rgb(80, 68, 68);
+     padding: 5px 2px;
+     border-radius: 9px;
+     color: white;
+     cursor: pointer;
+     outline: none;
+ }
+ 
 
 
