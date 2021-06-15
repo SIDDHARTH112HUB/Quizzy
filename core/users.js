@@ -204,13 +204,13 @@ User.prototype = {
             }
         });
     },
-    get_quizzes_student : function(useremail,status,callback){
-        let ob=[useremail,status]
-        let sql = "select * from quizzes where quiz_status='private'";
+    get_quizzes_student : function(useremail,callback){
+        let ob=[useremail]
+        let sql = "select id,name,title from quizzes where quiz_status='Publish'";
         pool.query(sql,(err,result)=>{
             if(err)throw err
             else{
-                console.log(result);
+                // console.log(result);
                 callback(result);
                 return;
             }

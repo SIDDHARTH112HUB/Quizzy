@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 
 *{
     margin: 0px;
@@ -132,37 +132,11 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     /* z-index: -10; */
     padding: 10px;
     margin: auto 0px;
-    
+    grid-column-start: 1;
+    grid-column-end: 5;
    
 }
-.nested-section{
-    display: grid;
-    grid-template-rows: 5fr 5fr ;
-    grid-gap: 13px;
-    
-    
-}
-.nested-section div{
-  
-    padding: 10px;
-    margin: 0px;
-    width: 350px;
-   
-}
-#stats{
-    height: 50vh;
-    width: auto;
-    border: 2px solid red;
-}
-#upcomingquiz{
-    height:50vh;
-    width: auto;
-    border: 2px solid red;
-}
-/* #upcomingquiz .card{
-    display: flex;
-    flex-direction: row;
-} */
+
 #logout:hover{
     background-color: rgb(235, 99, 117);
     color: white;
@@ -170,16 +144,18 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     margin-right: 0px;
     border-radius: 8px;
 }
-.card{
-    display: inline-block;
-    border: 2px solid black;
-    width: 200px;
-    height: 140px;
-    border-radius: 10px;
-    padding: 10px;
-
+#stats{
+    height: 30vh;
+    width: auto;
+    border: 2px solid red;
 }
-.card .card-header{
+#upcomingquiz{
+    height:70vh;
+    width: auto;
+    border: 2px solid red;
+}
+
+.card-header{
     
     border: 2px solid black;
     width: 330px;
@@ -190,7 +166,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     border-radius: 10px;
 }
 
-.card .card-body .card-text{
+.card-body ,.card-text{
     border: 2px solid black;
     width: 320px;
     border-radius: 5px;
@@ -203,30 +179,32 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     border-radius: 10px;
     margin-top: 5px;
 }
-.card-positioning div{
-    display: inline-block;
+.card-positioning {
+    display: flex;
+    flex-direction: row;
     margin: 4px;
-   
 }
 .card-stats{
     border: 2px solid black;
     width: 200px;
+    margin: 5px 10px;
     height: 140px;
     border-radius: 10px;
     padding: 10px;
 }
-#stats .card-stats-header{
+.card-stats-header{
     border: 2px solid black;
-    width: 330px;
+    width: 97%;
     height: 28px;
     padding: 4px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bolder;
     /* text-align: center; */
     align-items: center;
     border-radius: 10px;
 }
  .upcoming_test_table{
-    
-     margin: 5px 0px;
+     margin: 5px 6px;
     border-radius: 5px 0px 0px 5px;
     overflow: hidden;
     box-shadow: 0px 0px 20px rgb(0, 0, 0,0.50);
@@ -234,6 +212,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
      font-size: 0.9em;
      min-width: 977px;
      border-collapse: collapse;
+     font-family: 'Roboto', sans-serif;
  }
  .upcoming_test_table thead tr{
      background-color: rgb(90, 79, 64);
@@ -248,10 +227,12 @@ padding: 12px 15px;
      border-bottom: 1px solid gray;
      color: rgb(0, 10, 10);
      font-size: 18px;
+     font-weight: bold;
+
  }
- .upcoming_test_table tbody tr:last-of-type{
+ /* .upcoming_test_table tbody tr:last-of-type{
      border-bottom: 2px solid rgb(90, 79, 64) ;
- }
+ } */
  .upcoming_test_table tbody button{
      background-color: rgb(80, 68, 68);
      padding: 5px 2px;
@@ -260,6 +241,25 @@ padding: 12px 15px;
      cursor: pointer;
      outline: none;
  }
- 
+ .div_before_table {
+    overflow:hidden;
+    overflow-y: scroll;
+    height: 87%;
+    margin-left: 10px;
+}
+th{
+    position: sticky;
+    top: 0px;
+    /* background-color: #FFF; */
+}
+.heading_x{
+    font-family: 'Ubuntu', sans-serif;
+    padding: 10px;
+    margin-left: 10px;
+}
+.gapa{
+    margin-bottom: 8px;
+    background: #dcd0d6a1;
+}
 
 
