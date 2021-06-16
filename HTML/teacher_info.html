@@ -9,6 +9,93 @@
     <link rel="stylesheet" href="/CSS/student_info.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+         $(document).ready(function () {
+            let userData = JSON.parse(localStorage.getItem('user'));
+            init();
+            $('#user_name').text('Hello, ' + userData.user_name);
+
+            $('#logout').click(function () {
+                localStorage.clear();
+                window.location.replace('/');
+            })
+            $('#edit').click(function () {
+                $('#edit').hide();
+                $('#save').show();
+                $('#cancel').show();
+                $('#passwordChnage').show();
+                $('#full_name').attr('disabled', false);
+                $('#phone').attr('disabled', false);
+                // $('#user_dob').attr('disabled', false);
+                $('#cname').attr('disabled', false);
+                $('#password').attr('disabled', false);
+            })
+
+            // $('form').submit(function printObj(e) {
+            //     e.preventDefault();
+            //     var obj = {
+            //         name: $('input[name=name]').val(),
+            //         email: $('input[name=email]').val(),
+            //         message: $('textarea[name=message]').val(),
+            //     }
+            //     console.log(obj);
+            // });
+
+
+            $("form").submit(function (e) {
+                e.preventDefault();
+                // console.log($("form").serialize());
+                var obj = {
+                    user_name: $('#full_name').val(),
+                    email: userData.email,
+                    mobile: $('#phone').val(),
+                    college : $('#cname').val(),
+                    password : $('#password').val()
+                };
+                
+                
+                
+
+                $.post("/teacher/info/save", obj, function (data, status) {
+                    if (data) {
+                        console.log(obj);
+                        data.user_password = "";
+                        localStorage.clear();
+                        localStorage.setItem('user', JSON.stringify(data));
+                        window.location = '/student/info';
+                    }
+                    // else{
+                    //   alert('username/password incorrect');
+                    // }
+                })
+                init();
+            });
+            $('#cancel').click(function () {
+                init();    
+            })
+            function init() {
+                
+                $('#save').hide();
+                $('#edit').show();
+                $('#passwordChnage').hide();
+                $('#bdy').hide();
+                $('#cancel').hide();
+                $('#email').val(userData.email);
+                $('#full_name').val(userData.user_name);
+                $('#phone').val(userData.user_contact);
+                // $('#user_dob').val(userData.birth_day);
+                $('#cname').val(userData.college);
+                $('#full_name').attr('disabled', true);
+                $('#phone').attr('disabled', true);
+                // $('#user_dob').attr('disabled', false);
+                $('#cname').attr('disabled', true);
+                $('#password').attr('disabled', true);
+
+            }
+
+        });
+    </script>
     <title>Teacher Info </title>
 
 </head>
@@ -28,10 +115,10 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <h3 id="user_name">user_name</h3>
                 </div>
                 <div class="aside_setting">
-                    <a href="teacher_dashboard.html"> Home</a>
-                    <a href="teacher_info.html">User Info</a>
-                    <a href="test_history.html">Test History</a>
-                    <a href="login.html">Logout</a>
+                    <a href="/teacher/dashboard"> Home</a>
+                    <a href="/teacher/info">User Info</a>
+                    <a href="/teacher/test_results">Test Results</a>
+                    <span id="logout" class="btn btn-danger">Logout</span>
                 </div>
             </div>
         </aside>
@@ -44,13 +131,32 @@ background: linear-gradient(#c2f791, #9198e5);">
                 <div id="img_id"style="width: fit-content;"><img src="/images/user_img.png" id="profileimg"></div>
                 <input type="file" name="" id="new_img" accept="image/*" style="width: 195px;"><br/>
             </div>
-            <div class="prof_items"> <strong>Name :</strong> <input type="text" name="" id="full_name" placeholder="User Name"> </div>
-            <div class="prof_items"><strong>Email :</strong><input type="email" name="" id="email" placeholder="Email ID"></div>
-            <div class="prof_items"><strong>Mobile Number :</strong><input type="text" name="" id="phone" placeholder="Phone Number"></div>
-            <div class="prof_items"><strong>DOB :</strong><input type="date" name="date" style="width: 155px;height: 29px; margin-bottom: 10px;"></div>
-            <div class="prof_items"><strong>College :</strong><input type="text" name="" id="cname" placeholder="College Name"></div>
-            <div class="prof_items"><strong>Password :</strong><input type="password" name="" id="password" placeholder="Password" style="height: 22px;width: 124px;" > 
-            <div><button class="btn">Edit</button><button   class="btn">Save</button></div>
+            <form action="/save" method="POST">
+                <div class="prof_items"> <strong>Name :</strong>
+                    <input type="text" name="full_name" id="full_name" placeholder="User Name" disabled>
+                </div>
+                <div class="prof_items"><strong>Email :</strong>
+                    <input type="email" name="email" id="email" placeholder="Email ID" disabled>
+                </div>
+                <div class="prof_items"><strong>Mobile Number :</strong>
+                    <input type="text" name="user_phone" id="phone" placeholder="Phone Number" disabled>
+                </div>
+                <div class="prof_items" id="bdy"><strong>DOB :</strong>
+                    <input type="date" name="user_dob" placeholder="dd-mm-yyyy"style="width: 155px;height: 29px; margin-bottom: 10px;" id="user_dob" disabled>
+                </div>
+                <div class="prof_items"><strong>College :</strong>
+                    <input type="text" name="cname" id="cname" placeholder="College Name" disabled>
+                </div>
+                <div class="prof_items" id="passwordChnage"><strong>Change Pass:</strong>
+                    <input type="password" name="password" id="password" placeholder="Password" style="height: 22px;width: 95px;" disabled required>
+                </div>
+                <div  class="btnandcancel">
+                    <input class="button" type="submit" id="save" value="Save" style="width: 210px;position: relative;right: 13px;">
+                </div>
+            </form>
+            <button class="button btnandcancel" id="cancel" style="width: 208px;margin-left: 0;position: relative;right: 24px;">Cancel</button>
+            <button class="button" id="edit" style="width: 208px;margin-left: 0;position: relative;right: 24px;">Edit</button>
+
             
             
 

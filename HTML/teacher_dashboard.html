@@ -8,12 +8,149 @@
     <link rel="stylesheet" href="/CSS/teacher_dashboard.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            init();
+            init_data();
+            localStorage.removeItem('quiz_details');
+            localStorage.removeItem('ques');
+            userData = JSON.parse(localStorage.getItem('user'));
+            $('#user_name').text('Hello, ' + userData.user_name);
+
+            $('#logout').click(function () {
+                localStorage.clear();
+                window.location.replace('/');
+            });
+            $('#cancel').click(function () {
+                init();
+            })
+            // console.log('add click listener');
+            $('#createTest').click(function () {
+                // console.log('clicked');
+                $('#quizForm').show();
+                $('#created_by_name').val(userData.email);
+            })
+
+            $("form").submit(function (e) {
+                e.preventDefault();
+                let date = new Date();
+                var obj = {
+                    quiz_name: $('#test_name').val(),
+                    title: $('#test_title').val(),
+                    created_by: $('#created_by_name').val(),
+                    time: date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0]
+                };
+                console.log(obj);
+                $.post("/teachers/create/quiz", obj, function (data, status) {
+                    if (data) {
+                        console.log(data);
+                        localStorage.setItem('quiz_details', JSON.stringify(data));
+                        window.location = '/teacher/quiz/create';
+                    }
+                    // else{
+                    //   alert('username/password incorrect');
+                    // }
+                })
+            });
+            function init() {
+                $('#test_name').val("");
+                $('#test_title').val("");
+                $('#quizForm').hide();
+            }
+            function init_data() {
+                userData = JSON.parse(localStorage.getItem('user'));
+                let ob = {
+                    useremail: userData.email,
+                    status: 'Private'
+                };
+                $.post("/teachers/dashboard/getquizzes", ob, (quizData, status) => {
+                    if (quizData) {
+                        // console.log(quizData);
+                        for (let index = 0; index < quizData.length; index++) {
+                            const element = quizData[index];
+                            // console.log(element);
+                            let dta = [
+                                element.id,
+                                element.created,
+                                element.created_by,
+                                element.name,
+                                element.title
+                            ];
+                            var html = "";
+                            html += "<tr>"
+                            html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
+                            html += "<td class = 'table_data_name'>" + element.name + "</td>"
+                            html += "<td class='tdrow'><button onclick=\"onEdit('" + dta + "')\" class='table_btn' >Edit</button></td>"
+                            html += "<td class='tdrow'><button onclick=\"onPublish(" + element.id + ")\" name='" + element.id + "' class='table_btn'>Publish</button></td>"
+                            html += "</tr>"
+                            $('#created_tests').append(html);
+                        }
+                    }
+                });
+            }
+
+        });
+        function onPublish(quizid) {
+            let ob = {
+                quiz_id: quizid,
+                quiz_status: 'Publish'
+            }
+            // console.log(ob)
+            $.post("/teacher/quiz/create/publish", ob, function (data, status) {
+                if (data) {
+                    window.location = '/teacher/dashboard';
+                }
+            })
+        }
+        function onEdit(quiz) {
+            let quizdet = quiz.split(",");
+            let quiz_detail = {
+                id: quizdet[0],
+                created: quizdet[1],
+                created_by: quizdet[2],
+                name: quizdet[3],
+                title: quizdet[4]
+            }
+            localStorage.setItem('quiz_details', JSON.stringify(quiz_detail));
+            $.get("/quizzes/" + quizdet[0] + "/questions", function (data, status) {
+                console.log(data);
+                if (data.length > 0) {
+                    let que = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        let obj = {
+                            created_by: quiz_detail.created_by,
+                            option1: element.options[0].name,
+                            option2: element.options[1].name,
+                            option3: element.options[2].name,
+                            option4: element.options[3].name,
+                            ques_name: element.name
+                        };
+                        let idc=element.correct_option_id;
+                        for (let index = 0; index < element.options.length; index++) {
+                            const item = element.options[index];
+                            if(item.id==idc){
+                                obj.correctoption=item.name;
+                            }
+                        }
+                        
+                        que.push(obj);
+                    }
+                    localStorage.setItem('ques', JSON.stringify(que));
+                    window.location = '/teacher/quiz/create';
+                }
+                else {
+                    window.location = '/teacher/quiz/create';
+                }
+            })
+        }
+    </script>
     <title>Teacher Dashboard </title>
 
 </head>
 
-<body style="
-background: linear-gradient(#c2f791, #9198e5);">
+<body style="background: linear-gradient(#c2f791, #9198e5);">
     <div class="container ">
         <nav class="items h1heading borderround" id="navbar">
             <h1>Welcome To Quizzy</h1>
@@ -28,42 +165,59 @@ background: linear-gradient(#c2f791, #9198e5);">
 
 
                     <!--  home page -->
-                    <a href="teacher_dashboard.html">Home</a>
+                    <a href="/teacher/dashboard">Home</a>
                     <!-- added link to teacher_info page-->
-                    <a href="teacher_info.html">User Info</a>
-                    <a href="test_history.html">Test History</a>
-                    <a href="login.html">Logout</a>
+                    <a href="/teacher/info">User Info</a>
+                    <a href="/teacher/test_results">Test Results</a>
+                    <span id="logout" class="btn btn-danger">Logout</span>
                 </div>
             </div>
         </aside>
 
-        <section class="items borderround" id="section">
-            <button id="create_test"><strong>Create Test</strong></button>
-            <h2>Saved test</h2>
-            
-            <ol>
-                <li>
-                    <div id="saved_test">
-                        <input type="text">
-                        <button>Edit</button>
-                        <button>Publish</button>
-                    </div>  
-                </li>
-                <li>
-                    <div id="saved_test">
-                        <input type="text">
-                        <button>Edit</button>
-                        <button>Publish</button>
-                    </div>  
-                </li>
-                <li>
-                    <div id="saved_test">
-                        <input type="text">
-                        <button>Edit</button>
-                        <button>Publish</button>
-                    </div>  
-                </li>
-            </ol>
+        <section class="items borderround" id="mySection">
+            <div id="new_test" style="margin-left: 23px;">
+                <button class="button" id="createTest"
+                    style="width: 208px;background-color: rgb(0, 128, 122);color: white;font-size: 27px;">Create
+                    Test</button>
+                <div id="quizForm">
+                    <form action="/teacher/quiz/create" method="POST">
+                        <div class="test_box">
+                            <label for="name">QUIZ NAME :</label><input type="text" name="name" placeholder="Name"
+                                id="test_name" class="test_style" required>
+                        </div>
+                        <div class="test_box">
+                            <label for="name"> TITLE :</label><input type="text" name="title" id="test_title"
+                                placeholder="Quiz Title" class="test_style" required>
+                        </div>
+                        <div class="test_box">
+                            <label for="name">CREATED BY :</label><input type="text" name="created_by"
+                                id="created_by_name" class="test_style" disabled>
+                        </div>
+                        <div>
+                            <input type="submit" value="Create" id="" class="button" style="color: red;">
+                        </div>
+                    </form>
+                    <button id="cancel" class="button" style="color: red;">Cancel</button>
+                </div>
+            </div>
+            <div id="saved_test">
+                <h3 style="font-size: 30px;font-weight:bolder; color: brown;" id="saved_heading">Saved Tests</h3>
+
+                <table class="data_table">
+                    <thead>
+                        <tr>
+                            <th style="width: 8%;">Sr. N.</th>
+                            <th>Quiz Name</th>
+                            <th style="width: 10%;">Edit</th>
+                            <th style="width: 10%;">Publish</th>
+                        </tr>
+                    </thead>
+                    <tbody id="created_tests">
+
+                    </tbody>
+                </table>
+
+            </div>
         </section>
 
     </div>
