@@ -65,8 +65,8 @@
                     status: 'Private'
                 };
                 $.post("/teachers/dashboard/getquizzes", ob, (quizData, status) => {
-                    if (quizData) {
-                        // console.log(quizData);
+                    if (quizData && quizData.length>0) {
+                        console.log(quizData);
                         for (let index = 0; index < quizData.length; index++) {
                             const element = quizData[index];
                             // console.log(element);
