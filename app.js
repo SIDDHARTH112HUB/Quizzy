@@ -13,7 +13,7 @@ const user = new User();
 var session;
 
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/', express.static(__dirname));
@@ -59,6 +59,10 @@ app.get('/teacher/quiz/create', (req, res) => {
     res.sendFile('./HTML/quiz_ques.html', { root: __dirname });
     // console.log('just send');
 });
+app.get('/student/solve/quiz', (req, res) => {
+    res.sendFile('./HTML/solve_quiz.html', { root: __dirname });
+    // console.log('just send');
+});
 
 // app.use('/signup',pageRouter);
 
@@ -94,14 +98,14 @@ app.post('/user/login', (req, res, next) => {
 });
 app.post('/student/info/save', (req, res, next) => {
     let obj = req.body;
-    console.log(obj);
+    // console.log(obj);
     // res.send('Done');
 
     user.update(obj, (resu) => {
         if (resu) {
             user.find(obj.email, function (result) {
                 if (result && result.length > 0) {
-                    console.log(result[0])
+                    // console.log(result[0])
                     res.send(result[0]);
                     return;
                 }
@@ -119,14 +123,14 @@ app.post('/student/info/save', (req, res, next) => {
 });
 app.post('/teacher/info/save', (req, res, next) => {
     let obj = req.body;
-    console.log(obj);
+    // console.log(obj);
     // res.send('Done');
 
     user.update(obj, (resu) => {
         if (resu) {
             user.find(obj.email, function (result) {
                 if (result && result.length > 0) {
-                    console.log(result[0])
+                    // console.log(result[0])
                     res.send(result[0]);
                     return;
                 }
@@ -144,13 +148,13 @@ app.post('/teacher/info/save', (req, res, next) => {
 });
 app.post('/teachers/create/quiz', (req, res, next) => {
     let obj = req.body;
-    console.log(obj);
+    // console.log(obj);
     // res.send(obj);
     user.create_quiz(obj, (resu) => {
         if (resu) {
             user.find_quiz(resu.insertId, (result) => {
                 if (result && result.length > 0) {
-                    console.log(result[0])
+                    // console.log(result[0])
                     res.send(result[0]);
                     return;
                 }
@@ -173,14 +177,14 @@ app.post('/teacher/quiz/create/add_ques/update', (req, res, next) => {
         ques_id: '18'
     }
     user.find_correct_option(obj, (result) => {
-        console.log(result.id, 'don');
+        // console.log(result.id, 'don');
         res.send('don');
     });
 });
 
 app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
     let obj = req.body;
-    console.log(obj);
+    // console.log(obj);
     let quesid;
     let ob = {
         quiz_id: obj.quiz_id,
@@ -193,7 +197,7 @@ app.post('/teacher/quiz/create/add_ques', (req, res, next) => {
         if (resu) {
             quesid = resu.insertId;
             // res.send(resu.insertId);
-            console.log(quesid, 'andarhu');
+            // console.log(quesid, 'andarhu');
             let obj1 = {
                 ques_id: quesid,
                 time: obj.time,
@@ -287,7 +291,7 @@ app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
             res.send(result);
         }
         else {
-            res.send('nahi mila data');
+            res.send({});
         }
 
 
@@ -295,24 +299,18 @@ app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
 });
 app.post('/student/dashboard/getquizzes', (req, res, next) => {
     let obj = req.body;
-    console.log(obj);
-    // res.send(obj);
-    // res.send('done mil gya mujhe');
-    user.get_quizzes_student(obj.useremail, obj.status, (result) => {
-        // console.log(result);
+    // console.log(obj);
+    user.get_quizzes_student(obj.userid, (result) => {
         if (result && result.length > 0) {
-            console.log('iside if', result);
+
             res.send(result);
         }
         else {
-            res.send('nahi mila data');
+            res.send({});
         }
 
     });
 });
-
-
-
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];
@@ -334,14 +332,94 @@ app.get('/quizzes/:quizid/questions', (req, res, next) => {
             for (let key in questionMap) {
                 questions.push(questionMap[key]);
             }
-            console.log(questions);
+            // console.log(questions);
             res.send(questions);
         })
     })
 });
+app.get('/quizzes/:quizid/question/option', (req, res, next) => {
+    let quizid = req.params['quizid'];
+    // console.log(quizid);
+    user.get_quiz_questions(quizid, (questions) => {
+        let questionIds = [];
+        let questionMap = {};
+        questions.forEach(element => {
+            questionIds.push(element.id);
+            let qobj = {
+                que_id: element.id,
+                quiz_id: element.quiz_id,
+                qname: element.name
+            }
+            qobj.options = [];
+            questionMap[element.id] = qobj;
+        });
+        user.get_questions_options(questionIds, (options) => {
+            options.forEach(option => {
+                let qId = option.question_id;
+                let opobj = {
+                    name: option.name,
+                    id: option.id
+                }
+                questionMap[qId].options.push(opobj);
+            });
+            questions = [];
+            for (let key in questionMap) {
+                questions.push(questionMap[key]);
+            }
+            // console.log(questions);
+            res.send(questions);
+        })
+    })
+})
 
+app.post('/student/quiz/submit', (req, res) => {
+    var ob = req.body
+    let n = ob.len;
+    let qid = ob.quiz_id;
+    let usr_id = ob.user_id;
+    let user_quiz = [
+        usr_id,
+        qid
+    ];
+    console.log(ob);
+    user.set_user_quiz(user_quiz, (result) => {
+        if (result) { console.log('milgya'); }
+        else {
+            console.log('nahi mila');
+        }
+    })
+    if (ob.que_option ) {
+        ob.que_option.forEach(element => {
+            let ques = element.que_id;
+            user.get_ques_detail(ques, (resu) => {
+                let marks;
+                if (resu[0].correct_option_id == element.opt_id) {
+                    marks = resu[0].correct_points;
+                }
+                else {
+                    marks = 0;
+                }
+                let user_response = [
+                    marks,
+                    element.opt_id,
+                    ques,
+                    qid,
+                    usr_id
+                ];
+                user.set_user_response(user_response, (resu1) => {
+                    if (resu1) { console.log('aa gya'); }
+                    else {
+                        console.log('nahi aaya');
+                    }
+                });
 
+            })
+        });
+    }
 
+    res.send('sab solved');
+
+});
 
 
 
