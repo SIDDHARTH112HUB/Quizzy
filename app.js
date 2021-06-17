@@ -3,6 +3,12 @@ const { CONNREFUSED } = require('dns');
 var express = require('express');
 var path = require('path');
 var app = express();
+
+//uploading image 
+const multer=require('multer');
+const uploads=multer({dest:/images/});
+
+
 const User = require('./core/users')
 const pageRouter = require('./routes/signup');
 // var fs =require('fs');
@@ -93,6 +99,7 @@ app.post('/user/login', (req, res, next) => {
     }
 });
 app.post('/student/info/save', (req, res, next) => {
+   
     let obj = req.body;
     // console.log(obj);
     // res.send('Done');

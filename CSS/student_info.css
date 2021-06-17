@@ -214,3 +214,10 @@ input[type="text"]:focus,input[type="email"]:focus{
     color: #fff;
     opacity: 1;
 }
+#logout:hover{
+    background-color: rgb(235, 99, 117);
+    color: white;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-radius: 8px;
+}

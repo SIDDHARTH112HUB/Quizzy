@@ -1,5 +1,7 @@
 const pool = require('./pool');
 const bcrypt = require('bcrypt');
+// const multer=require('multer');
+// const uploads=multer({dest:/images/});
 
 function User() { };
 
