@@ -58,7 +58,7 @@
             padding: 2px;
             width: 45%;
             margin-left: 20px;
-            
+
         }
 
         .question {
@@ -66,13 +66,13 @@
             font-family: 'Roboto', sans-serif;
             font-size: 20px;
             width: 100%;
-            margin-bottom:10px;
+            margin-bottom: 10px;
             border: 1px solid rgb(226, 187, 129);
             border-radius: 10px;
             background: #c1bcc6;
         }
 
-        .question_input{
+        .question_input {
             background: none;
             width: 75%;
             margin-left: 2px;
@@ -81,19 +81,23 @@
             font-weight: bold;
             /* color: white; */
         }
-        .option_box{
+
+        .option_box {
             margin-left: 28px;
             margin-top: 0px;
         }
-        .option_box input{
+
+        .option_box input {
             margin-left: 5px;
             margin-right: 10px;
         }
-        .option_radio:hover{
+
+        .option_radio:hover {
             background: rgb(155, 145, 145);
             border-radius: 10px;
         }
-        #submit_ans{
+
+        #submit_ans {
             margin-left: 19.5%;
         }
     </style>
@@ -117,25 +121,49 @@
         console.log("aa gya");
         $("#submit_ans").click(function (e) {
             e.preventDefault();
-            let obj=$("form").serialize();
-            let obs=obj.split("&");
-            obj=[];
-            obs.forEach(element => {
-                obj.push(element.split("="))
+            let obj = $("form").serialize();
+            let obs = obj.split("&");
+            obj = [];
+            let ob = {};
+            if (obs[0].length > 0) {
+                obs.forEach(element => {
+                    obj.push(element.split("="))
+                });
+                
+                ob.quiz_id = quizdata.id;
+                ob.user_email = userdata.email;
+                ob.user_id = userdata.user_id;
+                ob.que_option = [];
+                
+                obj.forEach(element => {
+                    let op = {
+                        "que_id": element[0],
+                        "opt_id": element[1]
+                    };
+                    ob.que_option.push(op);
+                });
+            }
+            else{
+                ob.quiz_id = quizdata.id;
+                ob.user_email = userdata.email;
+                ob.user_id = userdata.user_id;
+                ob.que_option = [];
+            }
+
+            // console.log(ob);
+            // // let obp=JSON.stringify(ob);
+            $.post("/student/quiz/submit", ob, (result, status)=>{
+                if(result)
+                {
+                    console.log(result);
+                    window.location='/student/dashboard';
+                    // window.location.replace('/student/dashboard');
+                }
+                else{
+                    alert('Not Submitted');
+                }
             });
-            let ob={};
-            ob.quiz_id=quizdata.id;
-            ob.user_email=userdata.email;
-            ob.user_id=userdata.user_id;
-            ob.que_option=[];
-            obj.forEach(element => {
-                let op={};
-                op.que_id=element[0];
-                op.opt_id=element[1];
-                ob.que_option.push(op);
-            });
-            console.log(ob);
-            // localStorage.setItem('dta', JSON.stringify(data));
+
         });
         console.log("aa gya");
 
@@ -148,7 +176,7 @@
                         var html = "";
                         html += '<div class="question">';
                         html += '<div class="question_input">'
-                        html += "Q. " + (index + 1) + "- <label>"+element.qname+"<label> "
+                        html += "Q. " + (index + 1) + "- <label>" + element.qname + "<label> "
                         html += "</div>"
                         html += '<div class="option_box">'
                         html += '<div class="option_radio">'
@@ -186,20 +214,23 @@
 <body>
 
     <div style="background: rgb(169, 232, 243); padding: 1px;">
-    <div style="margin-left: 40px;">
+        <div style="margin-left: 40px;">
 
-        <p style="font-size: 25px;margin: 12px 23px; font-weight: bolder;"> Name : <span id="quiz_name_on_page"></span>
-        </p>
-        <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Quiz Title : <span
-            id="quiz_title_on_page"></span></p>
-            <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Date / Time : <span id="date_on_page"></span></p>
+            <p style="font-size: 25px;margin: 12px 23px; font-weight: bolder;"> Name : <span
+                    id="quiz_name_on_page"></span>
+            </p>
+            <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Quiz Title : <span
+                    id="quiz_title_on_page"></span></p>
+            <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Date / Time : <span
+                    id="date_on_page"></span></p>
         </div>
     </div>
     <form id="question_list">
         <div id="question_container">
 
         </div>
-        <span type="submit" class="btn btn2 btn-success" id="submit_ans" value="Submit Test">Submit Test</span>
+        <input type="submit" class="btn btn2 btn-success" id="submit_ans" value="Submit Test">
+        <!-- Submit Test</span> -->
     </form>
 
 

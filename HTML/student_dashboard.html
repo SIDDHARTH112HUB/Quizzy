@@ -29,11 +29,12 @@
             function init_data() {
                 userData = JSON.parse(localStorage.getItem('user'));
                 let ob = {
-                    useremail: userData.email
+                    useremail: userData.email,
+                    userid:userData.user_id
                 };
                 $.post("/student/dashboard/getquizzes", ob, (quizData, status) => {
                     if (quizData) {
-                        console.log(quizData);
+                        // console.log(quizData);
                         for (let index = 0; index < quizData.length; index++) {
                             const element = quizData[index];
                             let dta = [

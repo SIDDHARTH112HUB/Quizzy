@@ -19,7 +19,7 @@ const user = new User();
 var session;
 
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/', express.static(__dirname));
@@ -307,9 +307,9 @@ app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
 app.post('/student/dashboard/getquizzes', (req, res, next) => {
     let obj = req.body;
     // console.log(obj);
-    user.get_quizzes_student(obj.useremail, (result) => {
+    user.get_quizzes_student(obj.userid, (result) => {
         if (result && result.length > 0) {
-            
+
             res.send(result);
         }
         else {
@@ -352,10 +352,10 @@ app.get('/quizzes/:quizid/question/option', (req, res, next) => {
         let questionMap = {};
         questions.forEach(element => {
             questionIds.push(element.id);
-            let qobj={
-                que_id : element.id,
-                quiz_id : element.quiz_id,
-                qname :element.name
+            let qobj = {
+                que_id: element.id,
+                quiz_id: element.quiz_id,
+                qname: element.name
             }
             qobj.options = [];
             questionMap[element.id] = qobj;
@@ -363,9 +363,9 @@ app.get('/quizzes/:quizid/question/option', (req, res, next) => {
         user.get_questions_options(questionIds, (options) => {
             options.forEach(option => {
                 let qId = option.question_id;
-                let opobj={
-                    name:option.name,
-                    id:option.id
+                let opobj = {
+                    name: option.name,
+                    id: option.id
                 }
                 questionMap[qId].options.push(opobj);
             });
@@ -379,7 +379,54 @@ app.get('/quizzes/:quizid/question/option', (req, res, next) => {
     })
 })
 
+app.post('/student/quiz/submit', (req, res) => {
+    var ob = req.body
+    let n = ob.len;
+    let qid = ob.quiz_id;
+    let usr_id = ob.user_id;
+    let user_quiz = [
+        usr_id,
+        qid
+    ];
+    console.log(ob);
+    user.set_user_quiz(user_quiz, (result) => {
+        if (result) { console.log('milgya'); }
+        else {
+            console.log('nahi mila');
+        }
+    })
+    if (ob.que_option ) {
+        ob.que_option.forEach(element => {
+            let ques = element.que_id;
+            user.get_ques_detail(ques, (resu) => {
+                let marks;
+                if (resu[0].correct_option_id == element.opt_id) {
+                    marks = resu[0].correct_points;
+                }
+                else {
+                    marks = 0;
+                }
+                let user_response = [
+                    marks,
+                    element.opt_id,
+                    ques,
+                    qid,
+                    usr_id
+                ];
+                user.set_user_response(user_response, (resu1) => {
+                    if (resu1) { console.log('aa gya'); }
+                    else {
+                        console.log('nahi aaya');
+                    }
+                });
 
+            })
+        });
+    }
+
+    res.send('sab solved');
+
+});
 
 
 

@@ -80,6 +80,7 @@ User.prototype = {
             if (err) throw err;
             // console.log(lastId);
             callback(lastId);
+            return;
         });
         
     },
@@ -206,9 +207,19 @@ User.prototype = {
             }
         });
     },
-    get_quizzes_student : function(useremail,callback){
-        let ob=[useremail]
-        let sql = "select id,name,title from quizzes where quiz_status='Publish'";
+    set_user_quiz : function(ob,callback){
+        let sql ="INSERT INTO users_quizzes (`usr_id`, `quiz_id`) VALUES (?,?)";
+        pool.query(sql,ob,(err,result)=>{
+            if(err)throw err
+            else{
+                callback(result);
+                return;
+            }
+        })
+    },
+    get_quizzes_student : function(ob,callback){
+        
+        let sql = "select id,name,title from quizzes q1 where quiz_status='Publish' and "+ob+" not in (select usr_id from users_quizzes q2 where quiz_id =q1.id) ";
         pool.query(sql,(err,result)=>{
             if(err)throw err
             else{
@@ -217,7 +228,28 @@ User.prototype = {
                 return;
             }
         });
+    },
+    get_ques_detail :function(ques,callback){
+        let sql= "select correct_option_id,correct_points,negative_points from questions where id='"+ques+"'";
+        pool.query(sql,(err,result)=>{
+            if(err) throw err 
+            else{
+                callback(result);
+                return;
+            }
+        })
+    },
+    set_user_response : function(ob,callback){
+        let sql ="INSERT INTO user_quiz_responses (points,option_id,question_id,quiz_id,usr_id ) VALUES ('"+ob[0]+"',"+ob[1]+","+ob[2]+","+ob[3]+","+ob[4]+")";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                callback(result);
+                return;
+            }
+        })
     }
+
 }
 
 module.exports = User;
