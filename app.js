@@ -65,6 +65,10 @@ app.get('/teacher/quiz/create', (req, res) => {
     res.sendFile('./HTML/quiz_ques.html', { root: __dirname });
     // console.log('just send');
 });
+app.get('/student/solve/quiz', (req, res) => {
+    res.sendFile('./HTML/solve_quiz.html', { root: __dirname });
+    // console.log('just send');
+});
 
 // app.use('/signup',pageRouter);
 
@@ -294,7 +298,7 @@ app.post('/teachers/dashboard/getquizzes', (req, res, next) => {
             res.send(result);
         }
         else {
-            res.send('nahi mila data');
+            res.send({});
         }
 
 
@@ -309,7 +313,7 @@ app.post('/student/dashboard/getquizzes', (req, res, next) => {
             res.send(result);
         }
         else {
-            res.send('nahi mila data');
+            res.send({});
         }
 
     });
