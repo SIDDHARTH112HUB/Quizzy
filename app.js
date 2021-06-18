@@ -380,10 +380,14 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
     // console.log(obj);
     user.get_OverallTestaverage_student(obj.userid, (result) => {
         if (result ) {
-            // console.log(result,'hmi hai');
-            // let avgerage=result[0]['AVG(s)'];
-            // console.log(avgerage);
-            res.send(result[0]);
+            if(result['a']==null)
+            {
+                res.send({'a':0});
+                // console.log('yahi hai');
+            }
+            else{
+                res.send(result[0]);
+            }
         }
         else {
             res.send({});
