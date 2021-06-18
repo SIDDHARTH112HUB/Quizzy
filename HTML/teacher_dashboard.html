@@ -16,7 +16,7 @@
             localStorage.removeItem('quiz_details');
             localStorage.removeItem('ques');
             userData = JSON.parse(localStorage.getItem('user'));
-            $('#user_name').text('Hello, ' + userData.user_name);
+            $('#user_name').text(userData.user_name);
 
             $('#logout').click(function () {
                 localStorage.clear();
@@ -174,7 +174,7 @@
             </div>
         </aside>
 
-        <section class="items borderround" id="mySection">
+        <section class="items borderround" id="section">
             <div id="new_test" style="margin-left: 23px;">
                 <button class="button" id="createTest"
                     style="width: 208px;background-color: rgb(0, 128, 122);color: white;font-size: 27px;">Create
