@@ -3,6 +3,12 @@ const { CONNREFUSED } = require('dns');
 var express = require('express');
 var path = require('path');
 var app = express();
+
+//uploading image 
+const multer = require('multer');
+const uploads = multer({ dest: /images/ });
+
+
 const User = require('./core/users')
 const pageRouter = require('./routes/signup');
 // var fs =require('fs');
@@ -63,6 +69,10 @@ app.get('/student/solve/quiz', (req, res) => {
     res.sendFile('./HTML/solve_quiz.html', { root: __dirname });
     // console.log('just send');
 });
+app.get('/teacher/quiz/result', (req, res) => {
+    res.sendFile('./HTML/quiz_result.html', { root: __dirname });
+    // console.log('just send');
+});
 
 // app.use('/signup',pageRouter);
 
@@ -97,6 +107,7 @@ app.post('/user/login', (req, res, next) => {
     }
 });
 app.post('/student/info/save', (req, res, next) => {
+
     let obj = req.body;
     // console.log(obj);
     // res.send('Done');
@@ -311,6 +322,73 @@ app.post('/student/dashboard/getquizzes', (req, res, next) => {
 
     });
 });
+app.post('/teacher/testresult', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    user.get_quizzes_teachers(obj.useremail, obj.status, (result) => {
+        // console.log(result);
+        if (result && result.length > 0) {
+            // console.log('iside if',result);
+            res.send(result);
+        }
+        else {
+            res.send({});
+        }
+
+
+    });
+    // res.send('result');
+});
+app.post('/student/dashboard/testhistory', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj);
+    //  res.send('hjsffdj');
+    user.get_testhistory_student_quizzes(obj.userid, (result) => {
+        if (result) {
+
+            // console.log(result);
+            // console.log(result[0]);
+            console.log(result)
+            res.send(result);
+        }
+        else {
+            console.log('in else');
+            res.send({});
+        }
+
+    });
+});
+app.post('/student/dashboard/noOfTests', (req, res, next) => {
+    let obj = req.body;
+    console.log(obj, 'test wala');
+
+    user.get_noOfTests_student(obj.userid, (result) => {
+        if (result) {
+            console.log(result[0]['count(quiz_id)']);
+            let nooftests = result[0]['count(quiz_id)'];
+            console.log(nooftests);
+            res.send(result[0]);
+        }
+        else {
+            res.send({});
+        }
+
+    });
+});
+// app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
+//     let obj = req.body;
+//     // console.log(obj);
+//     user.get_testhistory_student(obj.userid, (result) => {
+//         if (result && result.length > 0) {
+
+//             res.send(result);
+//         }
+//         else {
+//             res.send({});
+//         }
+
+//     });
+// });
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];
@@ -388,7 +466,7 @@ app.post('/student/quiz/submit', (req, res) => {
             console.log('nahi mila');
         }
     })
-    if (ob.que_option ) {
+    if (ob.que_option) {
         ob.que_option.forEach(element => {
             let ques = element.que_id;
             user.get_ques_detail(ques, (resu) => {
@@ -416,12 +494,36 @@ app.post('/student/quiz/submit', (req, res) => {
             })
         });
     }
+    else {
+        let marks;
+        let ques;
+        let user_response = [
+            0,
+            null,
+            null,
+            qid,
+            usr_id
+        ];
+        user.set_user_response(user_response, (resu1) => {
+            if (resu1) { console.log('aa gya'); }
+            else {
+                console.log('nahi aaya');
+            }
+        });
+    }
 
     res.send('sab solved');
 
 });
 
-
+app.get('/quiz/:quizid/result', (req, res, next)=>{
+    let quizid = req.params['quizid'];
+    // console.log(quizid);
+    user.get_user_result(quizid,(result)=>{
+        console.log(result);
+        res.send(result);
+    })
+})
 
 app.listen(80, function () {
     console.log('listennig on localhost');

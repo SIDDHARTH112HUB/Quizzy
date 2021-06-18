@@ -128,8 +128,10 @@ background: linear-gradient(#c2f791, #9198e5);">
         <div class="box" id="section">
 
             <div class="user_img_box">
-                <div id="img_id" style="width: fit-content;"><img src="/images/user_img.png" id="profileimg"></div>
-                <input type="file" name="" id="new_img" accept="image/*" style="width: 195px;"><br />
+                <div id="img_id"  style="width: fit-content;">
+                    <img src="/images/user_img.png" id="profileimg" name="profileImage" >
+                </div>
+                <input type="file" name="profileImage" id="new_img" accept="image/*" style="width: 195px;"><br />
             </div>
             <form action="/save" method="POST">
                 <div class="prof_items"> <strong>Name :</strong>

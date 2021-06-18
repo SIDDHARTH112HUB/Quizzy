@@ -1,5 +1,7 @@
 const pool = require('./pool');
 const bcrypt = require('bcrypt');
+// const multer=require('multer');
+// const uploads=multer({dest:/images/});
 
 function User() { };
 
@@ -227,6 +229,54 @@ User.prototype = {
             }
         });
     },
+    get_testhistory_student_quizzes: function(id,callback){
+        
+        let sql = "select  q2.name,q2.title ,q1.* from (select quiz_id , SUM(points) from user_quiz_responses where usr_id="+id+" Group By quiz_id ) as q1 join (select name ,title,id from quizzes) as q2 on q1.quiz_id=q2.id;";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
+    get_users_marks: function(ob,callback){
+        
+        let sql = "select SUM(points) from user_quiz_responses where quiz_id="+id+" and usr_id="+id+"";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
+    get_noOfTests_student : function(ob,callback){
+        
+        let sql = "select count(quiz_id) from users_quizzes where usr_id=? ";
+        pool.query(sql,ob,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
+    get_OverallTestaverage_student : function(ob,callback){
+        
+        let sql = "select id,name,title from quizzes q1 where quiz_status='Publish' and "+ob+" not in (select usr_id from users_quizzes q2 where quiz_id =q1.id) ";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
     get_ques_detail :function(ques,callback){
         let sql= "select correct_option_id,correct_points,negative_points from questions where id='"+ques+"'";
         pool.query(sql,(err,result)=>{
@@ -239,6 +289,17 @@ User.prototype = {
     },
     set_user_response : function(ob,callback){
         let sql ="INSERT INTO user_quiz_responses (points,option_id,question_id,quiz_id,usr_id ) VALUES ('"+ob[0]+"',"+ob[1]+","+ob[2]+","+ob[3]+","+ob[4]+")";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                callback(result);
+                return;
+            }
+        })
+    },
+    get_user_result : function(quizid,callback){
+        console.log(quizid);
+        let sql="select  q2.user_name,q2.email,q1.* from (select quiz_id,usr_id , SUM(points) as marks from user_quiz_responses where quiz_id='"+quizid+"' Group By usr_id ) as q1 join (select user_name ,email,user_id from users) as q2 on q1.usr_id=q2.user_id;"
         pool.query(sql,(err,result)=>{
             if(err)throw err
             else{
