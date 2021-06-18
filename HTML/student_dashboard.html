@@ -54,24 +54,25 @@
                         }
                     }
                 })
-                $.post("/student/dashboard/noOfTests", ob, (quizData, status) => {
-                    if (quizData) {
-                        // console.log(quizData);
-                        var html=quizData.length;
-                        $('#noOfTests').append(html);
+                $.post("/student/dashboard/noOfTests", ob, (nTest, status) => {
+                    if (nTest) {
+                        console.log(nTest['count(quiz_id)']);
+
+                        $('#noOfTests').text(nTest['count(quiz_id)']);
+
 
                     }
-                
+
                 })
             }
-        $.post("/student/dashboard/OverallTestaverage", ob, (quizData, status) => {
-            if (quizData) {
-                // console.log(quizData);
+            // $.post("/student/dashboard/OverallTestaverage", ob, (quizData, status) => {
+            //     if (quizData) {
+            //         // console.log(quizData);
 
-            }
-        })
-                
-    
+            //     }
+            // })
+
+
         });
         function solvetest(quiz) {
             let quizdet = quiz.split(",");
@@ -124,8 +125,11 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <div class="card-stats">
                         <div class="card-stats-header">
                             Total Quizzes
+                        </div >
+                        <div class="card-stats-body">
+                            <span id="noOfTests"></span>
                         </div>
-                        <span id="noOfTests"></span>
+
                     </div>
                     <div class="card-stats">
                         <div class="card-stats-header">

@@ -345,20 +345,23 @@ app.post('/student/dashboard/testhistory', (req, res, next) => {
 
     });
 });
-// app.post('/student/dashboard/noOfTests', (req, res, next) => {
-//     let obj = req.body;
-//     // console.log(obj);
-//     user.get_noOfTests_student(obj.userid, (result) => {
-//         if (result && result.length > 0) {
+app.post('/student/dashboard/noOfTests', (req, res, next) => {
+    let obj = req.body;
+     console.log(obj,'test wala');
 
-//             res.send(result);
-//         }
-//         else {
-//             res.send({});
-//         }
+    user.get_noOfTests_student(obj.userid, (result) => {
+        if (result ) {
+            console.log(result[0]['count(quiz_id)']);
+            let nooftests=result[0]['count(quiz_id)'];
+            console.log(nooftests);
+            res.send(result[0]);
+        }
+        else {
+            res.send({});
+        }
 
-//     });
-// });
+    });
+});
 // app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
 //     let obj = req.body;
 //     // console.log(obj);

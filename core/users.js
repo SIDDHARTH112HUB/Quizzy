@@ -255,7 +255,7 @@ User.prototype = {
     },
     get_noOfTests_student : function(ob,callback){
         
-        let sql = "select count(quiz_id) from users_quizzes where usr_id? ";
+        let sql = "select count(quiz_id) from users_quizzes where usr_id=? ";
         pool.query(sql,ob,(err,result)=>{
             if(err)throw err
             else{

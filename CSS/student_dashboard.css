@@ -145,12 +145,12 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     border-radius: 8px;
 }
 #stats{
-    height: 33%;
+    height: 35%;
     width: auto;
     border: 2px solid red;
 }
 #upcomingquiz{
-    height:65%;
+    height:63%;
     width: auto;
     border: 2px solid red;
 }
@@ -190,8 +190,16 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     width: 200px;
     margin: 5px 10px;
     height: 140px;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
     padding: 10px;
+   
+}
+.card-stats-body{
+    text-align: center;
+    font-size: 50px;
+    margin-top: 15px;
 }
 .card-stats-header{
     border: 2px solid black;
