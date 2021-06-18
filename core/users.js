@@ -1,5 +1,7 @@
 const pool = require('./pool');
 const bcrypt = require('bcrypt');
+// const multer=require('multer');
+// const uploads=multer({dest:/images/});
 
 function User() { };
 
@@ -216,6 +218,54 @@ User.prototype = {
         })
     },
     get_quizzes_student : function(ob,callback){
+        
+        let sql = "select id,name,title from quizzes q1 where quiz_status='Publish' and "+ob+" not in (select usr_id from users_quizzes q2 where quiz_id =q1.id) ";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
+    get_testhistory_student_quizzes: function(id,callback){
+        
+        let sql = "select name,title ,id from quizzes where id in (select quiz_id from users_quizzes where usr_id="+id+")";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
+    get_users_marks: function(ob,callback){
+        
+        let sql = "select SUM(points) from user_quiz_responses where quiz_id="+id+" and usr_id="+id+"";
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
+    get_noOfTests_student : function(ob,callback){
+        
+        let sql = "select count(quiz_id) from users_quizzes where usr_id? ";
+        pool.query(sql,ob,(err,result)=>{
+            if(err)throw err
+            else{
+                // console.log(result);
+                callback(result);
+                return;
+            }
+        });
+    },
+    get_OverallTestaverage_student : function(ob,callback){
         
         let sql = "select id,name,title from quizzes q1 where quiz_status='Publish' and "+ob+" not in (select usr_id from users_quizzes q2 where quiz_id =q1.id) ";
         pool.query(sql,(err,result)=>{
