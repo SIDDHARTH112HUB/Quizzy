@@ -127,7 +127,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #section{
     grid-area: section;
-    margin-left: -88px;
+    /* margin-left: -88px; */
     background: rgb(205, 230, 240);
     /* opacity: 0.5; */
     /* z-index: -10; */
@@ -135,6 +135,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     /* margin: 0px 0px 0px 211px; */
     grid-column-start: 3;
     grid-column-end: 5;
+    float: right;
    
 }
 

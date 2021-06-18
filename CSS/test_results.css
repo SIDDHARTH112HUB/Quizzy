@@ -185,7 +185,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 .div_before_table {
     overflow: hidden;
     overflow-y: scroll;
-    height: 87%;
+    height: 90%;
     margin-left: 10px;
 }
 th{
@@ -217,7 +217,7 @@ th{
     font-weight: bold;
 }
 .aise_hi{
-    height: 800px;
+    height: 110vh;
 }
 #logout:hover{
     background-color: rgb(235, 99, 117);
