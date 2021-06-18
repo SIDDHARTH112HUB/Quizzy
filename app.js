@@ -354,20 +354,22 @@ app.post('/student/dashboard/noOfTests', (req, res, next) => {
 
     });
 });
-// app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
-//     let obj = req.body;
-//     // console.log(obj);
-//     user.get_testhistory_student(obj.userid, (result) => {
-//         if (result && result.length > 0) {
+app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
+    let obj = req.body;
+    // console.log(obj);
+    user.get_OverallTestaverage_student(obj.userid, (result) => {
+        if (result ) {
+            // console.log(result,'hmi hai');
+            // let avgerage=result[0]['AVG(s)'];
+            // console.log(avgerage);
+            res.send(result[0]);
+        }
+        else {
+            res.send({});
+        }
 
-//             res.send(result);
-//         }
-//         else {
-//             res.send({});
-//         }
-
-//     });
-// });
+    });
+});
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];

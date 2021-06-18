@@ -64,13 +64,19 @@
                     }
 
                 })
-            }
-            // $.post("/student/dashboard/OverallTestaverage", ob, (quizData, status) => {
-            //     if (quizData) {
-            //         // console.log(quizData);
+                $.post("/student/dashboard/OverallTestaverage", ob, (avg, status) => {
+                    if (avg) {
+                        console.log(avg['AVG(s)'],'hi');
 
-            //     }
-            // })
+                        $('#OverallTestaverage').text(avg['AVG(s)']);
+
+
+                    }
+
+                })
+                
+            }
+            
 
 
         });
@@ -134,6 +140,9 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <div class="card-stats">
                         <div class="card-stats-header">
                             Average Marks
+                        </div>
+                        <div class="card-stats-body">
+                            <span id="OverallTestaverage"></span>
                         </div>
 
                     </div>

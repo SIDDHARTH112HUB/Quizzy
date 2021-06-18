@@ -267,11 +267,11 @@ User.prototype = {
     },
     get_OverallTestaverage_student : function(ob,callback){
         
-        let sql = "select id,name,title from quizzes q1 where quiz_status='Publish' and "+ob+" not in (select usr_id from users_quizzes q2 where quiz_id =q1.id) ";
-        pool.query(sql,(err,result)=>{
+        let sql = "select AVG(s) from (select quiz_id , SUM(points) as s from user_quiz_responses where usr_id=? Group By quiz_id ) as q1; ";
+        pool.query(sql,ob,(err,result)=>{
             if(err)throw err
             else{
-                // console.log(result);
+                console.log(result);
                 callback(result);
                 return;
             }
