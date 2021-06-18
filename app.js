@@ -323,20 +323,12 @@ app.post('/student/dashboard/testhistory', (req, res, next) => {
      console.log(obj);
     //  res.send('hjsffdj');
     user.get_testhistory_student_quizzes(obj.userid, (result) => {
-        if (result && result.length > 0) {
+        if (result ) {
 
-            //  res.send('mil hi gya');
             // console.log(result);
             // console.log(result[0]);
-            for (let index = 0; index < result.length; index++) {
-                const element = result[index];
-                console.log(element);
-                let marks=[
-                    element.id,
-                    obj.userid
-                ]
-
-            }
+            console.log(result)
+             res.send(result);
         }
         else {
             console.log('in else');
@@ -476,6 +468,23 @@ app.post('/student/quiz/submit', (req, res) => {
                 });
 
             })
+        });
+    }
+    else{
+        let marks;
+        let ques;
+        let user_response = [
+            0,
+            null,
+            null,
+            qid,
+            usr_id
+        ];
+        user.set_user_response(user_response, (resu1) => {
+            if (resu1) { console.log('aa gya'); }
+            else {
+                console.log('nahi aaya');
+            }
         });
     }
 

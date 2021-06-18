@@ -231,7 +231,7 @@ User.prototype = {
     },
     get_testhistory_student_quizzes: function(id,callback){
         
-        let sql = "select name,title ,id from quizzes where id in (select quiz_id from users_quizzes where usr_id="+id+")";
+        let sql = "select  q2.name,q2.title ,q1.* from (select quiz_id , SUM(points) from user_quiz_responses where usr_id="+id+" Group By quiz_id ) as q1 join (select name ,title,id from quizzes) as q2 on q1.quiz_id=q2.id;";
         pool.query(sql,(err,result)=>{
             if(err)throw err
             else{
