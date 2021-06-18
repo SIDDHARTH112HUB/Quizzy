@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
-
 *{
     margin: 0px;
     padding: 0px;
-    box-sizing: border-box;
 }
 .container{
    display: grid;
@@ -40,10 +38,9 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #aside{
     grid-area: aside;
-    height: 99%;
+    height: 110vh;
     width: 191px;
     background: rgb(197, 241, 172);
-    z-index: 5;
     
 }
 .userimg_box{
@@ -72,6 +69,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     font-family: 'Roboto', sans-serif;
 }
 
+
 .aside-items{
    display: flex;
    flex-direction: column;
@@ -95,6 +93,9 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     justify-content: space-around;
     font-family: 'Roboto', sans-serif;
 } 
+#userdetail_centerbox{
+    width: 80%;
+}
 .aside-items a:hover{
     background-color: rgb(235, 99, 117);
     color: white;
@@ -128,11 +129,11 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     grid-area: section;
     margin-left: -88px;
     background: rgb(205, 230, 240);
-    opacity: 0.5;
+    /* opacity: 0.5; */
     /* z-index: -10; */
     padding: 10px;
-    margin: auto 0px;
-    grid-column-start: 1;
+    /* margin: 0px 0px 0px 211px; */
+    grid-column-start: 3;
     grid-column-end: 5;
    
 }
