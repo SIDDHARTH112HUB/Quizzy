@@ -3,32 +3,85 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/48c1234ce3.js" crossorigin="anonymous"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/CSS/student_dashboard.css">
+    <link rel="stylesheet" href="/CSS/test_results.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
+            let userData = JSON.parse(localStorage.getItem('user'));
+            init();
+            $('#user_name').text('Hello, ' + userData.user_name);
 
-            $('#logout').click(function(){
+            $('#logout').click(function () {
                 localStorage.clear();
                 window.location.replace('/');
             })
+            function init() {
+                userData = JSON.parse(localStorage.getItem('user'));
+                let ob = {
+                    useremail: userData.email,
+                    userid: userData.user_id,
+                    status:'Publish'
+                };
+
+                $.post("/teacher/testresult", ob, (quizData, status) => {
+                    if (quizData) {
+                         console.log(quizData);
+                        for (let index = 0; index < quizData.length; index++) {
+                            const element = quizData[index];
+                            let dta = [
+                                element.id,
+                                element.name,
+                                element.title
+                            ];
+                            var html = "";
+                            html += "<tr>"
+                            html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
+                            html += "<td>" + element.name + "</td>"
+                            html += "<td>" + element.title + "</td>"
+                            html += "<td class='tdrow'><button onclick=\"ShowResult('" + dta + "')\" class='table_btn' >Result</button></td>"
+                            html += "</tr>"
+
+                            $('#test_results').append(html);
+                        }
+                    }
+                })
+            }
+
+
         });
+        function ShowResult(quiz) {
+            let quizdet = quiz.split(",");
+            let quiz_detail = {
+                id: quizdet[0],
+                name: quizdet[1],
+                title: quizdet[2]
+            }
+            // console.log(quizdet);
+            localStorage.setItem('quiz_details', JSON.stringify(quiz_detail));
+            $.get("/quiz/" + quizdet[0] + "/result", function (data, status) {
+                console.log(data);
+                localStorage.setItem('testresult', JSON.stringify(data));
+                window.location = '/teacher/quiz/result';
+            })
+        }
     </script>
-    <title>Student Dashboard </title>
+    <title>Teacher Info </title>
 
 </head>
 
 <body style="
 background: linear-gradient(#c2f791, #9198e5);">
+
     <div class="container ">
         <nav class="items h1heading borderround" id="navbar">
-            <h1>Test History</h1>
+            <h1> Test Results </h1>
         </nav>
+
         <aside class="items borderround" id="aside">
             <div class="aside-items font_primary borderround">
                 <div class="userimg_box borderround">
@@ -36,24 +89,43 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <h3 id="user_name">user_name</h3>
                 </div>
                 <div class="aside_setting">
-                     
-                   
-                      <!--  home page -->
-                    <a href="/teacher/dashboard">Home</a>
-                     <!-- added link to student_info page-->
+                    <a href="/teacher/dashboard"> Home</a>
                     <a href="/teacher/info">User Info</a>
-                    <a href="#">Test Results</a>
+                    <a href="/teacher/test_results">Test Results</a>
                     <span id="logout" class="btn btn-danger">Logout</span>
                 </div>
             </div>
         </aside>
-        <div class="items borderround" id="section">
-            <div class="nested-section borderround">
-                <div class="borderround" id="stats"></div>
-                <div class="borderround" id="upcomingquiz"></div>
+
+        <!-- edit information code goes ..here -->
+
+        <section class="items borderround" id="mySection">
+            <div class="aise_hi">
+                <h2 class="heading_x">Test Results</h2>
+
+                <div class="div_before_table" style="overflow-y:scroll;">
+                    <table class="upcoming_test_table" >
+                        <thead class="table_head">
+                            <tr>
+                                <th style="width: 8%; padding: 8px 10px;">Sr. N.</th>
+                                <th>Quiz Name</th>
+                                <th>Quiz Title</th>
+                                <th>Test Results</th>
+                            </tr>
+                        </thead>
+                        <tbody id="test_results" >
+                        
+                        </tr> 
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+        <!-- edit information code here -->
+
+
+
+
 
 </body>
 
