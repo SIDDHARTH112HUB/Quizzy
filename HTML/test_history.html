@@ -15,7 +15,7 @@
             init_data();
             localStorage.removeItem('quiz_details');
             localStorage.removeItem('ques');
-            $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
+            $('#user_name').text(JSON.parse(localStorage.getItem('user')).user_name);
 
             $('#logout').click(function () {
                 localStorage.clear();

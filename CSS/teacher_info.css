@@ -10,7 +10,7 @@
   'aside section section section section section section'
   ;
    grid-gap: 2px;
-  
+   grid-template-columns: 16% auto;
 }
 .btn{
     display: flex;
