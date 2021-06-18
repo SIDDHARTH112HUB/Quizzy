@@ -382,7 +382,7 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
         if (result ) {
             if(result['a']==null)
             {
-                res.send({'a':'0'});
+                res.send({'a':0});
                 // console.log('yahi hai');
             }
             else{
