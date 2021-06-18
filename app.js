@@ -318,6 +318,61 @@ app.post('/student/dashboard/getquizzes', (req, res, next) => {
 
     });
 });
+app.post('/student/dashboard/testhistory', (req, res, next) => {
+    let obj = req.body;
+     console.log(obj);
+    //  res.send('hjsffdj');
+    user.get_testhistory_student_quizzes(obj.userid, (result) => {
+        if (result && result.length > 0) {
+
+            //  res.send('mil hi gya');
+            // console.log(result);
+            // console.log(result[0]);
+            for (let index = 0; index < result.length; index++) {
+                const element = result[index];
+                console.log(element);
+                let marks=[
+                    element.id,
+                    obj.userid
+                ]
+
+            }
+        }
+        else {
+            console.log('in else');
+            res.send({});
+        }
+
+    });
+});
+// app.post('/student/dashboard/noOfTests', (req, res, next) => {
+//     let obj = req.body;
+//     // console.log(obj);
+//     user.get_noOfTests_student(obj.userid, (result) => {
+//         if (result && result.length > 0) {
+
+//             res.send(result);
+//         }
+//         else {
+//             res.send({});
+//         }
+
+//     });
+// });
+// app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
+//     let obj = req.body;
+//     // console.log(obj);
+//     user.get_testhistory_student(obj.userid, (result) => {
+//         if (result && result.length > 0) {
+
+//             res.send(result);
+//         }
+//         else {
+//             res.send({});
+//         }
+
+//     });
+// });
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];

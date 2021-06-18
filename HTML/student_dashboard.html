@@ -30,7 +30,7 @@
                 userData = JSON.parse(localStorage.getItem('user'));
                 let ob = {
                     useremail: userData.email,
-                    userid:userData.user_id
+                    userid: userData.user_id
                 };
                 $.post("/student/dashboard/getquizzes", ob, (quizData, status) => {
                     if (quizData) {
@@ -54,9 +54,26 @@
                         }
                     }
                 })
+                $.post("/student/dashboard/noOfTests", ob, (quizData, status) => {
+                    if (quizData) {
+                        // console.log(quizData);
+                        var html=quizData.length;
+                        $('#noOfTests').append(html);
+
+                    }
+                
+                })
             }
+        $.post("/student/dashboard/OverallTestaverage", ob, (quizData, status) => {
+            if (quizData) {
+                // console.log(quizData);
+
+            }
+        })
+                
+    
         });
-        function solvetest(quiz){
+        function solvetest(quiz) {
             let quizdet = quiz.split(",");
             let quiz_detail = {
                 id: quizdet[0],
@@ -65,10 +82,10 @@
             }
             // console.log(quizdet);
             localStorage.setItem('quiz_details', JSON.stringify(quiz_detail));
-            $.get("/quizzes/" + quizdet[0] + "/question/option", function (data, status){
+            $.get("/quizzes/" + quizdet[0] + "/question/option", function (data, status) {
                 console.log(data);
                 localStorage.setItem('question', JSON.stringify(data));
-                window.location='/student/solve/quiz';
+                window.location = '/student/solve/quiz';
             })
         }
     </script>
@@ -108,12 +125,13 @@ background: linear-gradient(#c2f791, #9198e5);">
                         <div class="card-stats-header">
                             Total Quizzes
                         </div>
+                        <span id="noOfTests"></span>
                     </div>
                     <div class="card-stats">
                         <div class="card-stats-header">
                             Average Marks
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

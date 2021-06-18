@@ -40,7 +40,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #aside{
     grid-area: aside;
-    height: 110vh;
+    height: 99%;
     width: 191px;
     background: rgb(197, 241, 172);
     z-index: 5;
@@ -145,12 +145,12 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     border-radius: 8px;
 }
 #stats{
-    height: 30vh;
+    height: 33%;
     width: auto;
     border: 2px solid red;
 }
 #upcomingquiz{
-    height:70vh;
+    height:65%;
     width: auto;
     border: 2px solid red;
 }
@@ -182,7 +182,8 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 .card-positioning {
     display: flex;
     flex-direction: row;
-    margin: 4px;
+    
+    margin-left: 5px;
 }
 .card-stats{
     border: 2px solid black;

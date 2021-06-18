@@ -6,8 +6,8 @@
 .container{
    display: grid;
   grid-template-areas: 
-  'navbar navbar navbar navbar navbar navbar navbar'
-  'aside section section section section section section'
+  'navbar navbar'
+  'aside section '
   ;
    grid-gap: 2px;
   
@@ -121,16 +121,17 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     height: 100px;
     width: 100px;
     background: rgb(26, 236, 131);;
+   
 }
 
 #section{
     grid-area: section;
-    margin-left: -88px;
+    margin-left: -32px;
     background:rgb(197, 241, 172);;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    flex-direction: row;
+    justify-content: space-evenly;
+    z-index: -1;
    
 }
 .heading{
@@ -178,4 +179,43 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     border-radius: 8px;
     cursor: pointer;
 }
+.test_history_table{
+    margin: 5px 6px;
+   border-radius: 5px 0px 0px 5px;
+   overflow: hidden;
+   box-shadow: 0px 0px 20px rgb(0, 0, 0,0.50);
+   justify-content: space-around;
+    font-size: 0.9em;
+    min-width: 977px;
+    border-collapse: collapse;
+    font-family: 'Roboto', sans-serif;
+}
+.test_history_table thead tr{
+    background-color: rgb(90, 79, 64);
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+.test_history_table th,.test_history_table td{
+padding: 12px 15px;
+}
+.test_history_table tbody tr{
+    border-bottom: 1px solid gray;
+    color: rgb(0, 10, 10);
+    font-size: 18px;
+    font-weight: bold;
+
+}
+.div_before_table {
+    overflow:hidden;
+    overflow-y: scroll;
+    height: 87%;
+    margin-left: 10px;
+}
+.heading{
+    text-align: center;
+}
+
+
+
 
