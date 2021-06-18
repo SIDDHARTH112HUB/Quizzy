@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+    <meta charset="UTF-8"><!-- this script got from www.frontendfreecode.com -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.js'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: rgba(195, 230, 225, 0.438);
+        }
+
+        .row {
+            display: -webkit-box;
+        }
+
+        .question_list {
+            border: 2px solid black;
+            width: 50%;
+            background: rgb(149, 177, 228);
+            display: flex;
+            margin: 12px 23px;
+            padding: 5px 7px;
+            border-radius: 10px;
+            flex-direction: column;
+        }
+
+        .btn2 {
+            width: 105px;
+            margin: 8px 23px;
+            margin-bottom: 30px;
+        }
+
+        #question_list {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: left;
+            border: 2px solid rgb(145, 139, 139);
+            padding: 15px;
+        }
+
+        #question_container {
+            display: flex;
+            flex-direction: column;
+            padding: 2px;
+            width: 45%;
+            margin-left: 20px;
+
+        }
+
+        .question {
+            padding: 5px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid rgb(226, 187, 129);
+            border-radius: 10px;
+            background: #c1bcc6;
+        }
+
+        .question_input {
+            background: none;
+            width: 75%;
+            margin-left: 2px;
+            padding: 5px 10px;
+            font-size: 20px;
+            font-weight: bold;
+            /* color: white; */
+        }
+
+        .option_box {
+            margin-left: 28px;
+            margin-top: 0px;
+        }
+
+        .option_box input {
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+
+        .option_radio:hover {
+            background: rgb(155, 145, 145);
+            border-radius: 10px;
+        }
+
+        #submit_ans {
+            margin-left: 19.5%;
+        }
+    </style>
+
+</head>
+<script>
+    $(document).ready(function () {
+        init();
+
+        let quizdata = JSON.parse(localStorage.getItem('quiz_details'));
+        let userdata = JSON.parse(localStorage.getItem('user'));
+        $('#quiz_name_on_page').text(userdata.user_name);
+        $('#quiz_title_on_page').text(quizdata.title);
+        setInterval(updateTime, 1000);
+        if (localStorage.getItem('ques')) {
+        }
+        else {
+            let ques = [];
+            localStorage.setItem('ques', JSON.stringify(ques));
+        }
+        console.log("aa gya");
+        $("#submit_ans").click(function (e) {
+            e.preventDefault();
+            let obj = $("form").serialize();
+            let obs = obj.split("&");
+            obj = [];
+            let ob = {};
+            if (obs[0].length > 0) {
+                obs.forEach(element => {
+                    obj.push(element.split("="))
+                });
+                
+                ob.quiz_id = quizdata.id;
+                ob.user_email = userdata.email;
+                ob.user_id = userdata.user_id;
+                ob.que_option = [];
+                
+                obj.forEach(element => {
+                    let op = {
+                        "que_id": element[0],
+                        "opt_id": element[1]
+                    };
+                    ob.que_option.push(op);
+                });
+            }
+            else{
+                ob.quiz_id = quizdata.id;
+                ob.user_email = userdata.email;
+                ob.user_id = userdata.user_id;
+                ob.que_option = [];
+            }
+
+            // console.log(ob);
+            // // let obp=JSON.stringify(ob);
+            $.post("/student/quiz/submit", ob, (result, status)=>{
+                if(result)
+                {
+                    console.log(result);
+                    window.location='/student/dashboard';
+                    // window.location.replace('/student/dashboard');
+                }
+                else{
+                    alert('Not Submitted');
+                }
+            });
+
+        });
+        console.log("aa gya");
+
+        function init() {
+            if (localStorage.getItem('question')) {
+
+                let ques_list = JSON.parse(localStorage.getItem('question'));
+                ques_list.forEach((element, index) => {
+                    if (!jQuery.isEmptyObject(element)) {
+                        var html = "";
+                        html += '<div class="question">';
+                        html += '<div class="question_input">'
+                        html += "Q. " + (index + 1) + "- <label>" + element.qname + "<label> "
+                        html += "</div>"
+                        html += '<div class="option_box">'
+                        html += '<div class="option_radio">'
+                        html += "<label ><input type='radio' name='" + element.que_id + "'  value=" + element.options[0].id + "  id= required> " + element.options[0].name + "</label>"
+                        html += "</div>"
+                        html += '<div class="option_radio">'
+                        html += "<label ><input type='radio' name='" + element.que_id + "'  value=" + element.options[1].id + "> " + element.options[1].name + "</label>"
+                        html += "</div>"
+                        html += '<div class="option_radio">'
+                        html += "<label ><input type='radio' name='" + element.que_id + "'  value=" + element.options[2].id + "> " + element.options[2].name + "</label>"
+                        html += "</div>"
+                        html += '<div class="option_radio">'
+                        html += "<label ><input type='radio' name='" + element.que_id + "'  value=" + element.options[3].id + "> " + element.options[3].name + "</label>"
+                        html += "</div>"
+                        html += "</div>"
+                        html += '</div>';
+                        $('#question_container').append(html);
+                    }
+                });
+            }
+        }
+
+    });
+    function updateTime() {
+        let date = new Date();
+        date_on_page.innerHTML = date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+
+    }
+
+
+
+</script>
+
+
+<body>
+
+    <div style="background: rgb(169, 232, 243); padding: 1px;">
+        <div style="margin-left: 40px;">
+
+            <p style="font-size: 25px;margin: 12px 23px; font-weight: bolder;"> Name : <span
+                    id="quiz_name_on_page"></span>
+            </p>
+            <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Quiz Title : <span
+                    id="quiz_title_on_page"></span></p>
+            <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Date / Time : <span
+                    id="date_on_page"></span></p>
+        </div>
+    </div>
+    <form id="question_list">
+        <div id="question_container">
+
+        </div>
+        <input type="submit" class="btn btn2 btn-success" id="submit_ans" value="Submit Test">
+        <!-- Submit Test</span> -->
+    </form>
+
+
+
+
+
+</body>
+
+</html>

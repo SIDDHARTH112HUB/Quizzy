@@ -24,32 +24,71 @@
             function init() {
                 $('#test_name').val("");
                 $('#test_title').val("");
-               
+
             }
-            function init_data(){
-                userData=JSON.parse(localStorage.getItem('user'));
-                let ob ={
-                    useremail :userData.email,
-                    status :'Private'
+            function init_data() {
+                userData = JSON.parse(localStorage.getItem('user'));
+                let ob = {
+                    useremail: userData.email,
+                    userid: userData.user_id
                 };
-                $.post("/student/dashboard/getquizzes",ob,(quizData,status)=>{
-                    if(quizData){
-                        console.log(quizData);
+                $.post("/student/dashboard/getquizzes", ob, (quizData, status) => {
+                    if (quizData) {
+                        // console.log(quizData);
                         for (let index = 0; index < quizData.length; index++) {
                             const element = quizData[index];
-                            var html ="";
-                            html+="<tr>"
-                            html+="<td>"+element.name+"</td>"
-                            html+="<td>"+element.title+"</td>"
-                            html+="<td><button>Go To Quiz</button></td>"  
-                            html+="</tr>"
-                            
+                            let dta = [
+                                element.id,
+                                element.name,
+                                element.title
+                            ];
+                            var html = "";
+                            html += "<tr>"
+                            html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
+                            html += "<td>" + element.name + "</td>"
+                            html += "<td>" + element.title + "</td>"
+                            html += "<td><button onclick=\"solvetest('" + dta + "')\">Solve</button></td>"
+                            html += "</tr>"
+
                             $('#upcoming_tests').append(html);
                         }
                     }
                 })
+                $.post("/student/dashboard/noOfTests", ob, (nTest, status) => {
+                    if (nTest) {
+                        console.log(nTest['count(quiz_id)']);
+
+                        $('#noOfTests').text(nTest['count(quiz_id)']);
+
+
+                    }
+
+                })
             }
+            // $.post("/student/dashboard/OverallTestaverage", ob, (quizData, status) => {
+            //     if (quizData) {
+            //         // console.log(quizData);
+
+            //     }
+            // })
+
+
         });
+        function solvetest(quiz) {
+            let quizdet = quiz.split(",");
+            let quiz_detail = {
+                id: quizdet[0],
+                name: quizdet[1],
+                title: quizdet[2]
+            }
+            // console.log(quizdet);
+            localStorage.setItem('quiz_details', JSON.stringify(quiz_detail));
+            $.get("/quizzes/" + quizdet[0] + "/question/option", function (data, status) {
+                console.log(data);
+                localStorage.setItem('question', JSON.stringify(data));
+                window.location = '/student/solve/quiz';
+            })
+        }
     </script>
     <title>Student Dashboard </title>
 
@@ -79,51 +118,55 @@ background: linear-gradient(#c2f791, #9198e5);">
                 </div>
             </div>
         </aside>
-        <div class="items borderround" id="section">
-            <div class="nested-section borderround">
-                <div class="borderround card-positioning" id="stats">
-                    <h2>STATS</h2>
+        <section class="items borderround" id="mySection">
+            <div class="borderround gapa" id="stats">
+                <h2 class="heading_x">STATS</h2>
+                <div class="card-positioning">
                     <div class="card-stats">
                         <div class="card-stats-header">
-                           test given
-                        </div> 
+                            Total Quizzes
+                        </div >
+                        <div class="card-stats-body">
+                            <span id="noOfTests"></span>
+                        </div>
+
                     </div>
                     <div class="card-stats">
                         <div class="card-stats-header">
-                           scores
-                         </div> 
+                            Average Marks
+                        </div>
 
                     </div>
-                </div>    
-                    <div class="borderround card-positioning" id="upcomingquiz">
+                </div>
+            </div>
+            <div class="borderround gapa " id="upcomingquiz">
 
-                        <h2>UPCOMING QUIZZES</h2>
+                <h2 class="heading_x">UPCOMING QUIZZES</h2>
 
-                        <div >
-                            <table class="upcoming_test_table">
-                                <thead>
-                                    <tr>
-                                        <th>Quiz Name</th>
-                                        <th>Quiz Title</th>
-                                        <th>Go To Quiz</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="upcoming_tests">
-                                    <!-- <tr>
+                <div class="div_before_table">
+                    <table class="upcoming_test_table">
+                        <thead class="table_head">
+                            <tr>
+                                <th style="width: 8%;">Sr. N.</th>
+                                <th>Quiz Name</th>
+                                <th>Quiz Title</th>
+                                <th>Go To Quiz</th>
+                            </tr>
+                        </thead>
+                        <tbody id="upcoming_tests">
+                            <!-- <tr>
                                         <td>abhi</td>
                                         <td><button>trial2</button></td>
                                        
                                     </tr> -->
-                                </tbody>
-                            </table>
-                        </div>
-                       
-                    </div>
-                
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
+        </section>
 
 </body>
-<script src="../JS/student_controller.js">
 </script>
 
 </html>

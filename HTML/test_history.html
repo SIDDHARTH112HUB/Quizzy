@@ -11,13 +11,53 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            init();
+            init_data();
+            localStorage.removeItem('quiz_details');
+            localStorage.removeItem('ques');
             $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
 
             $('#logout').click(function () {
                 localStorage.clear();
                 window.location.replace('/');
             })
+            function init() {
+                $('#test_name').val("");
+                $('#test_title').val("");
+
+            }
+            function init_data() {
+                userData = JSON.parse(localStorage.getItem('user'));
+                let ob = {
+                    useremail: userData.email,
+                    userid: userData.user_id
+                };
+
+                $.post("/student/dashboard/testhistory", ob, (quizData, status) => {
+                    if (quizData) {
+                         console.log(quizData);
+                        for (let index = 0; index < quizData.length; index++) {
+                            const element = quizData[index];
+                            let dta = [
+                                element.id,
+                                element.name,
+                                element.title
+                            ];
+                            var html = "";
+                            html += "<tr>"
+                            html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
+                            html += "<td>" + element.name + "</td>"
+                            html += "<td>" + element.title + "</td>"
+                            html += "<td>" + element['SUM(points)'] + "</td>"
+                            html += "</tr>"
+
+                            $('#test_history').append(html);
+                        }
+                    }
+                })
+            }
         });
+
     </script>
     <title>Student Dashboard </title>
 
@@ -50,81 +90,27 @@ background: linear-gradient(#c2f791, #9198e5);">
 
         <div class="items borderround" id="section">
             <div class="heading">
-                Tests
+                Test History
             </div>
-            <div class="test-history">
 
-                <ul class="test-list">
-                  
-                        <li class="test">
-
-                             <span>test name</span>
-                             <span>created by:</span>
-                            <span class="details">123/243</span>
-                        </li>
-                   
-                    
-                        <li class="test">
-
-                           <span>test name</span>
-                           <span>created by:</span>
-                            <span class="details">123/243</span>
-                        </li>
-                        
-                        
-                   
-                   
-                        <li class="test">
-
-                             <span>test name</span>
-                             <span>created by:</span>
-                            <span class="details">123/243</span>
-
-
-                        </li>
-                   
-                  
-                        <li class="test">
-
-                            <span>test name</span>
-                            <span>created by:</span>
-                            <span class="details">123/243</span>
-
-
-                        </li>
-                   
-                    <a href="#">
-                        <li class="test">
-
-                             <span>test name</span>
-                             <span>created by:</span>
-                            <span class="details">123/243</span>
-
-
-                        </li>
-                  
-                   
-                        <li class="test">
-
-                             <span>test name</span>
-                             <span>created by:</span>
-                            <span class="details">123/243</span>
-
-
-                        </li>
-                  
-                    
-                        <li class="test">
-
-                            <span>test name</span>
-                            <span> created by:</span>
-                            <span class="details">123/243</span>
-
-
-                        </li>
-                   
-
-                </ul>
+            <div class="div_before_table">
+                <table class="test_history_table">
+                    <thead class="table_head">
+                        <tr>
+                            <th style="width: 8%;">Sr. N.</th>
+                            <th>Quiz Name</th>
+                            <th>Quiz Title</th>
+                            <th>Test Scores</th>
+                        </tr>
+                    </thead>
+                    <tbody id="test_history">
+                        <!-- <tr>
+                                    <td>abhi</td>
+                                    <td><button>trial2</button></td>
+                                   
+                                </tr> -->
+                    </tbody>
+                </table>
             </div>
 
         </div>
