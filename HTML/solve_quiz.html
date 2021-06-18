@@ -109,7 +109,7 @@
 
         let quizdata = JSON.parse(localStorage.getItem('quiz_details'));
         let userdata = JSON.parse(localStorage.getItem('user'));
-        $('#quiz_name_on_page').text(userdata.user_name);
+        $('#user_name_on_page').text(userdata.user_name);
         $('#quiz_title_on_page').text(quizdata.title);
         setInterval(updateTime, 1000);
         if (localStorage.getItem('ques')) {
@@ -217,7 +217,7 @@
         <div style="margin-left: 40px;">
 
             <p style="font-size: 25px;margin: 12px 23px; font-weight: bolder;"> Name : <span
-                    id="quiz_name_on_page"></span>
+                    id="user_name_on_page"></span>
             </p>
             <p style="font-size: 25px;margin: 12px 23px;font-weight: bolder;">Quiz Title : <span
                     id="quiz_title_on_page"></span></p>
