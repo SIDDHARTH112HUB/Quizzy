@@ -10,7 +10,7 @@
   'aside section section section section section section'
   ;
    grid-gap: 2px;
-  
+   grid-template-columns: 16% auto;
 }
 .h1heading{
     font-family: 'Roboto', sans-serif;
@@ -39,19 +39,19 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 #aside{
     grid-area: aside;
     height: 110vh;
-    width: 191px;
+    width: 95%;
     background: rgb(197, 241, 172);
     
 }
 .userimg_box{
     background: rgb(26, 236, 131);
     display: flex;
-    margin: -13px;
+    margin: 0px;
     justify-items: center;
     align-items: center;
     flex-direction: column;
     height: 159px;
-    width: 194px;
+    width: 95%;
 }
 .aside_setting{
     width: 194px;
@@ -133,8 +133,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     /* z-index: -10; */
     padding: 10px;
     /* margin: 0px 0px 0px 211px; */
-    grid-column-start: 3;
-    grid-column-end: 5;
+    grid-column-start: 2;
     float: right;
    
 }

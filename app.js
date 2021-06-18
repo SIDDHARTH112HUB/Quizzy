@@ -380,7 +380,7 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
     // console.log(obj);
     user.get_OverallTestaverage_student(obj.userid, (result) => {
         if (result ) {
-            if(result['a']==null)
+            if(result[0]['a']==null)
             {
                 res.send({'a':0});
                 // console.log('yahi hai');
@@ -398,7 +398,7 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];
-    console.log(quizid);
+    // console.log(quizid);
     user.get_quiz_questions(quizid, (questions) => {
         let questionIds = [];
         let questionMap = {};
@@ -465,7 +465,7 @@ app.post('/student/quiz/submit', (req, res) => {
         usr_id,
         qid
     ];
-    console.log(ob);
+    // console.log(ob);
     user.set_user_quiz(user_quiz, (result) => {
         if (result) { console.log('milgya'); }
         else {
@@ -526,7 +526,7 @@ app.get('/quiz/:quizid/result', (req, res, next)=>{
     let quizid = req.params['quizid'];
     // console.log(quizid);
     user.get_user_result(quizid,(result)=>{
-        console.log(result);
+        // console.log(result);
         res.send(result);
     })
 })
