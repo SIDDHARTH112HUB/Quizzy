@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.js'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Quiz Result</title>
+</head>
+<script>
+    $(document).ready(function () {
+        let quizdata = JSON.parse(localStorage.getItem('quiz_details'));
+        let userdata = JSON.parse(localStorage.getItem('user'));
+        $('#user_name_on_page').text(userdata.user_name);
+        $('#quiz_title_on_page').text(quizdata.title);
+        $('#quiz_name_on_page').text(quizdata.name);
+        setInterval(updateTime, 1000);
+        init();
+    })
+    function init() {
+        if (localStorage.getItem('testresult')) {
+
+            let marks_list = JSON.parse(localStorage.getItem('testresult'));
+            for (let index = 0; index < marks_list.length; index++) {
+                const element = marks_list[index];
+                // console.log(element);
+                var html = "";
+                html += "<tr>"
+                html += "<td style='text-align: center;font-weight:bold;' scope='row'>" + (index + 1) + "- </td>"
+                html += "<td class = 'table_data_name'>" + element.user_name + "</td>"
+                html += "<td class = 'table_data_name'>" + element.email + "</td>"
+                html += "<td class = 'table_data_name'>" + element.marks + "</td>"
+                html += "</tr>"
+                $('#student_marks').append(html);
+            }
+        }
+    }
+    function updateTime() {
+        let date = new Date();
+        date_on_page.innerHTML = date.toISOString().split('T')[0] + ' ' + date.toTimeString().split(' ')[0];
+
+    }
+    function back_button(){
+        localStorage.removeItem('testresult');
+        localStorage.removeItem('quiz_details');
+        window.location='/teacher/test_results';
+
+    }
+</script>
+<style>
+    #print_page {
+        margin-left: 20%;
+        margin-top: 20px;
+    }
+    #back_page {
+        margin-left: 1%;
+        margin-top: 20px;
+    }
+
+    #result_container {
+        margin-top: 40px;
+        margin-left: 3%;
+        display: flex;
+        width: 800px;
+        flex-direction: column;
+    }
+
+    #saved_heading {
+        margin-left: 35%;
+        margin-right: auto;
+    }
+    .data_table{
+        margin-top: 20px;
+    }
+</style>
+
+<body>
+    <div style="background: rgb(169, 232, 243); padding: 1px;">
+        <div style="margin-left: 40px;">
+
+            <p style="font-size: 25px;margin: 5px 23px; font-weight: bolder;"> Name : <span
+                    id="user_name_on_page"></span>
+            </p>
+            <p style="font-size: 25px;margin: 5px 23px;font-weight: bolder;">Quiz Name : <span
+                    id="quiz_name_on_page"></span></p>
+            <p style="font-size: 25px;margin: 5px 23px;font-weight: bolder;">Quiz Title : <span
+                    id="quiz_title_on_page"></span></p>
+            <p style="font-size: 25px;margin: 5px 23px;font-weight: bolder;">Date / Time : <span
+                    id="date_on_page"></span></p>
+        </div>
+    </div>
+    <div id="result_list">
+        <div id="result_container">
+            <h3 style="font-size: 30px;font-weight:bolder; color: brown;" id="saved_heading">Test Result</h3>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;"scope="col">#</th>
+                        <th style="width: 23%;"scope="col">Student Name</th>
+                        <th style="width: 30%;"scope="col">Email</th>
+                        <th style="width: 10%;"scope="col">Marks</th>
+                    </tr>
+                </thead>
+                <tbody id="student_marks">
+
+                </tbody>
+            </table>
+        </div>
+        <div>
+
+            <button type="submit" class="btn btn2 btn-success" id="print_page" onclick="window.print()" >Print</button>
+            <button type="submit" class="btn btn2 btn-success" id="back_page" onclick="back_button()"  >Back</button>
+        </div>
+        <!-- Submit Test</span> -->
+    </div>
+</body>
+
+</html>

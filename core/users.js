@@ -296,6 +296,17 @@ User.prototype = {
                 return;
             }
         })
+    },
+    get_user_result : function(quizid,callback){
+        console.log(quizid);
+        let sql="select  q2.user_name,q2.email,q1.* from (select quiz_id,usr_id , SUM(points) as marks from user_quiz_responses where quiz_id='"+quizid+"' Group By usr_id ) as q1 join (select user_name ,email,user_id from users) as q2 on q1.usr_id=q2.user_id;"
+        pool.query(sql,(err,result)=>{
+            if(err)throw err
+            else{
+                callback(result);
+                return;
+            }
+        })
     }
 
 }
