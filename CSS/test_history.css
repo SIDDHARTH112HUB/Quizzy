@@ -7,8 +7,8 @@
 .container{
    display: grid;
   grid-template-areas: 
-  'navbar navbar'
-  'aside section '
+  'navbar navbar navbar navbar navbar navbar navbar'
+  'aside section section section section section section '
   ;
    grid-gap: 2px;
   
@@ -127,12 +127,14 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 
 #section{
     grid-area: section;
-    margin-left: -88px;
+    /* margin-left: -88px; */
     background:rgb(197, 241, 172);;
     display: block;
     flex-direction: row;
     justify-content: space-evenly;
     z-index: -1;
+    float: right;
+    grid-column-start: 3;
    
 }
 .heading{
