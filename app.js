@@ -141,12 +141,10 @@ app.post('/teacher/info/save', (req, res, next) => {
         if (resu) {
             user.find(obj.email, function (result) {
                 if (result && result.length > 0) {
-                    // console.log(result[0])
                     res.send(result[0]);
                     return;
                 }
                 else {
-                    // console.log('email not macthed');
                     res.send(null);
                     return;
                 }
