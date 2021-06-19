@@ -14,7 +14,7 @@
         $(document).ready(function () {
             let userData = JSON.parse(localStorage.getItem('user'));
             init();
-            $('#user_name').text('Hello, ' + userData.user_name);
+            $('#user_name').text( userData.user_name);
 
             $('#logout').click(function () {
                 localStorage.clear();
@@ -41,7 +41,7 @@
                             var html = "";
                             html += "<tr>"
                             html += "<td style='text-align: center;font-weight:bold;'>" + (index + 1) + "- </td>"
-                            html += "<td>" + element.name + "</td>"
+                            html += "<td >" + element.name + "</td>"
                             html += "<td>" + element.title + "</td>"
                             html += "<td class='tdrow'><button onclick=\"ShowResult('" + dta + "')\" class='table_btn' >Result</button></td>"
                             html += "</tr>"
@@ -99,7 +99,7 @@ background: linear-gradient(#c2f791, #9198e5);">
 
         <!-- edit information code goes ..here -->
 
-        <section class="items borderround" id="mySection">
+        <section class="items borderround" id="section">
             <div class="aise_hi">
                 <h2 class="heading_x">Test Results</h2>
 
@@ -107,10 +107,10 @@ background: linear-gradient(#c2f791, #9198e5);">
                     <table class="upcoming_test_table" >
                         <thead class="table_head">
                             <tr>
-                                <th style="width: 8%; padding: 8px 10px;">Sr. N.</th>
-                                <th>Quiz Name</th>
-                                <th>Quiz Title</th>
-                                <th>Test Results</th>
+                                <th style="width: 5%; padding: 8px 10px;">#</th>
+                                <th style="width: 40%; padding: 8px 10px;">Quiz Name</th>
+                                <th style="width: 40%; padding: 8px 10px;">Quiz Title</th>
+                                <th style="width: 20%; padding: 8px 10px;">Test Results</th>
                             </tr>
                         </thead>
                         <tbody id="test_results" >

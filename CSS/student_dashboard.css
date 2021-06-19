@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
-
 *{
     margin: 0px;
     padding: 0px;
-    box-sizing: border-box;
 }
 .container{
    display: grid;
@@ -12,7 +10,7 @@
   'aside section section section section section section'
   ;
    grid-gap: 2px;
-  
+   grid-template-columns: 16% auto;
 }
 .h1heading{
     font-family: 'Roboto', sans-serif;
@@ -40,21 +38,20 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #aside{
     grid-area: aside;
-    height: 99%;
-    width: 191px;
+    height: 110vh;
+    width: 95%;
     background: rgb(197, 241, 172);
-    z-index: 5;
     
 }
 .userimg_box{
     background: rgb(26, 236, 131);
     display: flex;
-    margin: -13px;
+    margin: 0px;
     justify-items: center;
     align-items: center;
     flex-direction: column;
     height: 159px;
-    width: 194px;
+    width: 95%;
 }
 .aside_setting{
     width: 194px;
@@ -71,6 +68,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     margin-bottom: 10px;
     font-family: 'Roboto', sans-serif;
 }
+
 
 .aside-items{
    display: flex;
@@ -95,6 +93,9 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
     justify-content: space-around;
     font-family: 'Roboto', sans-serif;
 } 
+#userdetail_centerbox{
+    width: 80%;
+}
 .aside-items a:hover{
     background-color: rgb(235, 99, 117);
     color: white;
@@ -126,14 +127,14 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 }
 #section{
     grid-area: section;
-    margin-left: -88px;
+    /* margin-left: -88px; */
     background: rgb(205, 230, 240);
-    opacity: 0.5;
+    /* opacity: 0.5; */
     /* z-index: -10; */
     padding: 10px;
-    margin: auto 0px;
-    grid-column-start: 1;
-    grid-column-end: 5;
+    /* margin: 0px 0px 0px 211px; */
+    grid-column-start: 2;
+    float: right;
    
 }
 

@@ -16,9 +16,17 @@ User.prototype = {
         pool.query(sql, user, (err, result) => {
             if (err) throw err
             else {
-                // console.log(result);
-                // console.log('12345');
-                callback(result);
+                if(result.length>0)
+                {
+                    callback(result);
+                    return;
+                }
+                else
+                {
+                    // console.log(result);
+                    callback(null);
+                    return;
+                }
             }
 
         });
@@ -31,7 +39,7 @@ User.prototype = {
 
         pool.query(sql, function (err, lastId) {
             if (err) throw err;
-            console.log(lastId);
+            // console.log(lastId);
             callback(lastId);
         });
     },
@@ -49,7 +57,7 @@ User.prototype = {
                 }
             }
             else {
-                console.log('email not macthed');
+                // console.log('email not macthed');
                 callback(null);
                 return;
             }
@@ -125,7 +133,7 @@ User.prototype = {
             }
             sql += "('" + obj.time + "','" + obj.created_by + "','" + obj.name + "','" + obj.ques_id + "')";
         }
-        console.log(sql);
+        // console.log(sql);
         pool.query(sql, function (err, lastId) {
             if (err) throw err;
             callback(lastId);
@@ -267,11 +275,11 @@ User.prototype = {
     },
     get_OverallTestaverage_student : function(ob,callback){
         
-        let sql = "select AVG(s) from (select quiz_id , SUM(points) as s from user_quiz_responses where usr_id=? Group By quiz_id ) as q1; ";
+        let sql = "select AVG(s) as a from (select quiz_id , SUM(points) as s from user_quiz_responses where usr_id=? Group By quiz_id ) as q1; ";
         pool.query(sql,ob,(err,result)=>{
             if(err)throw err
             else{
-                console.log(result);
+                // console.log(result);
                 callback(result);
                 return;
             }
@@ -298,7 +306,7 @@ User.prototype = {
         })
     },
     get_user_result : function(quizid,callback){
-        console.log(quizid);
+        // console.log(quizid);
         let sql="select  q2.user_name,q2.email,q1.* from (select quiz_id,usr_id , SUM(points) as marks from user_quiz_responses where quiz_id='"+quizid+"' Group By usr_id ) as q1 join (select user_name ,email,user_id from users) as q2 on q1.usr_id=q2.user_id;"
         pool.query(sql,(err,result)=>{
             if(err)throw err

@@ -10,7 +10,7 @@
   'aside section section section section section section'
   ;
    grid-gap: 2px;
-  
+   grid-template-columns: 16% auto;
 }
 .btn{
     display: flex;
@@ -54,19 +54,19 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 #aside{
     grid-area: aside;
     height: 110vh;
-    width: 191px;
+    width: 95%;
     background: rgb(197, 241, 172);
     
 }
 .userimg_box{
     background: rgb(26, 236, 131);
     display: flex;
-    margin: -13px;
+    margin: 0px;
     justify-items: center;
     align-items: center;
     flex-direction: column;
     height: 159px;
-    width: 194px;
+    width: 95%;
 }
 .aside_setting{
     width: 194px;
@@ -125,9 +125,14 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 
 #section{
     grid-area: section;
-    margin-left: -181px;
-    background: skyblue;
-    opacity: 0.5;
+    /* margin-left: -88px; */
+    background: rgb(205, 230, 240);
+    /* opacity: 0.5; */
+    /* z-index: -10; */
+    padding: 10px;
+    /* margin: 0px 0px 0px 211px; */
+    grid-column-start: 2;
+    float: right;
    
 }
 .nested-section{
@@ -151,7 +156,7 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
    box-shadow: 0px 0px 20px rgb(0, 0, 0,0.50);
    justify-content: space-around;
     font-size: 0.9em;
-    min-width: 977px;
+    min-width: 95%;
     border-collapse: collapse;
     font-family: 'Roboto', sans-serif;
 }
@@ -185,8 +190,10 @@ background: linear-gradient(90deg, rgba(100,57,153,1) 0%, rgba(78,81,144,1) 25%,
 .div_before_table {
     overflow: hidden;
     overflow-y: scroll;
-    height: 87%;
+    height: 90%;
+    width: 100%;
     margin-left: 10px;
+    text-align: left;
 }
 th{
    position: sticky;
@@ -196,7 +203,8 @@ th{
 .heading_x{
    font-family: 'Ubuntu', sans-serif;
    padding: 10px;
-   margin-left: 10px;
+   
+   text-align: center;
 }
 .gapa{
    margin-bottom: 8px;
@@ -206,9 +214,9 @@ th{
     color: white;
     cursor: pointer;
     outline: none; 
-    margin: 5px 10px;
+    margin: 5px 0px;
     background: crimson;
-    padding: 12x 21px;
+    padding: 12x 15px;
     border: 2px solid rgb(0, 128, 122);
     border-radius: 12px;
     font-size: 12px;
@@ -217,7 +225,7 @@ th{
     font-weight: bold;
 }
 .aise_hi{
-    height: 800px;
+    height: 110vh;
 }
 #logout:hover{
     background-color: rgb(235, 99, 117);
@@ -226,4 +234,10 @@ th{
     margin-right: 0px;
     border-radius: 8px;
     cursor: pointer;
+}
+#test_results{
+    text-align: left;
+}
+.table_head{
+    font-size: 1.2em;
 }

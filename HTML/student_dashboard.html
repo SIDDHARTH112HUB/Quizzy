@@ -15,7 +15,7 @@
             init_data();
             localStorage.removeItem('quiz_details');
             localStorage.removeItem('ques');
-            $('#user_name').text('Hello, ' + JSON.parse(localStorage.getItem('user')).user_name);
+            $('#user_name').text(JSON.parse(localStorage.getItem('user')).user_name);
 
             $('#logout').click(function () {
                 localStorage.clear();
@@ -66,17 +66,17 @@
                 })
                 $.post("/student/dashboard/OverallTestaverage", ob, (avg, status) => {
                     if (avg) {
-                        console.log(avg['AVG(s)'],'hi');
+                        console.log(avg['a']);
 
-                        $('#OverallTestaverage').text(avg['AVG(s)']);
+                        $('#OverallTestaverage').text(Math.ceil(avg['a']));
 
 
                     }
 
                 })
-                
+
             }
-            
+
 
 
         });
@@ -100,22 +100,20 @@
 
 </head>
 
-<body style="
-background: linear-gradient(#c2f791, #9198e5);">
+<body style="background: linear-gradient(#c2f791, #9198e5);">
     <div class="container ">
         <nav class="items h1heading borderround" id="navbar">
             <h1>Welcome To Quizzy</h1>
         </nav>
         <aside class="items borderround" id="aside">
             <div class="aside-items font_primary borderround">
+                
                 <div class="userimg_box borderround">
                     <img src="/images/user_img.png" id="profileimg">
                     <h3 id="user_name">user_name</h3>
                 </div>
+
                 <div class="aside_setting">
-
-
-                    <!--  home page -->
                     <a href="/student/dashboard">Home</a>
                     <!-- added link to student_info page-->
                     <a href="/student/info">User Info</a>
@@ -124,14 +122,14 @@ background: linear-gradient(#c2f791, #9198e5);">
                 </div>
             </div>
         </aside>
-        <section class="items borderround" id="mySection">
+        <div class="items borderround" id="section">
             <div class="borderround gapa" id="stats">
                 <h2 class="heading_x">STATS</h2>
                 <div class="card-positioning">
                     <div class="card-stats">
                         <div class="card-stats-header">
                             Total Quizzes
-                        </div >
+                        </div>
                         <div class="card-stats-body">
                             <span id="noOfTests"></span>
                         </div>

@@ -34,9 +34,9 @@
             localStorage.setItem('user', JSON.stringify(data));
             redirect(data);
           }
-          // else{
-          //   alert('username/password incorrect');
-          // }
+          else{
+            alert('username/password incorrect');
+          }
         })
       });
       function redirect(user) {

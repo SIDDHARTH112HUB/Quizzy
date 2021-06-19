@@ -360,13 +360,13 @@ app.post('/student/dashboard/testhistory', (req, res, next) => {
 });
 app.post('/student/dashboard/noOfTests', (req, res, next) => {
     let obj = req.body;
-    console.log(obj, 'test wala');
+    // console.log(obj, 'test wala');
 
     user.get_noOfTests_student(obj.userid, (result) => {
         if (result) {
-            console.log(result[0]['count(quiz_id)']);
+            // console.log(result[0]['count(quiz_id)']);
             let nooftests = result[0]['count(quiz_id)'];
-            console.log(nooftests);
+            // console.log(nooftests);
             res.send(result[0]);
         }
         else {
@@ -380,10 +380,14 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
     // console.log(obj);
     user.get_OverallTestaverage_student(obj.userid, (result) => {
         if (result ) {
-            // console.log(result,'hmi hai');
-            // let avgerage=result[0]['AVG(s)'];
-            // console.log(avgerage);
-            res.send(result[0]);
+            if(result[0]['a']==null)
+            {
+                res.send({'a':0});
+                // console.log('yahi hai');
+            }
+            else{
+                res.send(result[0]);
+            }
         }
         else {
             res.send({});
@@ -394,7 +398,7 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
 
 app.get('/quizzes/:quizid/questions', (req, res, next) => {
     let quizid = req.params['quizid'];
-    console.log(quizid);
+    // console.log(quizid);
     user.get_quiz_questions(quizid, (questions) => {
         let questionIds = [];
         let questionMap = {};
@@ -461,7 +465,7 @@ app.post('/student/quiz/submit', (req, res) => {
         usr_id,
         qid
     ];
-    console.log(ob);
+    // console.log(ob);
     user.set_user_quiz(user_quiz, (result) => {
         if (result) { console.log('milgya'); }
         else {
@@ -522,7 +526,7 @@ app.get('/quiz/:quizid/result', (req, res, next)=>{
     let quizid = req.params['quizid'];
     // console.log(quizid);
     user.get_user_result(quizid,(result)=>{
-        console.log(result);
+        // console.log(result);
         res.send(result);
     })
 })
