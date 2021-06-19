@@ -360,13 +360,13 @@ app.post('/student/dashboard/testhistory', (req, res, next) => {
 });
 app.post('/student/dashboard/noOfTests', (req, res, next) => {
     let obj = req.body;
-    console.log(obj, 'test wala');
+    // console.log(obj, 'test wala');
 
     user.get_noOfTests_student(obj.userid, (result) => {
         if (result) {
-            console.log(result[0]['count(quiz_id)']);
+            // console.log(result[0]['count(quiz_id)']);
             let nooftests = result[0]['count(quiz_id)'];
-            console.log(nooftests);
+            // console.log(nooftests);
             res.send(result[0]);
         }
         else {

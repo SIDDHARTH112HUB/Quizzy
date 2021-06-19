@@ -16,9 +16,17 @@ User.prototype = {
         pool.query(sql, user, (err, result) => {
             if (err) throw err
             else {
-                // console.log(result);
-                // console.log('12345');
-                callback(result);
+                if(result.length>0)
+                {
+                    callback(result);
+                    return;
+                }
+                else
+                {
+                    // console.log(result);
+                    callback(null);
+                    return;
+                }
             }
 
         });
@@ -49,7 +57,7 @@ User.prototype = {
                 }
             }
             else {
-                console.log('email not macthed');
+                // console.log('email not macthed');
                 callback(null);
                 return;
             }
@@ -125,7 +133,7 @@ User.prototype = {
             }
             sql += "('" + obj.time + "','" + obj.created_by + "','" + obj.name + "','" + obj.ques_id + "')";
         }
-        console.log(sql);
+        // console.log(sql);
         pool.query(sql, function (err, lastId) {
             if (err) throw err;
             callback(lastId);
