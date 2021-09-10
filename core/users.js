@@ -267,11 +267,15 @@ User.prototype = {
     },
     get_OverallTestaverage_student : function(ob,callback){
         
+<<<<<<< Updated upstream
         let sql = "select AVG(s) as a from (select quiz_id , SUM(points) as s from user_quiz_responses where usr_id=? Group By quiz_id ) as q1; ";
+=======
+        let sql = "select AVG(s) from (select quiz_id , SUM(points) as s from user_quiz_responses where usr_id=? Group By quiz_id ) as q1; ";
+>>>>>>> Stashed changes
         pool.query(sql,ob,(err,result)=>{
             if(err)throw err
             else{
-                // console.log(result);
+                console.log(result);
                 callback(result);
                 return;
             }

@@ -380,6 +380,7 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
     // console.log(obj);
     user.get_OverallTestaverage_student(obj.userid, (result) => {
         if (result ) {
+<<<<<<< Updated upstream
             if(result['a']==null)
             {
                 res.send({'a':0});
@@ -388,6 +389,12 @@ app.post('/student/dashboard/OverallTestaverage', (req, res, next) => {
             else{
                 res.send(result[0]);
             }
+=======
+            // console.log(result,'hmi hai');
+            // let avgerage=result[0]['AVG(s)'];
+            // console.log(avgerage);
+            res.send(result[0]);
+>>>>>>> Stashed changes
         }
         else {
             res.send({});

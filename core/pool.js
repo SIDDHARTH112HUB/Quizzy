@@ -5,11 +5,19 @@ const pool = mysql.createPool({
     connectionLimit : 10,
     host : 'localhost',
     user : 'root',
+<<<<<<< Updated upstream
 
     password : 'vi@123',
 
 
 
+=======
+<<<<<<< HEAD
+    password : 'vi@123',
+=======
+    password : '123456789',
+>>>>>>> ad9aa7c17c40b52b91a19b979403ad38e15456ea
+>>>>>>> Stashed changes
     database: 'trialquizzy'
 });
 

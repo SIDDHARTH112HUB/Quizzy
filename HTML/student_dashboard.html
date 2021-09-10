@@ -66,6 +66,7 @@
                 })
                 $.post("/student/dashboard/OverallTestaverage", ob, (avg, status) => {
                     if (avg) {
+<<<<<<< Updated upstream
                         console.log(avg['a']);
 
                         $('#OverallTestaverage').text(Math.ceil(avg['a']));
@@ -77,6 +78,19 @@
 
             }
 
+=======
+                        console.log(avg['AVG(s)'],'hi');
+
+                        $('#OverallTestaverage').text(avg['AVG(s)']);
+
+
+                    }
+
+                })
+                
+            }
+            
+>>>>>>> Stashed changes
 
 
         });
